@@ -906,36 +906,6 @@ void InitParameterInteraction()
     }
 }
 
-static std::string ResolveErrMsg(const char * const optname, const std::string& strBind)
-{
-    return strprintf(_("Cannot resolve -%s address: '%s'"), optname, strBind);
-}
-
-static std::string AmountErrMsg(const char * const optname, const std::string& strValue)
-{
-    return strprintf(_("Invalid amount for -%s=<amount>: '%s'"), optname, strValue);
-}
-
-void InitLogging()
-{
-    fPrintToConsole = GetBoolArg("-printtoconsole", false);
-    fLogTimestamps = GetBoolArg("-logtimestamps", true);
-    fLogIPs = GetBoolArg("-logips", false);
-
-    LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("PIVX version %s (%s)\n", FormatFullVersion(), CLIENT_DATE);
-}
-
-/** Initialize pivx.
- *  @pre Parameters should be parsed and config file should be read.
- */
-bool AppInit2()
-{
-    // ********************************************************* Step 1: setup
-    if (!AppInitBasicSetup())
-        return false;
-
-    // ********************************************************* Step 2: parameter interactions
     // Make sure enough file descriptors are available
     int nBind = std::max((int)mapArgs.count("-bind") + (int)mapArgs.count("-whitebind"), 1);
     nMaxConnections = GetArg("-maxconnections", 125);
