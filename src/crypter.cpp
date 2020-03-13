@@ -262,7 +262,7 @@ bool CCryptoKeyStore::Unlock(const CKeyingMaterial& vMasterKeyIn)
             pwalletMain->zwalletMain->SetMasterSeed(nSeed, false);
         }
     }
-
+    }
     NotifyStatusChanged(this);
     return true;
 }
