@@ -115,7 +115,7 @@ AddressesWidget::AddressesWidget(PIVXGUI* parent) :
     // Address
     ui->labelAddress->setText(tr("Enter ZENZO address"));
     setCssProperty(ui->labelAddress, "text-title");
-    ui->lineEditAddress->setPlaceholderText("e.g. D7VFR83SQbiezrW72hjc…");
+    ui->lineEditAddress->setPlaceholderText("e.g. ZmkEBAFKzay6fMaYp3ZB…");
     setCssEditLine(ui->lineEditAddress, true);
     ui->lineEditAddress->setValidator(new QRegExpValidator(QRegExp("^[A-Za-z0-9]+"), ui->lineEditName));
 

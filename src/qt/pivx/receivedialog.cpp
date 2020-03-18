@@ -27,7 +27,7 @@ ReceiveDialog::ReceiveDialog(QWidget *parent) :
 
     // Address
 
-    ui->labelAddress->setText("D7VFR83SQbiezrW72hjcWJtcfip5krte2Z");
+    ui->labelAddress->setText("ZmkEBAFKzay6fMaYp3ZBJGSDXCNaa9DjwD");
     ui->labelAddress->setProperty("cssClass", "label-address-box");
 
     // QR image

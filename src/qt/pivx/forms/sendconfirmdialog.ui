@@ -362,7 +362,7 @@ background:transparent;
                    <item>
                     <widget class="QLabel" name="textSend">
                      <property name="text">
-                      <string>D7VFR83SQbiezrW72hjcWJtcfip5krte2Z </string>
+                      <string>ZmkEBAFKzay6fMaYp3ZBJGSDXCNaa9DjwD </string>
                      </property>
                     </widget>
                    </item>
@@ -669,7 +669,7 @@ background:transparent;
                    <item>
                     <widget class="QLabel" name="textChange">
                      <property name="text">
-                      <string>D7VFR83SQbie…BhjcWJtcfip5krte2Z </string>
+                      <string>ZmkEBAFKzay6fMaYp3ZB… </string>
                      </property>
                     </widget>
                    </item>

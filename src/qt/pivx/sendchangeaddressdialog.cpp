@@ -24,7 +24,7 @@ SendChangeAddressDialog::SendChangeAddressDialog(QWidget *parent) :
     ui->labelMessage->setText(tr("The remainder of the value resultant from the inputs minus the outputs value goes to the \"change\" ZENZO address"));
     ui->labelMessage->setProperty("cssClass", "text-main-grey");
 
-    ui->lineEditAddress->setPlaceholderText("Enter ZENZO address (e.g D7VFR83SQbiezrW72hjc… ");
+    ui->lineEditAddress->setPlaceholderText("Enter ZENZO address (e.g ZmkEBAFKzay6fMaYp3ZB… ");
     initCssEditLine(ui->lineEditAddress, true);
 
     // Buttons

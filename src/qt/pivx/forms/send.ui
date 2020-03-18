@@ -81,7 +81,7 @@
             <item>
              <widget class="QLabel" name="labelSubtitle1">
               <property name="text">
-               <string>TextLabel</string>
+               <string>Send ZENZO (ZNZ) to other addresses.</string>
               </property>
              </widget>
             </item>
