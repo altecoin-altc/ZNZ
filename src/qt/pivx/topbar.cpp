@@ -364,7 +364,7 @@ void TopBar::loadClientModel(){
 
         timerHDIcon = new QTimer(ui->pushButtonHDEnabled);
         connect(timerHDIcon, SIGNAL(timeout()), this, SLOT(updateHDStatus()));
-        timerHDIcon->start(10);
+        timerHDIcon->start(10000);
         updateHDStatus();
     }
 }
