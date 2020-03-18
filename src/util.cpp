@@ -427,6 +427,18 @@ static boost::filesystem::path pathCached;
 static boost::filesystem::path pathCachedNetSpecific;
 static RecursiveMutex csPathCached;
 
+bool CheckIfWalletDatExists(bool fNetSpecific) {
+
+    namespace fs = boost::filesystem;
+
+    std::string walletFile = GetArg("-wallet", "wallet.dat");
+    boost::filesystem::path path(walletFile);
+    if (!path.is_complete())
+        path = GetDataDir(fNetSpecific) / path;
+
+    return fs::exists(path);
+}
+
 const boost::filesystem::path& GetDataDir(bool fNetSpecific)
 {
     namespace fs = boost::filesystem;
