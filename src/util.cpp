@@ -460,9 +460,6 @@ const boost::filesystem::path& GetDataDir(bool fNetSpecific)
         path = GetDefaultDataDir();
     }
 
-    // Temp
-    path = GetDefaultDataDir();
-
     if (fNetSpecific)
         path /= BaseParams().DataDir();
 
