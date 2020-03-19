@@ -245,7 +245,7 @@ private:
     void startThread();
 };
 
-#include "pivx.moc"
+#include "zenzo.moc"
 
 BitcoinCore::BitcoinCore(std::vector<std::string>& wordlist) : QObject(), words(wordlist)
 {

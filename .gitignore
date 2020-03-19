@@ -13,6 +13,12 @@ src/pivx-cli
 src/pivx-tx
 src/test/test_pivx
 src/qt/test/test_pivx-qt
+src/zenzo
+src/zenzod
+src/zenzo-cli
+src/zenzo-tx
+src/test/test_zenzo
+src/qt/test/test_zenzo-qt
 
 # autoreconf
 Makefile.in
@@ -40,6 +46,8 @@ conftest.err
 libtool
 src/config/pivx-config.h
 src/config/pivx-config.h.in
+src/config/zenzo-config.h
+src/config/zenzo-config.h.in
 src/config/stamp-h1
 share/setup.nsi
 share/qt/Info.plist
@@ -66,6 +74,7 @@ src/qt/test/moc*.cpp
 *.o-*
 *.patch
 .pivx
+.zenzo
 *.a
 *.pb.cc
 *.pb.h
@@ -86,11 +95,14 @@ src/qt/test/moc*.cpp
 Makefile
 pivx-qt
 PIVX-Qt.app
+zenzo-qt
+ZENZO-Qt.app
 background.tiff*
 
 # Unit-tests
 Makefile.test
 pivx-qt_test
+zenzo-qt_test
 src/test/buildenv.py
 
 # Resources cpp
@@ -107,6 +119,7 @@ build
 *.gcno
 /*.info
 test_pivx.coverage/
+test_zenzo.coverage/
 total.coverage/
 coverage_percent.txt
 
@@ -139,3 +152,5 @@ ui_*
 build*
 pivxd.*
 pivxd-new-gui.*
+zenzod.*
+zenzod-new-gui.*
