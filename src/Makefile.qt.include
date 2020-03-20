@@ -26,7 +26,6 @@ QT_FORMS_UI = \
   qt/forms/optionsdialog.ui \
   qt/forms/rpcconsole.ui \
   qt/pivx/forms/loadingdialog.ui \
-  qt/forms/zpivcontroldialog.ui \
   qt/pivx/forms/snackbar.ui \
   qt/pivx/forms/navmenuwidget.ui \
   qt/pivx/forms/lockunlock.ui \
@@ -59,8 +58,6 @@ QT_FORMS_UI = \
   qt/pivx/forms/tooltipmenu.ui \
   qt/pivx/forms/addresseswidget.ui \
   qt/pivx/forms/defaultdialog.ui \
-  qt/pivx/forms/denomgenerationdialog.ui \
-  qt/pivx/forms/privacywidget.ui \
   qt/pivx/forms/coldstakingwidget.ui \
   qt/pivx/settings/forms/settingsbackupwallet.ui \
   qt/pivx/settings/forms/settingsbittoolwidget.ui \
@@ -122,7 +119,6 @@ QT_MOC_CPP = \
   qt/moc_utilitydialog.cpp \
   qt/moc_walletmodel.cpp \
   qt/pivx/moc_loadingdialog.cpp \
-  qt/moc_zpivcontroldialog.cpp \
   qt/pivx/moc_pwidget.cpp \
   qt/pivx/moc_snackbar.cpp \
   qt/pivx/moc_navmenuwidget.cpp \
@@ -161,8 +157,6 @@ QT_MOC_CPP = \
   qt/pivx/moc_tooltipmenu.cpp \
   qt/pivx/moc_addresseswidget.cpp \
   qt/pivx/moc_defaultdialog.cpp \
-  qt/pivx/moc_denomgenerationdialog.cpp \
-  qt/pivx/moc_privacywidget.cpp \
   qt/pivx/moc_coldstakingwidget.cpp \
   qt/pivx/settings/moc_settingsbackupwallet.cpp \
   qt/pivx/settings/moc_settingsbittoolwidget.cpp \
@@ -247,7 +241,6 @@ BITCOIN_QT_H = \
   qt/pivx/pfborderimage.h \
   qt/pivx/loadingdialog.h \
   qt/winshutdownmonitor.h \
-  qt/zpivcontroldialog.h \
   qt/pivx/pwidget.h \
   qt/pivx/guitransactionsutils.h \
   qt/pivx/snackbar.h \
@@ -291,8 +284,6 @@ BITCOIN_QT_H = \
   qt/pivx/tooltipmenu.h \
   qt/pivx/addresseswidget.h \
   qt/pivx/defaultdialog.h \
-  qt/pivx/denomgenerationdialog.h \
-  qt/pivx/privacywidget.h \
   qt/pivx/coldstakingwidget.h \
   qt/pivx/settings/settingsbackupwallet.h \
   qt/pivx/settings/settingsbittoolwidget.h \
@@ -353,7 +344,6 @@ RES_ICONS = \
   qt/res/icons/quit.png \
   qt/res/icons/receive.png \
   qt/res/icons/receive_dark.png \
-  qt/res/icons/privacy.png \
   qt/res/icons/remove.png \
   qt/res/icons/send.png \
   qt/res/icons/send_dark.png \
@@ -425,17 +415,14 @@ RES_ICONS = \
   qt/pivx/res/img/img-dashboard-banner.jpg \
   qt/pivx/res/img/btn-radio-active.svg \
   qt/pivx/res/img/ic-check-sync-off.svg \
-  qt/pivx/res/img/ic-nav-privacy-active.svg \
   qt/pivx/res/img/img-empty-contacts.svg \
   qt/pivx/res/img/btn-radio-off.svg \
   qt/pivx/res/img/ic-check-sync.png \
-  qt/pivx/res/img/ic-nav-privacy-hover.svg \
   qt/pivx/res/img/img-empty-dark-contacts.svg \
   qt/pivx/res/img/ic-contact-arrow-down.svg \
   qt/pivx/res/img/ic-contact-arrow-down-white.svg \
   qt/pivx/res/img/ic-check-hardfork.svg \
   qt/pivx/res/img/ic-check-faq.svg \
-  qt/pivx/res/img/ic-nav-privacy.svg \
   qt/pivx/res/img/img-empty-dark-error.svg \
   qt/pivx/res/img/ic-add-label.svg \
   qt/pivx/res/img/ic-pending.svg \
@@ -475,8 +462,6 @@ RES_ICONS = \
   qt/pivx/res/img/ic-close-white.svg \
   qt/pivx/res/img/ic-nav-settings.svg \
   qt/pivx/res/img/img-empty-peers.svg \
-  qt/pivx/res/img/img-empty-privacy.svg \
-  qt/pivx/res/img/img-empty-privacy-dark.svg \
   qt/pivx/res/img/ic-arrow-drop-down-white.svg \
   qt/pivx/res/img/ic-close.svg \
   qt/pivx/res/img/ic-radio-liliac-on.svg \
@@ -644,7 +629,6 @@ BITCOIN_QT_WALLET_CPP = \
   qt/walletmodel.cpp \
   qt/walletmodeltransaction.cpp \
   qt/pivx/loadingdialog.cpp \
-  qt/zpivcontroldialog.cpp \
   qt/pivx/pwidget.cpp \
   qt/pivx/guitransactionsutils.cpp \
   qt/pivx/snackbar.cpp \
@@ -687,8 +671,6 @@ BITCOIN_QT_WALLET_CPP = \
   qt/pivx/tooltipmenu.cpp \
   qt/pivx/addresseswidget.cpp \
   qt/pivx/defaultdialog.cpp \
-  qt/pivx/denomgenerationdialog.cpp \
-  qt/pivx/privacywidget.cpp \
   qt/pivx/coldstakingwidget.cpp \
   qt/pivx/settings/settingsbackupwallet.cpp \
   qt/pivx/settings/settingsbittoolwidget.cpp \

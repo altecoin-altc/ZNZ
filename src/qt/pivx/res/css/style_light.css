@@ -282,41 +282,6 @@ QPushButton[cssClass="img-nav-logo"] {
     color: #B088FF;
 }
 
-*[cssClass="btn-nav-privacy"] {
-    qproperty-icon: url("://ic-nav-privacy") off,
-    url("//ic-nav-privacy-active") on ;
-    qproperty-iconSize: 24px 40px;
-    background-color:transparent;
-    font-size:14px;
-    color: #938da5;
-}
-
-*[cssClass="btn-nav-privacy"]:checked {
-    background-color: qlineargradient(x1:0, x2: 1, stop: 0 #3c2559, stop: 1 #1f162b);
-    font-size:14px;
-    color: #B088FF;
-}
-
-*[cssClass="btn-nav-privacy"]:checked:hover {
-    background-color: qlineargradient(x1:0, x2: 1, stop: 0 #3c2559, stop: 1 #1f162b);
-    color: #B088FF;
-}
-
-*[cssClass="btn-nav-privacy"]:hover {
-    qproperty-icon: url("://ic-nav-privacy-hover");
-    qproperty-iconSize: 24px 40px;
-    background-color: #1A000000;
-    color: #938da5;
-}
-
-*[cssClass="btn-nav-privacy-active"] {
-    qproperty-icon:url("://ic-nav-privacy-active")  ;
-    qproperty-iconSize: 24px 40px;
-    background-color: qlineargradient(x1:0, x2: 1, stop: 0 #3c2559, stop: 1 #1f162b);
-    font-size:14px;
-    color: #B088FF;
-}
-
 *[cssClass="btn-nav-master"] {
     qproperty-icon: url("://ic-nav-master") off,
     url("://ic-nav-master-active") on;
@@ -3034,12 +2999,6 @@ HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
 
 *[cssClass="img-empty-staking-off"] {
     qproperty-icon: url("://img-empty-staking-off");
-    qproperty-iconSize: 100px 100px;
-    background-color: transparent;
-}
-
-*[cssClass="img-empty-privacy"] {
-    qproperty-icon: url("://img-empty-privacy");
     qproperty-iconSize: 100px 100px;
     background-color: transparent;
 }

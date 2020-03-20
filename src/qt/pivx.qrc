@@ -24,7 +24,6 @@
         <file alias="options">res/icons/configure.png</file>
         <file alias="receiving_addresses">res/icons/receive.png</file>
         <file alias="receiving_addresses_dark">res/icons/receive_dark.png</file>
-        <file alias="privacy">res/icons/privacy.png</file>
         <file alias="editpaste">res/icons/editpaste.png</file>
         <file alias="editcopy">res/icons/editcopy.png</file>
         <file alias="add">res/icons/add.png</file>
@@ -222,9 +221,6 @@
         <file alias="ic-nav-master-active">pivx/res/img/ic-nav-master-active.svg</file>
         <file alias="ic-nav-master-hover">pivx/res/img/ic-nav-master-hover.svg</file>
         <file alias="ic-nav-master">pivx/res/img/ic-nav-master.svg</file>
-        <file alias="ic-nav-privacy-active">pivx/res/img/ic-nav-privacy-active.svg</file>
-        <file alias="ic-nav-privacy-hover">pivx/res/img/ic-nav-privacy-hover.svg</file>
-        <file alias="ic-nav-privacy">pivx/res/img/ic-nav-privacy.svg</file>
         <file alias="ic-nav-receive-active">pivx/res/img/ic-nav-receive-active.svg</file>
         <file alias="ic-nav-receive-hover">pivx/res/img/ic-nav-receive-hover.svg</file>
         <file alias="ic-nav-receive">pivx/res/img/ic-nav-receive.svg</file>
@@ -279,12 +275,10 @@
         <file alias="img-empty-dark-staking-on">pivx/res/img/img-empty-dark-staking-on.svg</file>
         <file alias="img-empty-dark-staking-off">pivx/res/img/img-empty-dark-staking-off.svg</file>
         <file alias="img-empty-dark-transactions">pivx/res/img/img-empty-dark-transactions.svg</file>
-        <file alias="img-empty-dark-privacy">pivx/res/img/img-empty-privacy-dark.svg</file>
         <file alias="img-empty-error">pivx/res/img/img-empty-error.svg</file>
         <file alias="img-empty-masternode">pivx/res/img/img-empty-masternode.svg</file>
         <file alias="img-empty-multisend">pivx/res/img/img-empty-multisend.svg</file>
         <file alias="img-empty-peers">pivx/res/img/img-empty-peers.svg</file>
-        <file alias="img-empty-privacy">pivx/res/img/img-empty-privacy.svg</file>
         <file alias="img-empty-staking-off">pivx/res/img/img-empty-staking-off.svg</file>
         <file alias="img-empty-staking-on">pivx/res/img/img-empty-staking-on.svg</file>
         <file alias="img-empty-transactions">pivx/res/img/img-empty-transactions.svg</file>
