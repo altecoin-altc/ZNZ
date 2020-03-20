@@ -84,6 +84,7 @@ CAmount SendMultiRow::getAmountValue(QString amount){
 }
 
 bool SendMultiRow::addressChanged(const QString& str){
+    ui->lineEditDescription->clear();
     if(!str.isEmpty()) {
         QString trimmedStr = str.trimmed();
         bool valid = (this->onlyStakingAddressAccepted) ? walletModel->validateStakingAddress(trimmedStr) : walletModel->validateAddress(trimmedStr);

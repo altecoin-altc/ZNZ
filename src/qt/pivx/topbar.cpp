@@ -21,6 +21,8 @@
 #include "addresstablemodel.h"
 #include "guiinterface.h"
 
+#include "chainparams.h"
+
 
 TopBar::TopBar(PIVXGUI* _mainWindow, QWidget *parent) :
     PWidget(_mainWindow, parent),
@@ -73,6 +75,7 @@ TopBar::TopBar(PIVXGUI* _mainWindow, QWidget *parent) :
     ui->pushButtonTor->setButtonClassStyle("cssClass", "btn-check-tor-inactive");
     ui->pushButtonTor->setButtonText("Tor Disabled");
     ui->pushButtonTor->setChecked(false);
+    ui->pushButtonTor->setVisible(false);
 
     ui->pushButtonStack->setButtonClassStyle("cssClass", "btn-check-stack-inactive");
     ui->pushButtonStack->setButtonText("Staking Disabled");
@@ -82,6 +85,9 @@ TopBar::TopBar(PIVXGUI* _mainWindow, QWidget *parent) :
 
     ui->pushButtonSync->setButtonClassStyle("cssClass", "btn-check-sync");
     ui->pushButtonSync->setButtonText(" %54 Synchronizing..");
+
+    ui->pushButtonHardfork->setButtonClassStyle("cssClass", "btn-check-hardfork");
+    ui->pushButtonHardfork->setVisible(false);
 
     ui->pushButtonHDEnabled->setButtonClassStyle("cssClass", "btn-check-hd-inactive");
     ui->pushButtonHDEnabled->setButtonText("HD is Disabled");
@@ -121,6 +127,8 @@ TopBar::TopBar(PIVXGUI* _mainWindow, QWidget *parent) :
     connect(ui->pushButtonHDEnabled, SIGNAL(Mouse_Pressed()), this, SLOT(onHDEnabledClicked()));
     connect(ui->pushButtonSync, &ExpandableButton::Mouse_HoverLeave, this, &TopBar::refreshProgressBarSize);
     connect(ui->pushButtonSync, &ExpandableButton::Mouse_Hover, this, &TopBar::refreshProgressBarSize);
+    connect(ui->pushButtonHardfork, &ExpandableButton::Mouse_HoverLeave, this, &TopBar::refreshHardforkSize);
+    connect(ui->pushButtonHardfork, &ExpandableButton::Mouse_Hover, this, &TopBar::refreshHardforkSize);
 
     updateHDStatus();
 }
@@ -448,6 +456,24 @@ void TopBar::setNumBlocks(int count) {
             break;
     }
 
+    // Update Hardfork status
+    const Consensus::Params& consensus = Params().GetConsensus();
+    int hardforkHeight = consensus.height_RHF + 1;
+    int blocksTilHardfork = hardforkHeight - count;
+    
+    if (blocksTilHardfork > 0) {
+        // Fork hasn't yet passed
+        ui->pushButtonHardfork->setVisible(true);
+        ui->pushButtonHardfork->setButtonText(tr("Hardfork in %1 block%2").arg(QString::number(blocksTilHardfork), (blocksTilHardfork == 1 ? "" : "s")));
+    } else if (blocksTilHardfork <= 0 && blocksTilHardfork > -100) {
+        // Fork has passed within the last 100 blocks
+        ui->pushButtonHardfork->setVisible(true);
+        ui->pushButtonHardfork->setButtonText(tr("Hardfork successful!"));
+    } else {
+        // Fork has passed over 100 blocks ago
+        ui->pushButtonHardfork->setVisible(false);
+    }
+
     bool needState = true;
     if (masternodeSync.IsBlockchainSynced()) {
         // chain synced
@@ -647,4 +673,16 @@ void TopBar::expandSync() {
         progressBar->setFixedWidth(ui->pushButtonSync->width());
         progressBar->setMinimumWidth(ui->pushButtonSync->width() - 2);
     }
+}
+
+void TopBar::refreshHardforkSize() {
+    QMetaObject::invokeMethod(this, "expandHardfork", Qt::QueuedConnection);
+}
+
+void TopBar::expandHardfork() {
+    /*if (progressBar) {
+        progressBar->setMaximumWidth(ui->pushButtonHardfork->maximumWidth());
+        progressBar->setFixedWidth(ui->pushButtonHardfork->width());
+        progressBar->setMinimumWidth(ui->pushButtonHardfork->width() - 2);
+    }*/
 }

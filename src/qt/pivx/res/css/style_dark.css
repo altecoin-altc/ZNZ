@@ -482,6 +482,17 @@ QPushButton[cssClass="btn-check-sync"] {
     border-radius:2px;
 }
 
+QPushButton[cssClass="btn-check-hardfork"] {
+    qproperty-icon: url("://ic-check-hardfork");
+    qproperty-iconSize: 24px 24px;
+    background-color:#505c4b7d;
+    color:#FFFFFF;
+    padding-right:6px;
+    padding-left:6px;
+    border-bottom:2px solid #505c4b7d;
+    border-radius:2px;
+}
+
 QPushButton[cssClass="btn-check-sync-inactive"] {
     qproperty-icon: url("://ic-check-sync-off") ;
     qproperty-iconSize: 24px 24px;

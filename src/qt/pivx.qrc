@@ -186,6 +186,7 @@
         <file alias="ic-check-hd">pivx/res/img/ic-check-hd.svg</file>
         <file alias="ic-check-sync-off">pivx/res/img/ic-check-sync-off.svg</file>
         <file alias="ic-check-sync">pivx/res/img/ic-check-sync.svg</file>
+        <file alias="ic-check-hardfork">pivx/res/img/ic-check-hardfork.svg</file>
         <file alias="ic-check-faq">pivx/res/img/ic-check-faq.svg</file>
         <file alias="ic-check-theme-dark">pivx/res/img/ic-check-theme-dark.svg</file>
         <file alias="ic-check-theme-light">pivx/res/img/ic-check-theme-light.svg</file>
