@@ -142,7 +142,7 @@ public:
         assert(genesis.hashMerkleRoot == uint256("7411c8de5f43691fd7cb0f6264867edb8bb35da1bd6f0377e0981b86832254a1"));
 
         consensus.fPowAllowMinDifficultyBlocks = false;
-        consensus.powLimit   = ~uint256(0) >> 20;   // PIVX starting difficulty is 1 / 2^12
+        consensus.powLimit   = ~uint256(0) >> 20;   // ZENZO starting difficulty is 1 / 2^12
         consensus.posLimitV1 = ~uint256(0) >> 24;
         consensus.posLimitV2 = ~uint256(0) >> 20;
         consensus.nBudgetCycleBlocks = 43200;       // approx. 1 every 30 days
@@ -251,7 +251,7 @@ public:
         assert(consensus.hashGenesisBlock == uint256("0000024c78d7d2fb56363f7777bab06de80307ac751b02e843ca7ae62d2310d2"));
 
         consensus.fPowAllowMinDifficultyBlocks = true;
-        consensus.powLimit   = ~uint256(0) >> 20;   // PIVX starting difficulty is 1 / 2^12
+        consensus.powLimit   = ~uint256(0) >> 20;   // ZENZO starting difficulty is 1 / 2^12
         consensus.posLimitV1 = ~uint256(0) >> 24;
         consensus.posLimitV2 = ~uint256(0) >> 20;
         consensus.nBudgetCycleBlocks = 144;         // approx 10 cycles per day
@@ -328,15 +328,15 @@ public:
         vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "pivx-testnet.seed2.fuzzbawls.pw"));
         vSeeds.push_back(CDNSSeedData("warrows.dev", "testnet.dnsseed.pivx.warrows.dev"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 139); // Testnet pivx addresses start with 'x' or 'y'
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 19);  // Testnet pivx script addresses start with '8' or '9'
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 139); // Testnet ZENZO addresses start with 'x' or 'y'
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 19);  // Testnet ZENZO script addresses start with '8' or '9'
         base58Prefixes[STAKING_ADDRESS] = std::vector<unsigned char>(1, 73);     // starting with 'W'
         base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 239);     // Testnet private keys start with '9' or 'c' (Bitcoin defaults)
-        // Testnet pivx BIP32 pubkeys start with 'DRKV'
+        // Testnet ZENZO BIP32 pubkeys start with 'DRKV'
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x3a)(0x80)(0x61)(0xa0).convert_to_container<std::vector<unsigned char> >();
-        // Testnet pivx BIP32 prvkeys start with 'DRKP'
+        // Testnet ZENZO BIP32 prvkeys start with 'DRKP'
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x3a)(0x80)(0x58)(0x37).convert_to_container<std::vector<unsigned char> >();
-        // Testnet pivx BIP44 coin type is '1' (All coin's testnet default)
+        // Testnet ZENZO BIP44 coin type is '1' (All coin's testnet default)
         nExtCoinType = 1;
 
         convertSeed6(vFixedSeeds, pnSeed6_test, ARRAYLEN(pnSeed6_test));
@@ -366,7 +366,7 @@ public:
         // assert(genesis.hashMerkleRoot == uint256("0x1b2ef6e2f28be914103a277377ae7729dcd125dfeb8bf97bd5964ba72b6dc39b"));
 
         consensus.fPowAllowMinDifficultyBlocks = true;
-        consensus.powLimit   = ~uint256(0) >> 20;   // PIVX starting difficulty is 1 / 2^12
+        consensus.powLimit   = ~uint256(0) >> 20;   // ZENZO starting difficulty is 1 / 2^12
         consensus.posLimitV1 = ~uint256(0) >> 24;
         consensus.posLimitV2 = ~uint256(0) >> 20;
         consensus.nBudgetCycleBlocks = 144;         // approx 10 cycles per day

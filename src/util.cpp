@@ -85,7 +85,7 @@
 #include <openssl/rand.h>
 
 
-// PIVX only features
+// ZENZO only features
 // Masternode
 bool fMasterNode = false;
 std::string strMasterNodePrivKey = "";
@@ -376,7 +376,7 @@ static std::string FormatException(const std::exception* pex, const char* pszThr
     char pszModule[MAX_PATH] = "";
     GetModuleFileNameA(NULL, pszModule, sizeof(pszModule));
 #else
-    const char* pszModule = "pivx";
+    const char* pszModule = "ZENZO";
 #endif
     if (pex)
         return strprintf(
