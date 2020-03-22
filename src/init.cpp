@@ -1765,7 +1765,7 @@ bool AppInit2(const std::vector<std::string>& words)
         }
         fVerifyingBlocks = false;
 
-        if (zwalletMain->GetMasterSeed() != 0) {
+        if (!zwalletMain->GetMasterSeed().IsNull()) {
             //Inititalize zPIVWallet
             uiInterface.InitMessage(_("Syncing zPIV wallet..."));
 

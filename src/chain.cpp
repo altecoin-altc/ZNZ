@@ -166,7 +166,7 @@ int64_t CBlockIndex::GetMedianTimePast() const
 
 unsigned int CBlockIndex::GetStakeEntropyBit() const
 {
-    unsigned int nEntropyBit = ((GetBlockHash().Get64()) & 1);
+    unsigned int nEntropyBit = ((GetBlockHash().GetCheapHash()) & 1);
     if (GetBoolArg("-printstakemodifier", false))
         LogPrintf("GetStakeEntropyBit: nHeight=%u hashBlock=%s nEntropyBit=%u\n", nHeight, GetBlockHash().ToString().c_str(), nEntropyBit);
 
@@ -200,6 +200,20 @@ void CBlockIndex::SetStakeModifier(const uint256& nStakeModifier)
     vStakeModifier.insert(vStakeModifier.begin(), nStakeModifier.begin(), nStakeModifier.end());
 }
 
+// Generates and sets new V2 stake modifier
+void CBlockIndex::SetNewStakeModifier(const uint256& prevoutId)
+{
+    // Shouldn't be called on V1 modifier's blocks (or before setting pprev)
+    if (nHeight < Params().GetConsensus().height_start_StakeModifierV2) return;
+    if (!pprev) throw std::runtime_error(strprintf("%s : ERROR: null pprev", __func__));
+
+    // Generate Hash(prevoutId | prevModifier) - switch with genesis modifier (0) on upgrade block
+    CHashWriter ss(SER_GETHASH, 0);
+    ss << prevoutId;
+    ss << pprev->GetStakeModifierV2();
+    SetStakeModifier(ss.GetHash());
+}
+
 // Returns V1 stake modifier (uint64_t)
 uint64_t CBlockIndex::GetStakeModifierV1() const
 {
@@ -214,7 +228,7 @@ uint64_t CBlockIndex::GetStakeModifierV1() const
 uint256 CBlockIndex::GetStakeModifierV2() const
 {
     if (vStakeModifier.empty() || !Params().GetConsensus().IsStakeModifierV2(nHeight))
-        return uint256(0);
+        return UINT256_ZERO;
     uint256 nStakeModifier;
     std::memcpy(nStakeModifier.begin(), vStakeModifier.data(), vStakeModifier.size());
     return nStakeModifier;

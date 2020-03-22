@@ -258,6 +258,7 @@ public:
     bool GeneratedStakeModifier() const { return (nFlags & BLOCK_STAKE_MODIFIER); }
     void SetStakeModifier(const uint64_t nStakeModifier, bool fGeneratedStakeModifier);
     void SetStakeModifier(const uint256& nStakeModifier);
+    void SetNewStakeModifier(const uint256& prevoutId);     // generates and sets new v2 modifier
     uint64_t GetStakeModifierV1() const;
     uint256 GetStakeModifierV2() const;
 
@@ -290,12 +291,12 @@ public:
 
     CDiskBlockIndex()
     {
-        hashPrev = uint256();
+        hashPrev = UINT256_ZERO;
     }
 
     explicit CDiskBlockIndex(const CBlockIndex* pindex) : CBlockIndex(*pindex)
     {
-        hashPrev = (pprev ? pprev->GetBlockHash() : uint256(0));
+        hashPrev = (pprev ? pprev->GetBlockHash() : UINT256_ZERO);
     }
 
     ADD_SERIALIZE_METHODS;
@@ -344,7 +345,7 @@ public:
                 READWRITE(nStakeModifier);
                 this->SetStakeModifier(nStakeModifier, this->GeneratedStakeModifier());
             } else {
-                uint256 nStakeModifierV2 = 0;
+                uint256 nStakeModifierV2;
                 READWRITE(nStakeModifierV2);
                 this->SetStakeModifier(nStakeModifierV2);
             }
