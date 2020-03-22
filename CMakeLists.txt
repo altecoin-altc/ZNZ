@@ -353,6 +353,7 @@ set(WALLET_SOURCES
         ./src/zpiv/zerocoin.cpp
         ./src/wallet/rpcwallet.cpp
         ./src/kernel.cpp
+        ./src/legacy/stakemodifier.cpp
         ./src/wallet/wallet.cpp
         ./src/wallet/wallet_zerocoin.cpp
         ./src/wallet/wallet_ismine.cpp
