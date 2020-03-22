@@ -4072,7 +4072,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
         return false;
 
     bool isPoS = block.IsProofOfStake();
-    if (isPoS && pindexPrev->nHeight > 50000) {
+    if (isPoS) {
         uint256 hashProofOfStake = 0;
         std::unique_ptr<CStakeInput> stake;
         if (!CheckProofOfStake(block, hashProofOfStake, stake, pindexPrev->nHeight))

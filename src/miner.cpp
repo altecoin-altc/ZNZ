@@ -127,7 +127,11 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
 
     // Make sure to create the correct block version
     const Consensus::Params& consensus = Params().GetConsensus();
-    pblock->nVersion = 7;       //!> Removes accumulator checkpoints
+    bool isAfterRHF = Params().GetConsensus().IsPastRHFBlock(nHeight);
+    if(isAfterRHF)
+        pblock->nVersion = 7;       //!> Removes accumulator checkpoints
+    else
+        pblock->nVersion = 4;
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
     if (Params().IsRegTestNet()) {
