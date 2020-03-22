@@ -22,7 +22,7 @@ public:
     virtual ~CStakeInput(){};
     virtual bool InitFromTxIn(const CTxIn& txin) = 0;
     virtual CBlockIndex* GetIndexFrom() = 0;
-    virtual bool CreateTxIn(CWallet* pwallet, CTxIn& txIn, uint256 hashTxOut = 0) = 0;
+    virtual bool CreateTxIn(CWallet* pwallet, CTxIn& txIn, uint256 hashTxOut = UINT256_ZERO) = 0;
     virtual bool GetTxFrom(CTransaction& tx) const = 0;
     virtual CAmount GetValue() const = 0;
     virtual bool CreateTxOuts(CWallet* pwallet, std::vector<CTxOut>& vout, CAmount nTotal) = 0;
@@ -48,7 +48,7 @@ public:
     bool GetTxFrom(CTransaction& tx) const override;
     CAmount GetValue() const override;
     CDataStream GetUniqueness() const override;
-    bool CreateTxIn(CWallet* pwallet, CTxIn& txIn, uint256 hashTxOut = 0) override;
+    bool CreateTxIn(CWallet* pwallet, CTxIn& txIn, uint256 hashTxOut = UINT256_ZERO) override;
     bool CreateTxOuts(CWallet* pwallet, std::vector<CTxOut>& vout, CAmount nTotal) override;
     bool IsZPIV() const override { return false; }
     bool ContextCheck(int nHeight, uint32_t nTime) override;

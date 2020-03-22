@@ -26,7 +26,7 @@ public:
     CBlockIndex* GetIndexFrom() override;
     CAmount GetValue() const override;
     CDataStream GetUniqueness() const override;
-    bool CreateTxIn(CWallet* pwallet, CTxIn& txIn, uint256 hashTxOut = 0) override { return false; /* creation disabled */}
+    bool CreateTxIn(CWallet* pwallet, CTxIn& txIn, uint256 hashTxOut = UINT256_ZERO) override { return false; /* creation disabled */}
     bool CreateTxOuts(CWallet* pwallet, std::vector<CTxOut>& vout, CAmount nTotal) override { return false; /* creation disabled */}
     bool GetTxFrom(CTransaction& tx) const override { return false; /* not available */ }
     virtual bool ContextCheck(int nHeight, uint32_t nTime) override;
