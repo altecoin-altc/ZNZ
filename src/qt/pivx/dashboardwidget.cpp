@@ -212,7 +212,7 @@ void DashboardWidget::loadWalletModel(){
         // chart filter
         stakesFilter = new TransactionFilterProxy();
         stakesFilter->setDynamicSortFilter(true);
-        stakesFilter->setOnlyStakes(true);
+        stakesFilter->setOnlyStakesandMNTxes(true);
         stakesFilter->setSourceModel(txModel);
         hasStakes = stakesFilter->rowCount() > 0;
         loadChart();
