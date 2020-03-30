@@ -19,6 +19,14 @@
 
 #include "chainparamsseeds.h"
 
+std::string CDNSSeedData::getHost(uint64_t requiredServiceBits) const {
+    //use default host for non-filter-capable seeds or if we use the default service bits (NODE_NETWORK)
+    if (!supportsServiceBitsFiltering || requiredServiceBits == NODE_NETWORK)
+        return host;
+
+    return strprintf("x%x.%s", requiredServiceBits, host);
+}
+
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     CMutableTransaction txNew;
@@ -324,8 +332,9 @@ public:
         nDefaultPort = 51474;
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "pivx-testnet.seed.fuzzbawls.pw"));
-        vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "pivx-testnet.seed2.fuzzbawls.pw"));
+        // nodes with support for servicebits filtering should be at the top
+        vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "pivx-testnet.seed.fuzzbawls.pw", true));
+        vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "pivx-testnet.seed2.fuzzbawls.pw", true));
         vSeeds.push_back(CDNSSeedData("warrows.dev", "testnet.dnsseed.pivx.warrows.dev"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 139); // Testnet ZENZO addresses start with 'x' or 'y'
