@@ -23,6 +23,5 @@ bool ContextualCheckZerocoinSpendNoSerialCheck(const CTransaction& tx, const lib
 void AddWrappedSerialsInflation();
 bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv = true);
 bool UpdateZPIVSupply(const CBlock& block, CBlockIndex* pindex, bool fJustCheck);
-CAmount GetInvalidUTXOValue();
 
 #endif //PIVX_CONSENSUS_ZEROCOIN_VERIFY_H

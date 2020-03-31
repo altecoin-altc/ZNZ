@@ -122,9 +122,6 @@ BITCOIN_CORE_H = \
   httprpc.h \
   httpserver.h \
   init.h \
-  invalid.h \
-  invalid_outpoints.json.h \
-  invalid_serials.json.h \
   legacy/stakemodifier.h \
   kernel.h \
   swifttx.h \
@@ -416,7 +413,6 @@ libbitcoin_common_a_SOURCES = \
   core_write.cpp \
   hash.cpp \
   wallet/hdchain.cpp \
-  invalid.cpp \
   key.cpp \
   keystore.cpp \
   netbase.cpp \
