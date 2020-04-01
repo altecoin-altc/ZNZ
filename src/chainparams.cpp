@@ -150,7 +150,7 @@ public:
         assert(genesis.hashMerkleRoot == uint256("7411c8de5f43691fd7cb0f6264867edb8bb35da1bd6f0377e0981b86832254a1"));
 
         consensus.fPowAllowMinDifficultyBlocks = false;
-        consensus.powLimit   = ~UINT256_ZERO >> 20;   // PIVX starting difficulty is 1 / 2^12
+        consensus.powLimit   = ~UINT256_ZERO >> 20;   // ZENZO starting difficulty is 1 / 2^12
         consensus.posLimitV1 = ~UINT256_ZERO >> 24;
         consensus.posLimitV2 = ~UINT256_ZERO >> 20;
         consensus.nBudgetCycleBlocks = 43200;       // approx. 1 every 30 days
@@ -159,7 +159,7 @@ public:
         consensus.nFutureTimeDriftPoW = 7200;
         consensus.nFutureTimeDriftPoS = 180;
         consensus.nMasternodeCountDrift = 20;       // num of MN we allow the see-saw payments to be off by
-        consensus.nMaxMoneyOut = 21000000 * COIN;
+        consensus.nMaxMoneyOut = 83000000 * COIN;
         consensus.nPoolMaxTransactions = 3;
         consensus.nProposalEstablishmentTime = 60 * 60 * 24;    // must be at least a day old to make it into a budget
         consensus.nStakeMinAge = 60 * 60;
@@ -172,17 +172,12 @@ public:
 
         // spork keys
         consensus.strSporkPubKey = "041a3041a1018f6495fc808c044481f0d446be6560e593277a34b258537f77922661f983952cb71a9d1b8948b6e1611fcd28507989d23833f0ba3b5d60c7f289cf";
-        consensus.strSporkPubKeyOld = "0499A7AF4806FC6DE640D23BC5936C29B77ADF2174B4F45492727F897AE63CF8D27B2F05040606E0D14B547916379FA10716E344E745F880EDC037307186AA25B7";
-        consensus.nTime_EnforceNewSporkKey = 1566860400;    //!> August 26, 2019 11:00:00 PM GMT
-        consensus.nTime_RejectOldSporkKey = 1569538800;     //!> September 26, 2019 11:00:00 PM GMT
 
         // height-based activations
         consensus.height_last_PoW = 400;
         consensus.height_RHF = 1250000; // TODO: Decide Hardfork block height
         consensus.height_last_ZC_AccumCheckpoint = 231570;
-        consensus.height_last_ZC_WrappedSerials = 1686229;
         consensus.height_start_BIP65 = consensus.height_RHF;             // 82629b7a9978f5c7ea3f70a12db92633a7d2e436711500db28b97efd48b1e527
-        consensus.height_start_InvalidUTXOsCheck = 902850;
         consensus.height_start_MessSignaturesV2 = 2153200;  // TimeProtocolV2, Blocks V7 and newMessageSignatures
         consensus.height_start_StakeModifierNewSelection = 1;
         consensus.height_start_StakeModifierV2 = consensus.height_RHF;
@@ -191,9 +186,6 @@ public:
         consensus.height_start_ZC_PublicSpends = consensus.height_RHF;
         consensus.height_start_ZC_SerialRangeCheck = consensus.height_RHF;
         consensus.height_start_ZC_SerialsV2 = consensus.height_RHF;
-        // validation by-pass
-        consensus.nPivxBadBlockTime = 1538512791;    // Skip nBit validation of Block 259201 per PR #915
-        consensus.nPivxBadBlockBits = 0x1c0b5262;    // Skip nBit validation of Block 259201 per PR #915
 
         // Zerocoin-related params
         consensus.ZC_Modulus = "d59f1d99dae2770f40fb82066b6f69bb0b3783113505ecf4d958a6021d7204a8612d7c824741ac69cbf426ba4056a0598f2683c54a72c9162821864da23add323b9af365c63d1c60af802a15c3961c4a23a0a4b8f8d0cd681faf9ff5f308a9d8348993a7f5e2560bdc4274aaa670878562ad8774c7fa15ec449385a7e3f2621b152e1f9978890cf02058d3f00d7ed1fc2fba76fe2b8358205dec3f0bd0b648b995f84b74e34ae77a2c134033075cf966b4339f028e039ce8200e279bd0169cf5994a4b135699280fa7be8f0328cfcaa1f7dc7cabe18ba0ec6f42e00792b3f128ec64fee8eb9306b871f6514946649d3fa2247c62ecd5050914570bb35b035fa80ef0995006790eb5ef2e383e7919b7e1aea89f59917c1a7adfdb1a73239c09e191cdde217c53ba0bf96ac9c265054aef811da8b51b1b3ea31d96f5d1ab9acf87363be80f42acf7353b3c4a5297eb3f5676f04b987a3144c5b04d1f6f3fdec243bab3fa2f463a1c50be50b49c156c421befad74c9b6f4367149163d3796355331";
@@ -203,7 +195,6 @@ public:
         consensus.ZC_MinMintFee = 1 * CENT;
         consensus.ZC_MinStakeDepth = 200;
         consensus.ZC_TimeStart = 1508214600;        // October 17, 2017 4:30:00 AM
-        consensus.ZC_WrappedSerialsSupply = 4131563 * COIN;   // zerocoin supply at height_last_ZC_WrappedSerials
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -259,7 +250,7 @@ public:
         assert(consensus.hashGenesisBlock == uint256("0000024c78d7d2fb56363f7777bab06de80307ac751b02e843ca7ae62d2310d2"));
 
         consensus.fPowAllowMinDifficultyBlocks = true;
-        consensus.powLimit   = ~UINT256_ZERO >> 20;   // PIVX starting difficulty is 1 / 2^12
+        consensus.powLimit   = ~UINT256_ZERO >> 20;   // ZENZO starting difficulty is 1 / 2^12
         consensus.posLimitV1 = ~UINT256_ZERO >> 24;
         consensus.posLimitV2 = ~UINT256_ZERO >> 20;
         consensus.nBudgetCycleBlocks = 144;         // approx 10 cycles per day
@@ -268,7 +259,7 @@ public:
         consensus.nFutureTimeDriftPoW = 7200;
         consensus.nFutureTimeDriftPoS = 180;
         consensus.nMasternodeCountDrift = 4;        // num of MN we allow the see-saw payments to be off by
-        consensus.nMaxMoneyOut = 43199500 * COIN;
+        consensus.nMaxMoneyOut = 83000000 * COIN;
         consensus.nPoolMaxTransactions = 2;
         consensus.nProposalEstablishmentTime = 60 * 5;  // at least 5 min old to make it into a budget
         consensus.nStakeMinAge = 60 * 60;
@@ -280,17 +271,12 @@ public:
         consensus.strObfuscationPoolDummyAddress = "y57cqfGRkekRyDRNeJiLtYVEbvhXrNbmox";
 
         // spork keys
-        consensus.strSporkPubKey = "04E88BB455E2A04E65FCC41D88CD367E9CCE1F5A409BE94D8C2B4B35D223DED9C8E2F4E061349BA3A38839282508066B6DC4DB72DD432AC4067991E6BF20176127";
-        consensus.strSporkPubKeyOld = "04A8B319388C0F8588D238B9941DC26B26D3F9465266B368A051C5C100F79306A557780101FE2192FE170D7E6DEFDCBEE4C8D533396389C0DAFFDBC842B002243C";
-        consensus.nTime_EnforceNewSporkKey = 1566860400;    //!> August 26, 2019 11:00:00 PM GMT
-        consensus.nTime_RejectOldSporkKey = 1569538800;     //!> September 26, 2019 11:00:00 PM GMT
+        consensus.strSporkPubKey = "041a3041a1018f6495fc808c044481f0d446be6560e593277a34b258537f77922661f983952cb71a9d1b8948b6e1611fcd28507989d23833f0ba3b5d60c7f289cf";
 
         // height based activations
         consensus.height_last_PoW = 200;
         consensus.height_last_ZC_AccumCheckpoint = 1106090;
-        consensus.height_last_ZC_WrappedSerials = -1;
         consensus.height_start_BIP65 = 851019;
-        consensus.height_start_InvalidUTXOsCheck = 999999999;
         consensus.height_start_MessSignaturesV2 = 1347000;      // TimeProtocolV2, Blocks V7 and newMessageSignatures
         consensus.height_start_StakeModifierNewSelection = 51197;
         consensus.height_start_StakeModifierV2 = 1214000;
@@ -299,10 +285,6 @@ public:
         consensus.height_start_ZC_PublicSpends = 1106100;
         consensus.height_start_ZC_SerialRangeCheck = 1;
         consensus.height_start_ZC_SerialsV2 = 444020;
-
-        // validation by-pass
-        consensus.nPivxBadBlockTime = 1489001494; // Skip nBit validation of Block 201 per PR #915
-        consensus.nPivxBadBlockBits = 0x1e0a20bd; // Skip nBit validation of Block 201 per PR #915
 
         // Zerocoin-related params
         consensus.ZC_Modulus = "25195908475657893494027183240048398571429282126204032027777137836043662020707595556264018525880784"
@@ -317,7 +299,6 @@ public:
         consensus.ZC_MinMintFee = 1 * CENT;
         consensus.ZC_MinStakeDepth = 200;
         consensus.ZC_TimeStart = 1501776000;
-        consensus.ZC_WrappedSerialsSupply = 0;   // WrappedSerials only on main net
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -401,16 +382,11 @@ public:
         Address: yCvUVd72w7xpimf981m114FSFbmAmne7j9
         */
         consensus.strSporkPubKey = "043969b1b0e6f327de37f297a015d37e2235eaaeeb3933deecd8162c075cee0207b13537618bde640879606001a8136091c62ec272dd0133424a178704e6e75bb7";
-        consensus.strSporkPubKeyOld = "";
-        consensus.nTime_EnforceNewSporkKey = 0;
-        consensus.nTime_RejectOldSporkKey = 0;
 
         // height based activations
         consensus.height_last_PoW = 250;
         consensus.height_last_ZC_AccumCheckpoint = 310;     // no checkpoints on regtest
-        consensus.height_last_ZC_WrappedSerials = -1;
         consensus.height_start_BIP65 = 851019;              // Not defined for regtest. Inherit TestNet value.
-        consensus.height_start_InvalidUTXOsCheck = 999999999;
         consensus.height_start_MessSignaturesV2 = 1;
         consensus.height_start_StakeModifierNewSelection = 0;
         consensus.height_start_StakeModifierV2 = 251;       // start with modifier V2 on regtest
@@ -433,7 +409,6 @@ public:
         consensus.ZC_MinMintFee = 1 * CENT;
         consensus.ZC_MinStakeDepth = 10;
         consensus.ZC_TimeStart = 0;                 // not implemented on regtest
-        consensus.ZC_WrappedSerialsSupply = 0;
 
 
         /**

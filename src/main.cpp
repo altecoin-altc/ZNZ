@@ -969,7 +969,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
     // Check transaction
     int chainHeight = chainActive.Height();
     bool fColdStakingActive = sporkManager.IsSporkActive(SPORK_17_COLDSTAKING_ENFORCEMENT);
-    if (!CheckTransaction(tx, chainHeight >= consensus.height_start_ZC, state, isBlockBetweenFakeSerialAttackRange(chainHeight), fColdStakingActive))
+    if (!CheckTransaction(tx, chainHeight >= consensus.height_start_ZC, state, fColdStakingActive))
         return state.DoS(100, error("%s : CheckTransaction failed", __func__), REJECT_INVALID, "bad-tx");
 
     // Coinbase is only valid in a block, not as a loose transaction
@@ -3611,7 +3611,6 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                 tx,
                 fZerocoinActive,
                 state,
-                isBlockBetweenFakeSerialAttackRange(blockHeight),
                 fColdStakingActive
         ))
             return error("%s : CheckTransaction failed", __func__);
@@ -3650,13 +3649,6 @@ bool CheckWork(const CBlock block, CBlockIndex* const pindexPrev)
     }
 
     if (block.nBits != nBitsRequired) {
-        // ZENZO Specific reference to the block with the wrong threshold was used.
-        const Consensus::Params& consensus = Params().GetConsensus();
-        if ((block.nTime == (uint32_t) consensus.nPivxBadBlockTime) &&
-                (block.nBits == (uint32_t) consensus.nPivxBadBlockBits)) {
-            // accept ZENZO block minted with incorrect proof of work threshold
-            return true;
-        }
         if (pindexPrev->nHeight + 1 != Params().GetConsensus().height_last_PoW + 1)
             return error("%s : incorrect proof of work at %d", __func__, pindexPrev->nHeight + 1);
     }
