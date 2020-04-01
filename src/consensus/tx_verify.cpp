@@ -54,7 +54,7 @@ unsigned int GetP2SHSigOpCount(const CTransaction& tx, const CCoinsViewCache& in
     return nSigOps;
 }
 
-bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fRejectBadUTXO, CValidationState& state, bool fFakeSerialAttack, bool fColdStakingActive)
+bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, CValidationState& state, bool fFakeSerialAttack, bool fColdStakingActive)
 {
     // Basic checks that don't depend on any context
     if (tx.vin.empty())
@@ -98,58 +98,21 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
     }
 
     std::set<COutPoint> vInOutPoints;
-    std::set<CBigNum> vZerocoinSpendSerials;
-    int nZCSpendCount = 0;
 
     for (const CTxIn& txin : tx.vin) {
         // Check for duplicate inputs
         if (vInOutPoints.count(txin.prevout))
             return state.DoS(100, error("CheckTransaction() : duplicate inputs"), REJECT_INVALID, "bad-txns-inputs-duplicate");
 
-        //duplicate zcspend serials are checked in CheckZerocoinSpend()
-        if (!txin.IsZerocoinSpend()) {
+        // Ignore Zerocoin spends as they can share the same prevout if they came from the same mint TX
+        if (!txin.IsZerocoinSpend())
             vInOutPoints.insert(txin.prevout);
-        } else if (!txin.IsZerocoinPublicSpend()) {
-            nZCSpendCount++;
-        }
-    }
-
-    if (fZerocoinActive) {
-        if (nZCSpendCount > consensus.ZC_MaxSpendsPerTx)
-            return state.DoS(100, error("CheckTransaction() : there are more zerocoin spends than are allowed in one transaction"));
-
-        //require that a zerocoinspend only has inputs that are zerocoins
-        if (tx.HasZerocoinSpendInputs()) {
-            for (const CTxIn& in : tx.vin) {
-                if (!in.IsZerocoinSpend() && !in.IsZerocoinPublicSpend())
-                    return state.DoS(100,
-                                     error("CheckTransaction() : zerocoinspend contains inputs that are not zerocoins"));
-            }
-
-            // Do not require signature verification if this is initial sync and a block over 24 hours old
-            bool fVerifySignature = !IsInitialBlockDownload() && (GetTime() - chainActive.Tip()->GetBlockTime() < (60*60*24));
-            if (!CheckZerocoinSpend(tx, fVerifySignature, state, fFakeSerialAttack))
-                return state.DoS(100, error("CheckTransaction() : invalid zerocoin spend"));
-        }
     }
 
     if (tx.IsCoinBase()) {
         if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > 150)
             return state.DoS(100, error("CheckTransaction() : coinbase script size=%d", tx.vin[0].scriptSig.size()),
                 REJECT_INVALID, "bad-cb-length");
-    } else if (fZerocoinActive && tx.HasZerocoinSpendInputs()) {
-        if (tx.vin.size() < 1)
-            return state.DoS(10, error("CheckTransaction() : Zerocoin Spend has less than allowed txin's"), REJECT_INVALID, "bad-zerocoinspend");
-        if (tx.HasZerocoinPublicSpendInputs()) {
-            // tx has public zerocoin spend inputs
-            if(static_cast<int>(tx.vin.size()) > consensus.ZC_MaxPublicSpendsPerTx)
-                return state.DoS(10, error("CheckTransaction() : Zerocoin Spend has more than allowed txin's"), REJECT_INVALID, "bad-zerocoinspend");
-        } else {
-            // tx has regular zerocoin spend inputs
-            if(static_cast<int>(tx.vin.size()) > consensus.ZC_MaxSpendsPerTx)
-                return state.DoS(10, error("CheckTransaction() : Zerocoin Spend has more than allowed txin's"), REJECT_INVALID, "bad-zerocoinspend");
-        }
-
     } else {
         for (const CTxIn& txin : tx.vin)
             if (txin.prevout.IsNull() && (fZerocoinActive && !txin.IsZerocoinSpend()))
