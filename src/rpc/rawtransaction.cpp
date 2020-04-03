@@ -134,7 +134,7 @@ UniValue getrawtransaction(const UniValue& params, bool fHelp)
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"pivxaddress\"        (string) pivx address\n"
+            "           \"address\"        (string) ZENZO address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"
@@ -218,9 +218,9 @@ UniValue listunspent(const UniValue& params, bool fHelp)
             "\nArguments:\n"
             "1. minconf          (numeric, optional, default=1) The minimum confirmations to filter\n"
             "2. maxconf          (numeric, optional, default=9999999) The maximum confirmations to filter\n"
-            "3. \"addresses\"    (string) A json array of pivx addresses to filter\n"
+            "3. \"addresses\"    (string) A json array of ZENZO addresses to filter\n"
             "    [\n"
-            "      \"address\"   (string) pivx address\n"
+            "      \"address\"   (string) ZENZO address\n"
             "      ,...\n"
             "    ]\n"
             "4. watchonlyconfig  (numeric, optional, default=1) 1 = list regular unspent transactions, 2 = list only watchonly transactions,  3 = list all unspent transactions (including watchonly)\n"
@@ -230,7 +230,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
             "  {\n"
             "    \"txid\" : \"txid\",        (string) the transaction id\n"
             "    \"vout\" : n,               (numeric) the vout value\n"
-            "    \"address\" : \"address\",  (string) the pivx address\n"
+            "    \"address\" : \"address\",  (string) the ZENZO address\n"
             "    \"account\" : \"account\",  (string) DEPRECATED. The associated account, or \"\" for the default account\n"
             "    \"scriptPubKey\" : \"key\", (string) the script key\n"
             "    \"redeemScript\" : \"key\", (string) the redeemscript key\n"
@@ -261,7 +261,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
             const UniValue& input = inputs[inx];
             CBitcoinAddress address(input.get_str());
             if (!address.IsValid())
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid PIVX address: ") + input.get_str());
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid ZENZO address: ") + input.get_str());
             if (setAddress.count(address))
                 throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ") + input.get_str());
             setAddress.insert(address);
@@ -346,7 +346,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
             "     ]\n"
             "2. \"addresses\"           (string, required) a json object with addresses as keys and amounts as values\n"
             "    {\n"
-            "      \"address\": x.xxx   (numeric, required) The key is the pivx address, the value is the pivx amount\n"
+            "      \"address\": x.xxx   (numeric, required) The key is the ZENZO address, the value is the ZNZ amount\n"
             "      ,...\n"
             "    }\n"
             "3. locktime                (numeric, optional, default=0) Raw locktime. Non-0 value also locktime-activates inputs\n"
@@ -409,7 +409,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
     for (const std::string& name_ : addrList) {
         CBitcoinAddress address(name_);
         if (!address.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid PIVX address: ")+name_);
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid ZENZO address: ")+name_);
 
         if (setAddress.count(address))
             throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ")+name_);
@@ -463,7 +463,7 @@ UniValue decoderawtransaction(const UniValue& params, bool fHelp)
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"12tvKAXCxZjSmdNbao16dKXC8tRWfcF5oc\"   (string) pivx address\n"
+            "           \"12tvKAXCxZjSmdNbao16dKXC8tRWfcF5oc\"   (string) ZENZO address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"
@@ -506,7 +506,7 @@ UniValue decodescript(const UniValue& params, bool fHelp)
             "  \"type\":\"type\", (string) The output type\n"
             "  \"reqSigs\": n,    (numeric) The required signatures\n"
             "  \"addresses\": [   (json array of string)\n"
-            "     \"address\"     (string) pivx address\n"
+            "     \"address\"     (string) ZENZO address\n"
             "     ,...\n"
             "  ],\n"
             "  \"p2sh\",\"address\" (string) script address\n"
@@ -877,7 +877,7 @@ UniValue sendrawtransaction(const UniValue& params, bool fHelp)
 
 UniValue getspentzerocoinamount(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() != 2)
+    if (fHelp)
         throw std::runtime_error(
             "getspentzerocoinamount hexstring index\n"
             "\nReturns value of spent zerocoin output designated by transaction hash and input index.\n"
@@ -892,38 +892,17 @@ UniValue getspentzerocoinamount(const UniValue& params, bool fHelp)
             "\nExamples:\n" +
             HelpExampleCli("getspentzerocoinamount", "78021ebf92a80dfccef1413067f1222e37535399797cce029bb40ad981131706 0"));
 
-    LOCK(cs_main);
-
-    uint256 txHash = ParseHashV(params[0], "parameter 1");
-    int inputIndex = params[1].get_int();
-    if (inputIndex < 0)
-        throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter for transaction input");
-
-    CTransaction tx;
-    uint256 hashBlock = UINT256_ZERO;
-    if (!GetTransaction(txHash, tx, hashBlock, true))
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available about transaction");
-
-    if (inputIndex >= (int)tx.vin.size())
-        throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter for transaction input");
-
-    const CTxIn& input = tx.vin[inputIndex];
-    if (!input.IsZerocoinSpend())
-        return -1;
-
-    libzerocoin::CoinSpend spend = TxInToZerocoinSpend(input);
-    CAmount nValue = libzerocoin::ZerocoinDenominationToAmount(spend.getDenomination());
-    return FormatMoney(nValue);
+    throw JSONRPCError(RPC_WALLET_ERROR, "zZNZ is permanently disabled");
 }
 
 #ifdef ENABLE_WALLET
 
 UniValue createrawzerocoinspend(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() < 1 || params.size() > 3)
+    if (fHelp)
         throw std::runtime_error(
             "createrawzerocoinspend mint_input ( \"address\" )\n"
-            "\nCreates raw zPIV public spend.\n" +
+            "\nCreates raw zZNZ public spend.\n" +
             HelpRequiringPassphrase() + "\n"
 
             "\nArguments:\n"
@@ -939,48 +918,7 @@ UniValue createrawzerocoinspend(const UniValue& params, bool fHelp)
             HelpExampleCli("createrawzerocoinspend", "0d8c16eee7737e3cc1e4e70dc006634182b175e039700931283b202715a0818f") +
             HelpExampleRpc("createrawzerocoinspend", "0d8c16eee7737e3cc1e4e70dc006634182b175e039700931283b202715a0818f"));
 
-    const std::string serial_hash = params[0].get_str();
-    const std::string address_str = (params.size() > 1 ? params[1].get_str() : "");
-
-    if (!IsHex(serial_hash))
-        throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, expected hex serial hash");
-
-    CBitcoinAddress address;
-    CBitcoinAddress* addr_ptr = nullptr;
-    if (address_str != "") {
-        address = CBitcoinAddress(address_str);
-        if(!address.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid PIVX address");
-        addr_ptr = &address;
-    }
-
-    assert(pwalletMain != NULL);
-    EnsureWalletIsUnlocked();
-    LOCK2(cs_main, pwalletMain->cs_wallet);
-
-    uint256 hashSerial(uint256S(serial_hash));
-    CZerocoinMint input_mint;
-    if (!pwalletMain->GetMint(hashSerial, input_mint)) {
-        std::string strErr = "Failed to fetch mint associated with serial hash " + serial_hash;
-        throw JSONRPCError(RPC_WALLET_ERROR, strErr);
-    }
-    CAmount nAmount = input_mint.GetDenominationAsAmount();
-    std::vector<CZerocoinMint> vMintsSelected = std::vector<CZerocoinMint>(1,input_mint);
-
-    // create the spend
-    CWalletTx rawTx;
-    CZerocoinSpendReceipt receipt;
-    CReserveKey reserveKey(pwalletMain);
-    std::vector<CDeterministicMint> vNewMints;
-    std::list<std::pair<CBitcoinAddress*, CAmount>> outputs;
-    if (addr_ptr) {
-        outputs.push_back(std::pair<CBitcoinAddress*, CAmount>(addr_ptr, nAmount));
-    }
-    if (!pwalletMain->CreateZCPublicSpendTransaction(nAmount, rawTx, reserveKey, receipt, vMintsSelected, vNewMints, outputs, nullptr))
-        throw JSONRPCError(RPC_WALLET_ERROR, receipt.GetStatusMessage());
-
-    // output the raw transaction
-    return EncodeHexTx(rawTx);
+    throw JSONRPCError(RPC_WALLET_ERROR, "zZNZ is permanently disabled.");
 }
 #endif
 
