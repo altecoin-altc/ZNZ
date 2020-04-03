@@ -2898,7 +2898,8 @@ bool CWallet::CreateCoinStake(
 
         // Calculate reward
         CAmount nReward;
-        nReward = GetBlockValue(chainActive.Height() + 1);
+        //Modified to match current Zenzo createcoinstake
+        nReward = GetBlockValue(chainActive.Height());
         nCredit += nReward;
 
         // Create the output transaction(s)
