@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="40px" viewBox="0 0 24 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
-    <title>Dashboard</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group" transform="translate(1.000000, 11.000000)" fill="#938DA5" fill-rule="nonzero">
-            <g id="Group_8812">
-                <path d="M10,8 L0,8 L0,0 L10,0 L10,8 Z M2,6 L8,6 L8,2 L2,2 L2,6 Z" id="Path_18866"></path>
-            </g>
-            <g id="Group_8813" transform="translate(12.000000, 0.000000)">
-                <path d="M10,22 L0,22 L0,0 L10,0 L10,22 Z M2,20 L8,20 L8,2 L2,2 L2,20 Z" id="Path_18867"></path>
-            </g>
-            <g id="Group_8814" transform="translate(0.000000, 10.000000)">
-                <path d="M10,12 L0,12 L0,0 L10,0 L10,12 Z M2,10 L8,10 L8,2 L2,2 L2,10 Z" id="Path_18868"></path>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 24 40" style="enable-background:new 0 0 24 40;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#707070;}
+</style>
+<g>
+	<path class="st0" d="M20.4,33.2h-4.7c-1.5,0-2.7-1.2-2.7-2.7V13.9c0-1.5,1.2-2.7,2.7-2.7h4.7c1.5,0,2.7,1.2,2.7,2.7v16.6
+		C23.1,32,21.9,33.2,20.4,33.2z M21.1,31.2L21.1,31.2L21.1,31.2L21.1,31.2z M15,13.9v16.6c0,0.4,0.3,0.7,0.7,0.7h4.7
+		c0.4,0,0.7-0.3,0.7-0.7l0-16.6c0-0.4-0.3-0.7-0.7-0.7h-4.7C15.3,13.2,15,13.5,15,13.9z"/>
+	<path class="st0" d="M8.2,33.2H3.8c-1.5,0-2.7-1.2-2.7-2.7v-6.7C1,22.2,2.3,21,3.8,21h4.4c1.5,0,2.7,1.2,2.7,2.7v6.7
+		C10.9,31.9,9.7,33.2,8.2,33.2z M8.9,31.2L8.9,31.2 M3,23.7v6.7c0,0.4,0.3,0.7,0.7,0.7h4.4c0.4,0,0.7-0.3,0.7-0.7l0-6.7
+		c0-0.4-0.3-0.7-0.7-0.7H3.8C3.4,23,3,23.3,3,23.7z"/>
+	<path class="st0" d="M8.3,19.4H3.6c-1.4,0-2.6-1.2-2.6-2.6v-3c0-1.4,1.2-2.6,2.6-2.6h4.7c1.4,0,2.6,1.2,2.6,2.6v3
+		C10.9,18.2,9.8,19.4,8.3,19.4z M8.9,17.4L8.9,17.4L8.9,17.4L8.9,17.4z M3,13.8v3c0,0.3,0.3,0.6,0.6,0.6h4.7c0.3,0,0.6-0.3,0.6-0.6
+		l0-3c0-0.3-0.3-0.6-0.6-0.6H3.6C3.3,13.2,3,13.5,3,13.8z"/>
+</g>
 </svg>
