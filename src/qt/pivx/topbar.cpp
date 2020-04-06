@@ -560,6 +560,7 @@ void TopBar::updateTorIcon() {
     bool torEnabled = clientModel->getTorInfo(ip_port);
 
     if (torEnabled) {
+        ui->pushButtonTor->setVisible(true);
         if(!ui->pushButtonTor->isChecked()) {
             ui->pushButtonTor->setChecked(true);
             ui->pushButtonTor->setButtonClassStyle("cssClass", "btn-check-tor", true);
@@ -571,6 +572,7 @@ void TopBar::updateTorIcon() {
             ui->pushButtonTor->setChecked(false);
             ui->pushButtonTor->setButtonClassStyle("cssClass", "btn-check-tor-inactive", true);
         }
+        ui->pushButtonTor->setVisible(false);
     }
 }
 
