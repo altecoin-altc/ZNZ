@@ -43,6 +43,7 @@ public:
 private Q_SLOTS:
     void onCreateMNClicked();
     void onStartAllClicked(int type);
+    void onOpenConfigClicked();
     void changeTheme(bool isLightTheme, QString &theme) override;
     void onMNClicked(const QModelIndex &index);
     void onEditMNClicked();

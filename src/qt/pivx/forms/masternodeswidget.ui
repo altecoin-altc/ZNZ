@@ -296,7 +296,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButtonStartMissing">
+           <widget class="QPushButton" name="pushButtonOpenConfig">
             <property name="minimumSize">
              <size>
               <width>125</width>
@@ -304,7 +304,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Start Inactive/s</string>
+             <string>Open Config File</string>
             </property>
            </widget>
           </item>

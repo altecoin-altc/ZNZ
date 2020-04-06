@@ -104,7 +104,7 @@ MasterNodesWidget::MasterNodesWidget(PIVXGUI *parent) :
     ui->pushButtonSave->setText(tr("Create Masternode Controller"));
     setCssBtnPrimary(ui->pushButtonSave);
     setCssBtnPrimary(ui->pushButtonStartAll);
-    setCssBtnPrimary(ui->pushButtonStartMissing);
+    setCssBtnPrimary(ui->pushButtonOpenConfig);
 
     /* Options */
     ui->btnAbout->setTitleClassAndText("btn-title-grey", "What is a Masternode?");
@@ -128,8 +128,8 @@ MasterNodesWidget::MasterNodesWidget(PIVXGUI *parent) :
     connect(ui->pushButtonStartAll, &QPushButton::clicked, [this]() {
         onStartAllClicked(REQUEST_START_ALL);
     });
-    connect(ui->pushButtonStartMissing, &QPushButton::clicked, [this]() {
-        onStartAllClicked(REQUEST_START_MISSING);
+    connect(ui->pushButtonOpenConfig, &QPushButton::clicked, [this]() {
+        onOpenConfigClicked();
     });
     connect(ui->listMn, SIGNAL(clicked(QModelIndex)), this, SLOT(onMNClicked(QModelIndex)));
     connect(ui->btnAbout, &OptionButton::clicked, [this](){window->openFAQ(9);});
@@ -296,6 +296,12 @@ bool MasterNodesWidget::startAll(QString& failText, bool onlyMissing)
         return false;
     }
     return true;
+}
+
+void MasterNodesWidget::onOpenConfigClicked()
+{
+    GUIUtil::openMNConfigfile();
+    inform(tr("Please remember to restart your wallet after changing the config file!"));
 }
 
 void MasterNodesWidget::run(int type)
