@@ -146,11 +146,8 @@ void SendWidget::refreshAmounts() {
         if (amount > 0)
             total += amount;
     }
-
-    bool isZpiv = false;
     nDisplayUnit = walletModel->getOptionsModel()->getDisplayUnit();
-
-    ui->labelAmountSend->setText(GUIUtil::formatBalance(total, nDisplayUnit, isZpiv));
+    ui->labelAmountSend->setText(GUIUtil::formatBalance(total, nDisplayUnit, false));
 
     CAmount totalAmount = 0;
     if (CoinControlDialog::coinControl->HasSelected()){
@@ -158,15 +155,15 @@ void SendWidget::refreshAmounts() {
         totalAmount = walletModel->getBalance(CoinControlDialog::coinControl) - total;
         ui->labelTitleTotalRemaining->setText(tr("Total remaining from the selected UTXO"));
     } else {
-        // Wallet's balance
-        totalAmount = (isZpiv ? walletModel->getZerocoinBalance() : walletModel->getBalance()) - total;
+        // Wallet's available balance (Coins that are spendable right now, excluding locked, pending and immature)
+        totalAmount = (walletModel->getBalance() - total) - walletModel->getLockedBalance();
         ui->labelTitleTotalRemaining->setText(tr("Total remaining"));
     }
     ui->labelAmountRemaining->setText(
             GUIUtil::formatBalance(
                     totalAmount,
                     nDisplayUnit,
-                    isZpiv
+                    false
                     )
     );
 }

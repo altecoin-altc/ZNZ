@@ -69,8 +69,8 @@ DashboardWidget::DashboardWidget(PIVXGUI* parent) :
     setCssProperty(ui->labelChart, "legend-chart");
 
     ui->labelAmountMNRewards->setText("0 ZNZ");
-    ui->labelAmountPiv->setText("0 ZNZ");
-    setCssProperty(ui->labelAmountPiv, "text-stake-piv-disable");
+    ui->labelAmountZNZ->setText("0 ZNZ");
+    setCssProperty(ui->labelAmountZNZ, "text-stake-piv-disable");
     setCssProperty(ui->labelAmountMNRewards, "text-stake-mnrewards-disable");
 
     setCssProperty({ui->pushButtonAll,  ui->pushButtonMonth, ui->pushButtonYear}, "btn-check-time");
@@ -637,14 +637,14 @@ void DashboardWidget::onChartRefreshed() {
     // Total
     nDisplayUnit = walletModel->getOptionsModel()->getDisplayUnit();
     if (chartData->totalPiv > 0 || chartData->totalMNRewards > 0) {
-        setCssProperty(ui->labelAmountPiv, "text-stake-piv");
+        setCssProperty(ui->labelAmountZNZ, "text-stake-piv");
         setCssProperty(ui->labelAmountMNRewards, "text-stake-zpiv");
     } else {
-        setCssProperty(ui->labelAmountPiv, "text-stake-piv-disable");
+        setCssProperty(ui->labelAmountZNZ, "text-stake-piv-disable");
         setCssProperty(ui->labelAmountMNRewards, "text-stake-mnrewards-disable");
     }
-    forceUpdateStyle({ui->labelAmountPiv, ui->labelAmountMNRewards});
-    ui->labelAmountPiv->setText(GUIUtil::formatBalance(chartData->totalPiv, nDisplayUnit));
+    forceUpdateStyle({ui->labelAmountZNZ, ui->labelAmountMNRewards});
+    ui->labelAmountZNZ->setText(GUIUtil::formatBalance(chartData->totalPiv, nDisplayUnit));
     ui->labelAmountMNRewards->setText(QString::number(chartData->totalMNRewards / COIN) +" ZNZ MN");
 
     series->append(set0);

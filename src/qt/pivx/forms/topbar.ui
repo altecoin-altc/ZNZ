@@ -108,7 +108,7 @@
              <number>0</number>
             </property>
             <item alignment="Qt::AlignTop">
-             <widget class="QLabel" name="labelAmountTopPiv">
+             <widget class="QLabel" name="labelAmountTopZNZ">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -379,7 +379,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="labelAmountPiv">
+                <widget class="QLabel" name="labelAmountZNZ">
                  <property name="text">
                   <string>480.0685 ZNZ</string>
                  </property>
@@ -397,12 +397,12 @@
                  <item>
                   <widget class="QLabel" name="labelTitle3">
                    <property name="text">
-                    <string>Pending</string>
+                    <string>Locked</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="labelPendingPiv">
+                  <widget class="QLabel" name="labelLockedZNZ">
                    <property name="text">
                     <string>6.943 ZNZ</string>
                    </property>
@@ -431,12 +431,12 @@
                  <item>
                   <widget class="QLabel" name="labelTitle4">
                    <property name="text">
-                    <string>Immature</string>
+                    <string>Pending</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="labelImmaturePiv">
+                  <widget class="QLabel" name="labelPendingZNZ">
                    <property name="text">
                     <string>10 ZNZ</string>
                    </property>

@@ -49,9 +49,9 @@ TopBar::TopBar(PIVXGUI* _mainWindow, QWidget *parent) :
 
     // Amount information top
     ui->widgetTopAmount->setVisible(false);
-    setCssProperty({ui->labelAmountTopPiv}, "amount-small-topbar");
-    setCssProperty({ui->labelAmountPiv}, "amount-topbar");
-    setCssProperty({ui->labelPendingPiv, ui->labelImmaturePiv}, "amount-small-topbar");
+    setCssProperty({ui->labelAmountTopZNZ}, "amount-small-topbar");
+    setCssProperty({ui->labelAmountZNZ}, "amount-topbar");
+    setCssProperty({ui->labelPendingZNZ, ui->labelLockedZNZ}, "amount-small-topbar");
 
     // Progress Sync
     progressBar = new QProgressBar(ui->layoutSync);
@@ -626,21 +626,24 @@ void TopBar::updateBalances(const CAmount& balance, const CAmount& unconfirmedBa
     if (walletModel) {
         nLockedBalance = walletModel->getLockedBalance();
     }
-    ui->labelTitle1->setText(nLockedBalance > 0 ? tr("Available (Locked included)") : tr("Available"));
+    ui->labelTitle1->setText(tr("Available"));
 
-    // ZNZ Total
-    CAmount pivAvailableBalance = balance;
+    /* ZNZ Total */
+    // ZENZO excludes "locked" ZNZ from the Available balance to improve UX
+    CAmount znzAvailableBalance = balance - nLockedBalance;
+    QString totalZNZ = GUIUtil::formatBalance(znzAvailableBalance, nDisplayUnit);
 
-    // Set
-    QString totalPiv = GUIUtil::formatBalance(pivAvailableBalance, nDisplayUnit);
-
-    // PIV
+    /* ZNZ Available Balance */
     // Top
-    ui->labelAmountTopPiv->setText(totalPiv);
+    ui->labelAmountTopZNZ->setText(totalZNZ);
     // Expanded
-    ui->labelAmountPiv->setText(totalPiv);
-    ui->labelPendingPiv->setText(GUIUtil::formatBalance(unconfirmedBalance, nDisplayUnit));
-    ui->labelImmaturePiv->setText(GUIUtil::formatBalance(immatureBalance, nDisplayUnit));
+    ui->labelAmountZNZ->setText(totalZNZ);
+
+    /* ZENZO merged "Pending" and "Immature" into a single GUI balance, to simplify the experience for the user */
+    // Locked
+    ui->labelLockedZNZ->setText(GUIUtil::formatBalance(nLockedBalance, nDisplayUnit));
+    // Pending + Immature
+    ui->labelPendingZNZ->setText(GUIUtil::formatBalance((unconfirmedBalance + immatureBalance), nDisplayUnit));
 }
 
 void TopBar::resizeEvent(QResizeEvent *event){
