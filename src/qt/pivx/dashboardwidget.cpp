@@ -424,15 +424,15 @@ void DashboardWidget::changeChartColors(){
     QColor linePenColorY;
     QColor backgroundColor;
     QColor gridY;
-    if(isLightTheme()){
-        gridLineColorX = QColor(255,255,255);
+    if (isLightTheme()) {
+        gridLineColorX = QColor(241, 242, 242);
         linePenColorY = gridLineColorX;
         backgroundColor = linePenColorY;
         axisY->setGridLineColor(QColor("#1a000000"));
-    }else{
+    } else {
         gridY = QColor("#40ffffff");
         axisY->setGridLineColor(gridY);
-        gridLineColorX = QColor(15,11,22);
+        gridLineColorX = QColor(17, 17, 17);
         linePenColorY =  gridLineColorX;
         backgroundColor = linePenColorY;
     }
