@@ -1709,7 +1709,7 @@ bool AppInit2(const std::vector<std::string>& words)
 
         LogPrintf("Init errors: %s\n", strErrors.str());
         LogPrintf("Wallet completed loading in %15dms\n", GetTimeMillis() - nWalletStartTime);
-        zwalletMain = new CzPIVWallet(pwalletMain->strWalletFile);
+        zwalletMain = new CzPIVWallet(pwalletMain);
         pwalletMain->setZWallet(zwalletMain);
 
         RegisterValidationInterface(pwalletMain);
