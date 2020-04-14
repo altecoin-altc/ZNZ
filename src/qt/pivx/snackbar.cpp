@@ -11,7 +11,8 @@
 SnackBar::SnackBar(PIVXGUI* _window, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SnackBar),
-    window(_window)
+    window(_window),
+    timeout(MIN_TIMEOUT)
 {
     ui->setupUi(this);
 
@@ -35,7 +36,7 @@ void SnackBar::windowResizeEvent(QResizeEvent* event){
 }
 
 void SnackBar::showEvent(QShowEvent *event){
-    QTimer::singleShot(3000, this, SLOT(hideAnim()));
+    QTimer::singleShot(timeout, this, &SnackBar::hideAnim);
 }
 
 void SnackBar::hideAnim(){
@@ -43,16 +44,24 @@ void SnackBar::hideAnim(){
     QTimer::singleShot(310, this, SLOT(hide()));
 }
 
-
-
-void SnackBar::sizeTo(QWidget* widget){
-
+void SnackBar::setText(const QString& text)
+{
+    ui->label->setText(text);
+    setTimeoutForText(text);
 }
 
-void SnackBar::setText(QString text){
-    ui->label->setText(text);
+void SnackBar::setTimeoutForText(const QString& text){
+    timeout = std::max(MIN_TIMEOUT, std::min(MAX_TIMEOUT, GetTimeout(text)));
+}
+
+int SnackBar::GetTimeout(const QString& message){
+    // 50 milliseconds per char
+    return (50 * message.length());
 }
 
 SnackBar::~SnackBar(){
     delete ui;
 }
+
+const int SnackBar::MIN_TIMEOUT;
+const int SnackBar::MAX_TIMEOUT;
