@@ -194,18 +194,31 @@ void TopBar::openLockUnlock(){
     lockUnlockWidget->show();
 }
 
-void TopBar::encryptWallet() {
+void TopBar::openPassPhraseDialog(AskPassphraseDialog::Mode mode, AskPassphraseDialog::Context ctx) {
     if (!walletModel)
         return;
 
     showHideOp(true);
-    AskPassphraseDialog *dlg = new AskPassphraseDialog(AskPassphraseDialog::Mode::Encrypt, window,
-                            walletModel, AskPassphraseDialog::Context::Encrypt);
+    AskPassphraseDialog *dlg = new AskPassphraseDialog(mode, window, walletModel, ctx);
     dlg->adjustSize();
     openDialogWithOpaqueBackgroundY(dlg, window);
 
     refreshStatus();
     dlg->deleteLater();
+}
+
+void TopBar::encryptWallet()
+{
+    return openPassPhraseDialog(AskPassphraseDialog::Mode::Encrypt, AskPassphraseDialog::Context::Encrypt);
+}
+
+void TopBar::unlockWallet()
+{
+    if(!walletModel)
+        return;
+    // Unlock wallet when requested by wallet model (if unlocked or unlocked for staking only)
+    if (walletModel->isWalletLocked(false))
+        return openPassPhraseDialog(AskPassphraseDialog::Mode::Unlock, AskPassphraseDialog::Context::Unlock_Full);
 }
 
 static bool isExecuting = false;
@@ -243,7 +256,7 @@ void TopBar::lockDropdownClicked(const StateClicked& state){
             }
             case 2: {
                 WalletModel::EncryptionStatus status = walletModel->getEncryptionStatus();
-                if (status == WalletModel::UnlockedForAnonymizationOnly)
+                if (status == WalletModel::UnlockedForStaking)
                     break;
 
                 if (status == WalletModel::Unlocked) {
@@ -257,7 +270,7 @@ void TopBar::lockDropdownClicked(const StateClicked& state){
                     openDialogWithOpaqueBackgroundY(dlg, window);
                     dlg->deleteLater();
                 }
-                if (walletModel->getEncryptionStatus() == WalletModel::UnlockedForAnonymizationOnly) {
+                if (walletModel->getEncryptionStatus() == WalletModel::UnlockedForStaking) {
                     ui->pushButtonLock->setButtonText(tr("Wallet Unlocked for staking"));
                     ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-staking", true);
                 }
@@ -546,6 +559,8 @@ void TopBar::loadWalletModel() {
             SLOT(updateBalances(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)));
     connect(walletModel->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
     connect(walletModel, &WalletModel::encryptionStatusChanged, this, &TopBar::refreshStatus);
+    // Ask for passphrase if needed
+    connect(walletModel, &WalletModel::requireUnlock, this, &TopBar::unlockWallet);
     // update the display unit, to not use the default ("ZNZ")
     updateDisplayUnit();
 
@@ -592,7 +607,7 @@ void TopBar::refreshStatus(){
             ui->pushButtonLock->setButtonText("Wallet Locked");
             ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-lock", true);
             break;
-        case WalletModel::EncryptionStatus::UnlockedForAnonymizationOnly:
+        case WalletModel::EncryptionStatus::UnlockedForStaking:
             ui->pushButtonLock->setButtonText("Wallet Unlocked for staking");
             ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-staking", true);
             break;

@@ -34,7 +34,11 @@ public:
     void loadWalletModel() override;
     void loadClientModel() override;
 
+    void openPassPhraseDialog(AskPassphraseDialog::Mode mode, AskPassphraseDialog::Context ctx);
     void encryptWallet();
+
+    void unlockWallet();
+
 public Q_SLOTS:
     void updateBalances(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                         const CAmount& zerocoinBalance, const CAmount& unconfirmedZerocoinBalance, const CAmount& immatureZerocoinBalance,
@@ -78,6 +82,9 @@ private:
     QTimer* timerStakingIcon = nullptr;
     QTimer* timerHDIcon = nullptr;
     bool isInitializing = true;
+
+    // pointer to global unlock context (for multithread unlock/relock)
+    WalletModel::UnlockContext* pctx = nullptr;
 
     void updateTorIcon();
 };

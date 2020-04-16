@@ -43,12 +43,12 @@ namespace GuiTransactionsUtils {
                         "The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
                 informType = CClientUIInterface::MSG_ERROR;
                 break;
-            case WalletModel::AnonymizeOnlyUnlocked:
+            case WalletModel::StakingOnlyUnlocked:
                 // Unlock is only need when the coins are send
                 if (!fPrepare) {
                     // Unlock wallet if it wasn't fully unlocked already
-                    walletModel->requestUnlock(AskPassphraseDialog::Context::Unlock_Full, false);
-                    if (walletModel->getEncryptionStatus() != WalletModel::Unlocked) {
+                    WalletModel::UnlockContext ctx(walletModel->requestUnlock());
+                    if (!ctx.isValid()) {
                         retStr = parent->translate(
                                 "Error: The wallet was unlocked for staking only. Unlock canceled.");
                     }

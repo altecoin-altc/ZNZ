@@ -213,7 +213,12 @@ void ReceiveWidget::onLabelClicked(){
 
 void ReceiveWidget::onNewAddressClicked(){
     try {
-        if (!verifyWalletUnlocked()) return;
+        WalletModel::UnlockContext ctx(walletModel->requestUnlock());
+        if (!ctx.isValid()) {
+            // Unlock wallet was cancelled
+            inform(tr("Cannot create new address, wallet locked"));
+            return;
+        }
         CBitcoinAddress address;
         PairResult r = walletModel->getNewAddress(address, "");
 
@@ -245,7 +250,12 @@ void ReceiveWidget::onRequestClicked(){
 
 void ReceiveWidget::showAddressGenerationDialog(bool isPaymentRequest) {
     if(walletModel && !isShowingDialog) {
-        if (!verifyWalletUnlocked()) return;
+        WalletModel::UnlockContext ctx(walletModel->requestUnlock());
+        if (!ctx.isValid()) {
+            // Unlock wallet was cancelled
+            inform(tr("Cannot perform operation, wallet locked"));
+            return;
+        }
         isShowingDialog = true;
         showHideOp(true);
         RequestDialog *dialog = new RequestDialog(window);
