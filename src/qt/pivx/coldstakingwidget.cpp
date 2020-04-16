@@ -323,7 +323,7 @@ void ColdStakingWidget::onContactsClicked(){
     }
 
     pos.setX(pos.x() + 40);
-    height = (contactsSize <= 2) ? height * ( 2 * (contactsSize + 1 )) : height * 4;
+    height = (contactsSize <= 2) ? height * ( 2 * (contactsSize + 1 )) : height * 6;
 
     if(!menuContacts){
         menuContacts = new ContactsDropdown(
