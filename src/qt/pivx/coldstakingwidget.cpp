@@ -188,6 +188,16 @@ ColdStakingWidget::ColdStakingWidget(PIVXGUI* parent) :
     ui->listViewStakingAddress->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->listViewStakingAddress->setUniformItemSizes(true);
 
+    // Sort Controls
+    SortEdit* lineEdit = new SortEdit(ui->comboBoxSort);
+    connect(lineEdit, &SortEdit::Mouse_Pressed, [this](){ui->comboBoxSort->showPopup();});
+    connect(ui->comboBoxSort, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ColdStakingWidget::onSortChanged);
+    SortEdit* lineEditOrder = new SortEdit(ui->comboBoxSortOrder);
+    connect(lineEditOrder, &SortEdit::Mouse_Pressed, [this](){ui->comboBoxSortOrder->showPopup();});
+    connect(ui->comboBoxSortOrder, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ColdStakingWidget::onSortOrderChanged);
+    fillAddressSortControls(lineEdit, lineEditOrder, ui->comboBoxSort, ui->comboBoxSortOrder);
+    ui->sortWidget->setVisible(false);
+
     connect(ui->pushButtonSend, &QPushButton::clicked, this, &ColdStakingWidget::onSendClicked);
     connect(btnOwnerContact, &QAction::triggered, [this](){ onContactsClicked(true); });
     connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(handleAddressClicked(QModelIndex)));
@@ -207,6 +217,7 @@ void ColdStakingWidget::loadWalletModel(){
         addressesFilter = new AddressFilterProxyModel(AddressTableModel::ColdStaking, this);
         addressesFilter->setSourceModel(addressTableModel);
         addressesFilter->sort(AddressTableModel::Label, Qt::AscendingOrder);
+        addressesFilter->sort(sortType, sortOrder);
         ui->listViewStakingAddress->setModel(addressesFilter);
         ui->listViewStakingAddress->setModelColumn(AddressTableModel::Address);
 
@@ -363,8 +374,8 @@ void ColdStakingWidget::onDelegateSelected(bool delegate){
         ui->btnColdStaking->setVisible(false);
         ui->btnMyStakingAddresses->setVisible(false);
         ui->listViewStakingAddress->setVisible(false);
-        if (ui->rightContainer->count() == 2)
-            ui->rightContainer->addItem(spacerDiv);
+        ui->sortWidget->setVisible(false);
+        ui->rightContainer->addItem(spacerDiv);
     } else {
         ui->btnCoinControl->setVisible(false);
         ui->containerSend->setVisible(false);
@@ -374,6 +385,7 @@ void ColdStakingWidget::onDelegateSelected(bool delegate){
         ui->btnMyStakingAddresses->setVisible(true);
         // Show address list, if it was previously open
         ui->listViewStakingAddress->setVisible(isStakingAddressListVisible);
+        ui->sortWidget->setVisible(isStakingAddressListVisible);
     }
 }
 
@@ -732,9 +744,11 @@ void ColdStakingWidget::onMyStakingAddressesClicked()
                                                   "btn-dropdown" : "ic-arrow"), true);
     ui->listViewStakingAddress->setVisible(isStakingAddressListVisible);
     if(isStakingAddressListVisible) {
+        ui->sortWidget->setVisible(true);
         ui->rightContainer->removeItem(spacerDiv);
         ui->listViewStakingAddress->update();
     } else {
+        ui->sortWidget->setVisible(false);
         ui->rightContainer->addItem(spacerDiv);
     }
 }
@@ -752,6 +766,24 @@ void ColdStakingWidget::updateStakingTotalLabel()
     ui->labelStakingTotal->setText(tr("Total Staking: %1").arg(
             (total == 0) ? "0.00 ZNZ" : GUIUtil::formatBalance(total, nDisplayUnit))
     );
+}
+
+void ColdStakingWidget::onSortChanged(int idx)
+{
+    sortType = (AddressTableModel::ColumnIndex) ui->comboBoxSort->itemData(idx).toInt();
+    sortAddresses();
+}
+
+void ColdStakingWidget::onSortOrderChanged(int idx)
+{
+    sortOrder = (Qt::SortOrder) ui->comboBoxSortOrder->itemData(idx).toInt();
+    sortAddresses();
+}
+
+void ColdStakingWidget::sortAddresses()
+{
+    if (this->addressesFilter)
+        this->addressesFilter->sort(sortType, sortOrder);
 }
 
 ColdStakingWidget::~ColdStakingWidget(){
