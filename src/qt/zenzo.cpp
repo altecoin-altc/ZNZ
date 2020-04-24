@@ -27,6 +27,7 @@
 #include "walletmodel.h"
 #endif
 #include "masternodeconfig.h"
+#include "forgeman.h"
 
 #include <startoptionsmain.h>
 
@@ -650,11 +651,17 @@ int main(int argc, char* argv[])
     app.updateTranslation();
 
 #ifdef ENABLE_WALLET
-    /// 7a. parse masternode.conf
+    /// 7a. parse masternode.conf and forge.conf
     std::string strErr;
     if (!masternodeConfig.read(strErr)) {
         QMessageBox::critical(0, QObject::tr("ZENZO Core"),
             QObject::tr("Error reading masternode configuration file: %1").arg(strErr.c_str()));
+        return 0;
+    }
+
+    if (!forgeMain.readForgeConfig(strErr)) {    
+        QMessageBox::critical(0, QObject::tr("ZENZO Core"),
+            QObject::tr("Error reading Forge configuration file: %1").arg(strErr.c_str()));
         return 0;
     }
 

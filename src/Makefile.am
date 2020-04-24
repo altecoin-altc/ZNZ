@@ -136,6 +136,7 @@ BITCOIN_CORE_H = \
   masternode-sync.h \
   masternodeman.h \
   masternodeconfig.h \
+  forgeman.h \
   merkleblock.h \
   messagesigner.h \
   miner.h \
@@ -275,6 +276,7 @@ libbitcoin_wallet_a_SOURCES = \
   masternode-payments.cpp \
   masternode-sync.cpp \
   masternodeconfig.cpp \
+  forgeman.cpp \
   masternodeman.cpp \
   messagesigner.cpp \
   legacy/stakemodifier.cpp \
