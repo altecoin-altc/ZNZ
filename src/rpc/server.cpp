@@ -451,6 +451,10 @@ static const CRPCCommand vRPCCommands[] =
         {"wallet", "delegatoradd", &delegatoradd, true, false, true},
         {"wallet", "delegatorremove", &delegatorremove, true, false, true},
 
+        /* Forge */
+        {"forge", "listforgeitems", &listforgeitems, false, false, true},
+
+        /* Zerocoin (Deprecated) */
         {"zerocoin", "createrawzerocoinspend", &createrawzerocoinspend, false, false, true},
         {"zerocoin", "getzerocoinbalance", &getzerocoinbalance, false, false, true},
         {"zerocoin", "listmintedzerocoins", &listmintedzerocoins, false, false, true},

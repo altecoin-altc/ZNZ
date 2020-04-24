@@ -25,6 +25,11 @@ public:
             this->outputIndex = outputIndex;
         }
 
+        const std::string& getName() const
+        {
+            return name;
+        }
+
         const std::string& getOutputIndex() const
         {
             return outputIndex;
