@@ -555,8 +555,8 @@ void TopBar::setNumBlocks(int count) {
 }
 
 void TopBar::loadWalletModel() {
-    connect(walletModel, SIGNAL(balanceChanged(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)), this,
-            SLOT(updateBalances(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)));
+    connect(walletModel, SIGNAL(balanceChanged(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)), this,
+            SLOT(updateBalances(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)));
     connect(walletModel->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
     connect(walletModel, &WalletModel::encryptionStatusChanged, this, &TopBar::refreshStatus);
     // Ask for passphrase if needed
@@ -624,28 +624,23 @@ void TopBar::updateDisplayUnit() {
         int displayUnitPrev = nDisplayUnit;
         nDisplayUnit = walletModel->getOptionsModel()->getDisplayUnit();
         if (displayUnitPrev != nDisplayUnit)
-            updateBalances(walletModel->getBalance(), walletModel->getUnconfirmedBalance(), walletModel->getImmatureBalance(),
+            updateBalances(walletModel->getBalance(), walletModel->getLockedBalance(), walletModel->getUnconfirmedBalance(), walletModel->getImmatureBalance(),
                            walletModel->getZerocoinBalance(), walletModel->getUnconfirmedZerocoinBalance(), walletModel->getImmatureZerocoinBalance(),
                            walletModel->getWatchBalance(), walletModel->getWatchUnconfirmedBalance(), walletModel->getWatchImmatureBalance(),
                            walletModel->getDelegatedBalance(), walletModel->getColdStakedBalance());
     }
 }
 
-void TopBar::updateBalances(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
+void TopBar::updateBalances(const CAmount& balance, const CAmount& lockedBalance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                             const CAmount& zerocoinBalance, const CAmount& unconfirmedZerocoinBalance, const CAmount& immatureZerocoinBalance,
                             const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance,
                             const CAmount& delegatedBalance, const CAmount& coldStakedBalance) {
 
-    // Locked balance. //TODO move this to the signal properly in the future..
-    CAmount nLockedBalance = 0;
-    if (walletModel) {
-        nLockedBalance = walletModel->getLockedBalance();
-    }
     ui->labelTitle1->setText(tr("Available"));
 
     /* ZNZ Total */
     // ZENZO excludes "locked" ZNZ from the Available balance to improve UX
-    CAmount znzAvailableBalance = balance - nLockedBalance;
+    CAmount znzAvailableBalance = balance - lockedBalance;
     QString totalZNZ = GUIUtil::formatBalance(znzAvailableBalance, nDisplayUnit);
 
     /* ZNZ Available Balance */
@@ -656,7 +651,7 @@ void TopBar::updateBalances(const CAmount& balance, const CAmount& unconfirmedBa
 
     /* ZENZO merged "Pending" and "Immature" into a single GUI balance, to simplify the experience for the user */
     // Locked
-    ui->labelLockedZNZ->setText(GUIUtil::formatBalance(nLockedBalance, nDisplayUnit));
+    ui->labelLockedZNZ->setText(GUIUtil::formatBalance(lockedBalance, nDisplayUnit));
     // Pending + Immature
     ui->labelPendingZNZ->setText(GUIUtil::formatBalance((unconfirmedBalance + immatureBalance), nDisplayUnit));
 }

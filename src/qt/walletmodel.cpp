@@ -32,7 +32,7 @@
 WalletModel::WalletModel(CWallet* wallet, OptionsModel* optionsModel, QObject* parent) : QObject(parent), wallet(wallet), optionsModel(optionsModel), addressTableModel(0),
                                                                                          transactionTableModel(0),
                                                                                          recentRequestsTableModel(0),
-                                                                                         cachedBalance(0), cachedUnconfirmedBalance(0), cachedImmatureBalance(0),
+                                                                                         cachedBalance(0), cachedLockedBalance(0), cachedUnconfirmedBalance(0), cachedImmatureBalance(0),
                                                                                          cachedZerocoinBalance(0), cachedUnconfirmedZerocoinBalance(0), cachedImmatureZerocoinBalance(0),
                                                                                          cachedEncryptionStatus(Unencrypted),
                                                                                          cachedNumBlocks(0)
@@ -229,7 +229,7 @@ void WalletModel::emitBalanceChanged()
 {
     // TODO: Improve all of this..
     // Force update of UI elements even when no values have changed
-    Q_EMIT balanceChanged(cachedBalance, cachedUnconfirmedBalance, cachedImmatureBalance,
+    Q_EMIT balanceChanged(cachedBalance, cachedLockedBalance, cachedUnconfirmedBalance, cachedImmatureBalance,
                         cachedZerocoinBalance, cachedUnconfirmedZerocoinBalance, cachedImmatureZerocoinBalance,
                         cachedWatchOnlyBalance, cachedWatchUnconfBalance, cachedWatchImmatureBalance,
                         cachedDelegatedBalance, cachedColdStakedBalance);
@@ -241,6 +241,7 @@ void WalletModel::checkBalanceChanged()
     if (!lockMain) return;
 
     CAmount newBalance = getBalance();
+    CAmount newLockedBalance = getLockedBalance();
     CAmount newUnconfirmedBalance = getUnconfirmedBalance();
     CAmount newImmatureBalance = getImmatureBalance();
     CAmount newZerocoinBalance = getZerocoinBalance();
@@ -260,11 +261,12 @@ void WalletModel::checkBalanceChanged()
         newWatchImmatureBalance = getWatchImmatureBalance();
     }
 
-    if (cachedBalance != newBalance || cachedUnconfirmedBalance != newUnconfirmedBalance || cachedImmatureBalance != newImmatureBalance ||
+    if (cachedBalance != newBalance || cachedLockedBalance != newLockedBalance || cachedUnconfirmedBalance != newUnconfirmedBalance || cachedImmatureBalance != newImmatureBalance ||
         cachedZerocoinBalance != newZerocoinBalance || cachedUnconfirmedZerocoinBalance != newUnconfirmedZerocoinBalance || cachedImmatureZerocoinBalance != newImmatureZerocoinBalance ||
         cachedWatchOnlyBalance != newWatchOnlyBalance || cachedWatchUnconfBalance != newWatchUnconfBalance || cachedWatchImmatureBalance != newWatchImmatureBalance ||
         cachedTxLocks != nCompleteTXLocks || cachedDelegatedBalance != newDelegatedBalance || cachedColdStakedBalance != newColdStakedBalance) {
         cachedBalance = newBalance;
+        cachedLockedBalance = newLockedBalance;
         cachedUnconfirmedBalance = newUnconfirmedBalance;
         cachedImmatureBalance = newImmatureBalance;
         cachedZerocoinBalance = newZerocoinBalance;
@@ -276,7 +278,7 @@ void WalletModel::checkBalanceChanged()
         cachedWatchImmatureBalance = newWatchImmatureBalance;
         cachedColdStakedBalance = newColdStakedBalance;
         cachedDelegatedBalance = newDelegatedBalance;
-        Q_EMIT balanceChanged(newBalance, newUnconfirmedBalance, newImmatureBalance,
+        Q_EMIT balanceChanged(newBalance, newLockedBalance, newUnconfirmedBalance, newImmatureBalance,
                             newZerocoinBalance, newUnconfirmedZerocoinBalance, newImmatureZerocoinBalance,
                             newWatchOnlyBalance, newWatchUnconfBalance, newWatchImmatureBalance,
                             newDelegatedBalance, newColdStakedBalance);
