@@ -50,9 +50,6 @@ static const int MAX_URI_LENGTH = 255;
 /* QRCodeDialog -- size of exported QR Code image */
 #define EXPORT_IMAGE_SIZE 256
 
-/* Number of frames in spinner animation */
-#define SPINNER_FRAMES 35
-
 #define QAPP_ORG_NAME "Zenzo"
 #define QAPP_ORG_DOMAIN "zenzo.io"
 #define QAPP_APP_NAME_DEFAULT "Zenzo-Qt"
