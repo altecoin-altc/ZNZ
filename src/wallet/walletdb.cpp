@@ -923,7 +923,11 @@ void ThreadFlushWalletDB(const std::string& strFile)
                         bitdb.CloseDb(strFile);
                         bitdb.CheckpointLSN(strFile);
 
-                        bitdb.mapFileUseCount.erase(mi++);
+                        // The below line is commented out, because the above line (CheckpointLSN) should have never had
+                        // lsn_reset in it. lsn_reset should only be called on the final flush when the wallet is closed.
+                        // This is handled in CDB::Flush, which has a while loop that also does in the right place what
+                        // the intention of the below line was.
+                        // bitdb.mapFileUseCount.erase(mi++);
                         LogPrint("db", "Flushed wallet.dat %dms\n", GetTimeMillis() - nStart);
                     }
                 }
@@ -969,6 +973,8 @@ bool BackupWallet(const CWallet& wallet, const boost::filesystem::path& strDest,
                 // Flush log data to the dat file
                 bitdb.CloseDb(wallet.strWalletFile);
                 bitdb.CheckpointLSN(wallet.strWalletFile);
+                printf("Issuing lsn_reset for backup file portability.\n");
+                bitdb.lsn_reset(wallet.strWalletFile); 
                 bitdb.mapFileUseCount.erase(wallet.strWalletFile);
 
                 // Copy wallet.dat

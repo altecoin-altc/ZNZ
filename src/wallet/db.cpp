@@ -220,6 +220,14 @@ void CDBEnv::CheckpointLSN(const std::string& strFile)
     dbenv->txn_checkpoint(0, 0, 0);
     if (fMockDb)
         return;
+    // The below line is commented out. LSN reset is not necessary and improper. Txn_checkpoint alone will flush in memory log to the database file.
+    // This was causing extraordinary long flush times for large wallets.
+    // Flush is called when the wallet is closed upon client shutdown, and the below line is included there to ensure portability of wallet.dat.
+    //dbenv->lsn_reset(strFile.c_str(), 0);
+}
+
+void CDBEnv::lsn_reset(const std::string& strFile)
+{
     dbenv->lsn_reset(strFile.c_str(), 0);
 }
 
