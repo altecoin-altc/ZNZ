@@ -70,6 +70,15 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet* 
                 sub.address = CBitcoinAddress(address).ToString();
                 sub.credit = nNet;
             }
+            /*
+                If this stake reward's net is higher than the the current stake reward,
+                then this block's entire reward (Stake + MN) went to us.
+
+                We call this a "SuperStake"
+            */
+           if (nNet / COIN > 3.15) {
+               sub.type = TransactionRecord::SuperStake;
+           }
         } else {
             //Masternode reward
             CTxDestination destMN;
@@ -482,6 +491,7 @@ void TransactionRecord::updateStatus(const CWalletTx& wtx)
     // For generated transactions, determine maturity
     else if (type == TransactionRecord::Generated ||
             type == TransactionRecord::StakeMint ||
+            type == TransactionRecord::SuperStake ||
             type == TransactionRecord::StakeZPIV ||
             type == TransactionRecord::MNReward ||
             type == TransactionRecord::StakeDelegated ||
@@ -535,7 +545,7 @@ int TransactionRecord::getOutputIndex() const
 
 bool TransactionRecord::isCoinStake() const
 {
-    return (type == TransactionRecord::StakeMint || type == TransactionRecord::Generated || type == TransactionRecord::StakeZPIV);
+    return (type == TransactionRecord::StakeMint || type == TransactionRecord::SuperStake || type == TransactionRecord::Generated || type == TransactionRecord::StakeZPIV);
 }
 
 bool TransactionRecord::isAnyColdStakingType() const
