@@ -436,6 +436,8 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
             UpdateTime(pblock, pindexPrev);
         pblock->nBits = GetNextWorkRequired(pindexPrev, pblock);
         pblock->nNonce = 0;
+        // TODO: Add a hardfork condition, we want to remove the accumulators at block version 5
+        pblock->nAccumulatorCheckpoint = pindexPrev->nAccumulatorCheckpoint;
 
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
