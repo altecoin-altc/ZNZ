@@ -41,7 +41,7 @@
 #define DBG( x )
 #endif
 
-//PIVX only features
+// ZENZO only features
 
 extern bool fMasterNode;
 extern bool fLiteMode;
