@@ -479,7 +479,7 @@ bool CMasternodeBroadcast::CheckSignature() const
                             );
 
     if(!CMessageSigner::VerifyMessage(pubKeyCollateralAddress, vchSig, strMessage, strError)) {
-        // VerifyMessaged failed... let's check if this MN is using the old signature message format
+        // VerifyMessage failed... let's check if this MN is using the old signature message format
         if(!CMessageSigner::VerifyMessage(pubKeyCollateralAddress, vchSig, GetOldStrMessage(), strError))
             return error("%s : VerifyMessage (nMessVersion=%d) failed: %s", __func__, nMessVersion, strError);
     }

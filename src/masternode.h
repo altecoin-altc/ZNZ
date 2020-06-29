@@ -316,7 +316,7 @@ public:
     bool Sign(const CKey& key, const CPubKey& pubKey, const bool fNewSigs);
     bool Sign(const std::string strSignKey, const bool fNewSigs);
     bool CheckSignature() const;
-    // for compatability with pre-v2.0 masternode messages
+    // for compatibility with pre-v2.0 masternode messages
     std::string GetOldStrMessage() const;
 
     ADD_SERIALIZE_METHODS;
