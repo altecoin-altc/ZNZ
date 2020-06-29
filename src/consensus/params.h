@@ -61,7 +61,7 @@ struct Params {
     uint256 ProofOfStakeLimit(const bool fV2) const { return fV2 ? posLimitV2 : posLimitV1; }
     bool MoneyRange(const CAmount& nValue) const { return (nValue >= 0 && nValue <= nMaxMoneyOut); }
     bool IsMessSigV2(const int nHeight) const { return nHeight >= height_start_MessSignaturesV2; }
-    bool IsPastRHFBlock(const int nHeight) const {return nHeight >height_RHF; }
+    bool IsPastRHFBlock(const int nHeight) const {return nHeight >= height_RHF; }
     bool IsTimeProtocolV2(const int nHeight) const { return nHeight >= height_start_TimeProtoV2; }
     bool IsStakeModifierV2(const int nHeight) const { return nHeight >= height_start_StakeModifierV2; }
 

@@ -244,11 +244,13 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
                 pindexNew->nStatus = diskindex.nStatus;
                 pindexNew->nTx = diskindex.nTx;
 
-                //zerocoin
+                // Zerocoin
+                // is 'nAccumulatorCheckpoint' needed on version 5 blocks?
+                // Can we add 'if (pindexNew->nVersion == 4)' here?
                 pindexNew->nAccumulatorCheckpoint = diskindex.nAccumulatorCheckpoint;
                 pindexNew->mapZerocoinSupply = diskindex.mapZerocoinSupply;
 
-                //Proof Of Stake
+                // Proof Of Stake
                 pindexNew->nMoneySupply = diskindex.nMoneySupply;
                 pindexNew->nFlags = diskindex.nFlags;
                 pindexNew->vStakeModifier = diskindex.vStakeModifier;
