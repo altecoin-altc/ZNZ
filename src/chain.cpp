@@ -71,7 +71,7 @@ CBlockIndex::CBlockIndex(const CBlock& block):
         nNonce{block.nNonce}
 {
     ClearMapZcSupply();
-    if(block.nVersion > 3 && block.nVersion < 7)
+    if (block.nVersion == 4)
         nAccumulatorCheckpoint = block.nAccumulatorCheckpoint;
     if (block.IsProofOfStake())
         SetProofOfStake();
@@ -122,7 +122,7 @@ CBlockHeader CBlockIndex::GetBlockHeader() const
     block.nTime = nTime;
     block.nBits = nBits;
     block.nNonce = nNonce;
-    if (nVersion > 3 && nVersion < 7) block.nAccumulatorCheckpoint = nAccumulatorCheckpoint;
+    if (nVersion == 4) block.nAccumulatorCheckpoint = nAccumulatorCheckpoint;
     return block;
 }
 

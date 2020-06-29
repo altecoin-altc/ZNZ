@@ -124,11 +124,15 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
 
     // Make sure to create the correct block version
     const Consensus::Params& consensus = Params().GetConsensus();
-    bool isAfterRHF = Params().GetConsensus().IsPastRHFBlock(nHeight);
-    if(isAfterRHF)
-        pblock->nVersion = 7;       //!> Removes accumulator checkpoints
+    bool isAfterRHF = consensus.IsPastRHFBlock(nHeight);
+    if (nHeight < consensus.height_start_ZC)
+        pblock->nVersion = 3; // Pre-Zerocoin activation
+    else if (!isAfterRHF)
+        pblock->nVersion = 4; // Post-Zerocoin activation
     else
-        pblock->nVersion = 4;
+        pblock->nVersion = 5; // The reverse hardfork, complete zerocoin deactivation and more.
+                              // (Activations & Removals documented in primitives/block.h)
+
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
     if (Params().IsRegTestNet()) {
@@ -391,8 +395,8 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
             UpdateTime(pblock, pindexPrev);
         pblock->nBits = GetNextWorkRequired(pindexPrev, pblock);
         pblock->nNonce = 0;
-        // TODO: Add a hardfork condition, we want to remove the accumulators at block version 5    
-        pblock->nAccumulatorCheckpoint = pindexPrev->nAccumulatorCheckpoint;
+        if (pblock->nVersion == 4) // Accumulators only exist on version 4 blocks
+            pblock->nAccumulatorCheckpoint = pindexPrev->nAccumulatorCheckpoint;
 
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 

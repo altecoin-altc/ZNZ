@@ -328,9 +328,9 @@ public:
             READWRITE(nTime);
             READWRITE(nBits);
             READWRITE(nNonce);
-            if(this->nVersion > 3) {
+            if (this->nVersion > 3) {
                 READWRITE(mapZerocoinSupply);
-                if(this->nVersion < 7) READWRITE(nAccumulatorCheckpoint);
+                if (this->nVersion == 4) READWRITE(nAccumulatorCheckpoint);
             }
 
         } else {
@@ -381,7 +381,7 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        if (nVersion > 3 && nVersion < 7)
+        if (nVersion == 4)
             block.nAccumulatorCheckpoint = nAccumulatorCheckpoint;
         return block.GetHash();
     }
