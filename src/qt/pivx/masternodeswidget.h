@@ -13,7 +13,7 @@
 #include <QTimer>
 #include <atomic>
 
-class PIVXGUI;
+class ZENZOGUI;
 
 namespace Ui {
 class MasterNodesWidget;
@@ -29,7 +29,7 @@ class MasterNodesWidget : public PWidget
 
 public:
 
-    explicit MasterNodesWidget(PIVXGUI *parent = nullptr);
+    explicit MasterNodesWidget(ZENZOGUI *parent = nullptr);
     ~MasterNodesWidget();
 
     void loadWalletModel() override;

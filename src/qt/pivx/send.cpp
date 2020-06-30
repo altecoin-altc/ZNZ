@@ -18,7 +18,7 @@
 #include "script/standard.h"
 #include "openuridialog.h"
 
-SendWidget::SendWidget(PIVXGUI* parent) :
+SendWidget::SendWidget(ZENZOGUI* parent) :
     PWidget(parent),
     ui(new Ui::send),
     coinIcon(new QPushButton()),
@@ -581,8 +581,8 @@ void SendWidget::onContactMultiClicked(){
             inform(tr("Invalid address"));
             return;
         }
-        CBitcoinAddress pivAdd = CBitcoinAddress(address.toStdString());
-        if (walletModel->isMine(pivAdd)) {
+        CBitcoinAddress znzAdd = CBitcoinAddress(address.toStdString());
+        if (walletModel->isMine(znzAdd)) {
             inform(tr("Cannot store your own address as contact"));
             return;
         }
@@ -602,7 +602,7 @@ void SendWidget::onContactMultiClicked(){
             if (label == dialog->getLabel()) {
                 return;
             }
-            if (walletModel->updateAddressBookLabels(pivAdd.Get(), dialog->getLabel().toStdString(),
+            if (walletModel->updateAddressBookLabels(znzAdd.Get(), dialog->getLabel().toStdString(),
                     AddressBook::AddressBookPurpose::SEND)) {
                 inform(tr("New Contact Stored"));
             } else {

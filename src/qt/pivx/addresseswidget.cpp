@@ -56,7 +56,7 @@ public:
 };
 
 
-AddressesWidget::AddressesWidget(PIVXGUI* parent) :
+AddressesWidget::AddressesWidget(ZENZOGUI* parent) :
     PWidget(parent),
     ui(new Ui::AddressesWidget)
 {
@@ -191,8 +191,8 @@ void AddressesWidget::onStoreContactClicked(){
             return;
         }
 
-        CBitcoinAddress pivAdd = CBitcoinAddress(address.toUtf8().constData());
-        if (walletModel->isMine(pivAdd)) {
+        CBitcoinAddress znzAdd = CBitcoinAddress(address.toUtf8().constData());
+        if (walletModel->isMine(znzAdd)) {
             setCssEditLine(ui->lineEditAddress, false, true);
             inform(tr("Cannot store your own address as contact"));
             return;
@@ -205,8 +205,8 @@ void AddressesWidget::onStoreContactClicked(){
             return;
         }
 
-        if (walletModel->updateAddressBookLabels(pivAdd.Get(), label.toUtf8().constData(),
-                pivAdd.IsStakingAddress() ? AddressBook::AddressBookPurpose::COLD_STAKING_SEND : AddressBook::AddressBookPurpose::SEND)
+        if (walletModel->updateAddressBookLabels(znzAdd.Get(), label.toUtf8().constData(),
+                znzAdd.IsStakingAddress() ? AddressBook::AddressBookPurpose::COLD_STAKING_SEND : AddressBook::AddressBookPurpose::SEND)
                 ) {
             ui->lineEditAddress->setText("");
             ui->lineEditName->setText("");

@@ -13,7 +13,7 @@
 #include "qt/pivx/qtutils.h"
 #include <QDir>
 
-SettingsInformationWidget::SettingsInformationWidget(PIVXGUI* _window,QWidget *parent) :
+SettingsInformationWidget::SettingsInformationWidget(ZENZOGUI* _window,QWidget *parent) :
     PWidget(_window,parent),
     ui(new Ui::SettingsInformationWidget)
 {

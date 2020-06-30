@@ -37,15 +37,15 @@ class WalletModel;
   PIVX GUI main class. This class represents the main window of the PIVX UI. It communicates with both the client and
   wallet models to give the user an up-to-date view of the current core state.
 */
-class PIVXGUI : public QMainWindow
+class ZENZOGUI : public QMainWindow
 {
     Q_OBJECT
 
 public:
     static const QString DEFAULT_WALLET;
 
-    explicit PIVXGUI(const NetworkStyle* networkStyle, QWidget* parent = 0);
-    ~PIVXGUI();
+    explicit ZENZOGUI(const NetworkStyle* networkStyle, QWidget* parent = 0);
+    ~ZENZOGUI();
 
     /** Set the client model.
         The client model represents the part of the core that communicates with the P2P network, and is wallet-agnostic.

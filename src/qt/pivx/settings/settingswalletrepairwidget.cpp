@@ -10,7 +10,7 @@
 #include <startoptionsmain.h>
 #include "askpassphrasedialog.h"
 
-SettingsWalletRepairWidget::SettingsWalletRepairWidget(PIVXGUI* _window, QWidget *parent) :
+SettingsWalletRepairWidget::SettingsWalletRepairWidget(ZENZOGUI* _window, QWidget *parent) :
     PWidget(_window, parent),
     ui(new Ui::SettingsWalletRepairWidget)
 {
@@ -267,7 +267,7 @@ void SettingsWalletRepairWidget::buildParameterlist(QString arg)
     // Append repair parameter to command line.
     args.append(arg);
 
-    // Send command-line arguments to PIVXGUI::handleRestart()
+    // Send command-line arguments to ZENZOGUI::handleRestart()
     Q_EMIT handleRestart(args);
 }
 

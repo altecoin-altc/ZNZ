@@ -11,7 +11,7 @@
 #include "qt/pivx/snackbar.h"
 
 class WalletModel;
-class PIVXGUI;
+class ZENZOGUI;
 
 namespace Ui {
 class RequestDialog;
