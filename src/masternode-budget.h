@@ -365,12 +365,12 @@ public:
 
     // Verify and vote on finalized budget
     void CheckAndVote();
-    //total pivx paid out by this budget
+    // Total ZENZO paid out by this budget
     CAmount GetTotalPayout();
-    //vote on this finalized budget as a masternode
+    // Vote on this finalized budget as a masternode
     void SubmitVote();
 
-    //checks the hashes to make sure we know about them
+    // Checks the hashes to make sure we know about them
     std::string GetStatus();
 
     uint256 GetHash()
@@ -386,7 +386,7 @@ public:
 
     ADD_SERIALIZE_METHODS;
 
-    //for saving to the serialized db
+    // For saving to the serialized db
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
     {

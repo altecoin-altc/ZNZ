@@ -16,7 +16,7 @@
 std::vector<CSporkDef> sporkDefs = {
     MAKE_SPORK_DEF(SPORK_2_SWIFTTX,                         0),             // ON
     MAKE_SPORK_DEF(SPORK_3_SWIFTTX_BLOCK_FILTERING,         0),             // ON
-    MAKE_SPORK_DEF(SPORK_5_MAX_VALUE,                       1000),          // 1000 PIV
+    MAKE_SPORK_DEF(SPORK_5_MAX_VALUE,                       1000),          // 1000 ZENZO
     MAKE_SPORK_DEF(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT,  4070908800ULL), // OFF
     MAKE_SPORK_DEF(SPORK_9_MASTERNODE_BUDGET_ENFORCEMENT,   4070908800ULL), // OFF
     MAKE_SPORK_DEF(SPORK_13_ENABLE_SUPERBLOCKS,             4070908800ULL), // OFF
@@ -43,7 +43,7 @@ void CSporkManager::Clear()
     mapSporksActive.clear();
 }
 
-// PIVX: on startup load spork values from previous session if they exist in the sporkDB
+// ZENZO: on startup load spork values from previous session if they exist in the sporkDB
 void CSporkManager::LoadSporksFromDB()
 {
     for (const auto& sporkDef : sporkDefs) {
@@ -148,7 +148,7 @@ void CSporkManager::ProcessSpork(CNode* pfrom, std::string& strCommand, CDataStr
         }
         spork.Relay();
 
-        // PIVX: add to spork database.
+        // ZENZO: add to spork database.
         pSporkDB->WriteSpork(spork.nSporkID, spork);
     }
     if (strCommand == "getsporks") {

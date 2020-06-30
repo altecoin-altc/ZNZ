@@ -33,7 +33,7 @@ bool fSendFreeTransactions = false;
 bool fPayAtLeastCustomFee = true;
 
 /**
- * Fees smaller than this (in upiv) are considered zero fee (for transaction creation)
+ * Fees smaller than this (in uZNZ) are considered zero fee (for transaction creation)
  * We are ~100 times smaller then bitcoin now (2015-06-23), set minTxFee 10 times higher
  * so it's still 10 times lower comparing to bitcoin.
  * Override with -mintxfee
@@ -1972,7 +1972,7 @@ int CWallet::ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate, b
                     ret++;
             }
 
-            //If this is a zapwallettx, need to readd zpiv
+            // If this is a zapwallettx, need to read zZNZ
             if (fCheckZPIV && pindex->nHeight >= Params().GetConsensus().height_start_ZC) {
                 std::list<CZerocoinMint> listMints;
                 BlockToZerocoinMintList(block, listMints, true);
@@ -2640,7 +2640,7 @@ bool CWallet::GetBudgetSystemCollateralTX(CWalletTx& tx, uint256 hash, bool useI
     CAmount nFeeRet = 0;
     std::string strFail = "";
     std::vector<std::pair<CScript, CAmount> > vecSend;
-    vecSend.push_back(std::make_pair(scriptChange, BUDGET_FEE_TX_OLD)); // Old 50 PIV collateral
+    vecSend.push_back(std::make_pair(scriptChange, BUDGET_FEE_TX_OLD)); // Old 50 ZNZ collateral
 
     CCoinControl* coinControl = NULL;
     bool success = CreateTransaction(vecSend, tx, reservekey, nFeeRet, strFail, coinControl, ALL_COINS, useIX, (CAmount)0);
@@ -2663,7 +2663,7 @@ bool CWallet::GetBudgetFinalizationCollateralTX(CWalletTx& tx, uint256 hash, boo
     CAmount nFeeRet = 0;
     std::string strFail = "";
     std::vector<std::pair<CScript, CAmount> > vecSend;
-    vecSend.push_back(std::make_pair(scriptChange, BUDGET_FEE_TX)); // New 5 PIV collateral
+    vecSend.push_back(std::make_pair(scriptChange, BUDGET_FEE_TX)); // New 5 ZNZ collateral
 
     CCoinControl* coinControl = NULL;
     bool success = CreateTransaction(vecSend, tx, reservekey, nFeeRet, strFail, coinControl, ALL_COINS, useIX, (CAmount)0);
@@ -2800,7 +2800,7 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, CAmount> >&
                 if (nChange > 0) {
                     // Fill a vout to ourself
                     // TODO: pass in scriptChange instead of reservekey so
-                    // change transaction isn't always pay-to-pivx-address
+                    // change transaction isn't always pay-to-ZENZO-address
                     CScript scriptChange;
                     bool combineChange = false;
 

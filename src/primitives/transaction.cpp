@@ -175,7 +175,7 @@ bool CTransaction::HasZerocoinMintOutputs() const
 
 bool CTransaction::HasZerocoinPublicSpendInputs() const
 {
-    // The wallet only allows publicSpend inputs in the same tx and not a combination between piv and zpiv
+    // The wallet only allows publicSpend inputs in the same tx and not a combination between ZNZ and zZNZ
     for(const CTxIn& txin : vin) {
         if (txin.IsZerocoinPublicSpend())
             return true;
@@ -235,7 +235,7 @@ CAmount CTransaction::GetValueOut() const
     CAmount nValueOut = 0;
     for (std::vector<CTxOut>::const_iterator it(vout.begin()); it != vout.end(); ++it)
     {
-        // PIVX: previously MoneyRange() was called here. This has been replaced with negative check and boundary wrap check.
+        // ZENZO: previously MoneyRange() was called here. This has been replaced with negative check and boundary wrap check.
         if (it->nValue < 0)
             throw std::runtime_error("CTransaction::GetValueOut() : value out of range : less than 0");
 

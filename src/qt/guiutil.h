@@ -42,7 +42,7 @@ public:
     GUIException(const std::string &message) : message(message) {}
 };
 
-/** Utility functions used by the PIVX Qt UI.
+/** Utility functions used by the ZENZO Qt UI.
  */
 namespace GUIUtil
 {
@@ -133,7 +133,7 @@ bool isObscured(QWidget* w);
 // Open debug.log
 bool openDebugLogfile();
 
-// Open pivx.conf
+// Open zenzo.conf
 bool openConfigfile();
 
 // Open masternode.conf
