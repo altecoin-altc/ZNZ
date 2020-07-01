@@ -490,17 +490,63 @@ CBlockIndex* LastCommonAncestor(CBlockIndex* pa, CBlockIndex* pb)
 
 /** Update pindexLastCommonBlock and add not-in-flight missing successors to vBlocks, until it has
  *  at most count entries. */
-void FindNextBlocksToDownload(NodeId nodeid, unsigned int count, std::vector<CBlockIndex*>& vBlocks, NodeId& nodeStaller)
+void FindNextBlocksToDownload(CNode* pnode, unsigned int count, std::vector<CBlockIndex*>& vBlocks, NodeId& nodeStaller)
 {
     if (count == 0)
         return;
 
+    auto nodeid = pnode->GetId();
     vBlocks.reserve(vBlocks.size() + count);
     CNodeState* state = State(nodeid);
     assert(state != NULL);
 
     // Make sure pindexBestKnownBlock is up to date, we'll need it.
     ProcessBlockAvailability(nodeid);
+
+    // A special case to to do parallel initial download
+    if ((state->pindexBestKnownBlock == NULL) && IsInitialBlockDownload() && (pindexBestHeader != nullptr)) {
+        auto pIndexWalk = pindexBestHeader;
+
+        // Keep the last blocks for selected sync peer
+        int max_height = pindexBestHeader->nHeight - MAX_BLOCKS_IN_TRANSIT_PER_PEER;
+        max_height = std::min<int>(max_height, pnode->nStartingHeight);
+
+        // Minimize the work done on walk till the oldest not fetched blocks.
+        // There is little sense to check blocks outside of the range with fully loaded outbound peers.
+        max_height = std::min<int>(max_height, chainActive.Tip()->nHeight + (MAX_BLOCKS_IN_TRANSIT_PER_PEER * 16));
+
+        // Make sure we fetch the oldest blocks first to properly reflect our progress.
+        std::deque<CBlockIndex*> to_fetch;
+
+        for (; pIndexWalk != nullptr; pIndexWalk = pIndexWalk->pprev) {
+            if (pIndexWalk->nHeight > max_height) {
+                // optimize skip
+                continue;
+            }
+
+            if (chainActive.Contains(pIndexWalk)) {
+                break;
+            }
+
+            if (!pIndexWalk->IsValid(BLOCK_VALID_TREE)) {
+                // This should never happen by fact
+                break;
+            }
+
+            if (!(pIndexWalk->nStatus & BLOCK_HAVE_DATA) &&
+                (mapBlocksInFlight.find(pIndexWalk->GetBlockHash()) == mapBlocksInFlight.end())
+            ) {
+                if (to_fetch.size() >= count) {
+                    to_fetch.pop_front();
+                }
+
+                to_fetch.push_back(pIndexWalk);
+            }
+        }
+
+        std::copy(to_fetch.begin(), to_fetch.end(), std::back_inserter(vBlocks));
+        return;
+    }
 
     if (state->pindexBestKnownBlock == NULL || state->pindexBestKnownBlock->nChainWork < chainActive.Tip()->nChainWork) {
         // This peer has nothing interesting.
@@ -6249,7 +6295,7 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
         if (!pto->fDisconnect && !pto->fClient && fFetch && state.nBlocksInFlight < MAX_BLOCKS_IN_TRANSIT_PER_PEER) {
             std::vector<CBlockIndex*> vToDownload;
             NodeId staller = -1;
-            FindNextBlocksToDownload(pto->GetId(), MAX_BLOCKS_IN_TRANSIT_PER_PEER - state.nBlocksInFlight, vToDownload, staller);
+            FindNextBlocksToDownload(pto, MAX_BLOCKS_IN_TRANSIT_PER_PEER - state.nBlocksInFlight, vToDownload, staller);
             for (CBlockIndex* pindex : vToDownload) {
                 vGetData.push_back(CInv(MSG_BLOCK, pindex->GetBlockHash()));
                 MarkBlockAsInFlight(pto->GetId(), pindex->GetBlockHash(), pindex);
