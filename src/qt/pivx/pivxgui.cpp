@@ -486,8 +486,20 @@ void ZENZOGUI::goToSettings(){
     showTop(settingsWidget);
 }
 
+void ZENZOGUI::goToSettingsInfo()
+{
+    navMenu->selectSettings();
+    settingsWidget->showInformation();
+    goToSettings();
+}
+
 void ZENZOGUI::goToReceive(){
     showTop(receiveWidget);
+}
+
+void ZENZOGUI::openNetworkMonitor()
+{
+    settingsWidget->openNetworkMonitor();
 }
 
 void ZENZOGUI::showTop(QWidget* view){

@@ -127,6 +127,8 @@ TopBar::TopBar(ZENZOGUI* _mainWindow, QWidget *parent) :
     connect(ui->pushButtonHDEnabled, SIGNAL(Mouse_Pressed()), this, SLOT(onHDEnabledClicked()));
     connect(ui->pushButtonSync, &ExpandableButton::Mouse_HoverLeave, this, &TopBar::refreshProgressBarSize);
     connect(ui->pushButtonSync, &ExpandableButton::Mouse_Hover, this, &TopBar::refreshProgressBarSize);
+    connect(ui->pushButtonSync, &ExpandableButton::Mouse_Pressed, [this](){window->goToSettingsInfo();});
+    connect(ui->pushButtonConnection, &ExpandableButton::Mouse_Pressed, [this](){window->openNetworkMonitor();});
     connect(ui->pushButtonHardfork, &ExpandableButton::Mouse_HoverLeave, this, &TopBar::refreshHardforkSize);
     connect(ui->pushButtonHardfork, &ExpandableButton::Mouse_Hover, this, &TopBar::refreshHardforkSize);
 
@@ -150,7 +152,6 @@ void TopBar::onThemeClicked(){
 
     Q_EMIT themeChanged(lightTheme);
 }
-
 
 void TopBar::onBtnLockClicked(){
     if(walletModel) {
