@@ -1860,6 +1860,7 @@ bool IsInitialBlockDownload()
 
 bool fLargeWorkForkFound = false;
 bool fLargeWorkInvalidChainFound = false;
+bool fBlockDatabaseForkFound = false;
 CBlockIndex *pindexBestForkTip = NULL, *pindexBestForkBase = NULL;
 
 static void AlertNotify(const std::string& strMessage, bool fThread)
@@ -4317,6 +4318,7 @@ bool static LoadBlockIndexDB(std::string& strError)
         CBlockIndex* pindex = item.second;
         vSortedByHeight.push_back(std::make_pair(pindex->nHeight, pindex));
     }
+    const Checkpoints::MapCheckpoints& checkpoints = *Params().Checkpoints().mapCheckpoints;
     std::sort(vSortedByHeight.begin(), vSortedByHeight.end());
     for (const PAIRTYPE(int, CBlockIndex*) & item : vSortedByHeight) {
         // Stop if shutdown was requested
@@ -4342,9 +4344,33 @@ bool static LoadBlockIndexDB(std::string& strError)
             pindexBestInvalid = pindex;
         if (pindex->pprev)
             pindex->BuildSkip();
-        if (pindex->IsValid(BLOCK_VALID_TREE) && (pindexBestHeader == NULL || CBlockIndexWorkComparator()(pindexBestHeader, pindex)))
+        if (pindex->IsValid(BLOCK_VALID_TREE) && (pindexBestHeader == NULL || CBlockIndexWorkComparator()(pindexBestHeader, pindex))) {
             pindexBestHeader = pindex;
+
+            // Ensure every 25000-block interval is a valid checkpoint, otherwise our block database is an invalid fork
+            if (pindex->nHeight % 25000 == 0) { // 25000-block interval
+                // does the current block match the checkpoint?
+                if (!Checkpoints::CheckBlock(pindex->nHeight, pindex->GetBlockHash())) {
+                    fBlockDatabaseForkFound = true;
+                    LogPrintf("LoadBlockIndexDB() : Possible fork detected... (height: %i, hash: %i)\n", pindex->nHeight, pindex->GetBlockHash().ToString());
+                } else {
+                    // To avoid a non-activated chain branch from accidently setting off the alert, we revert the flag on good blocks
+                    fBlockDatabaseForkFound = false;
+                    LogPrintf("LoadBlockIndexDB() : No fork detected... (height: %i, hash: %i)\n", pindex->nHeight, pindex->GetBlockHash().ToString());
+                }
+            } else if (!fBlockDatabaseForkFound && pindex->nHeight > 875000) { // If higher than the last auto-checkpoint, check every block (Not the most optimized)
+                if (!Checkpoints::CheckBlock(pindex->nHeight, pindex->GetBlockHash())) {
+                    fBlockDatabaseForkFound = true;
+                    LogPrintf("LoadBlockIndexDB() : (>875000) Possible fork detected, but we have no more checkpoints to compare against, assuming irreversibly forked...\n");
+                }
+                // No need to revert the flag here, as we'll be spammed with "good" blocks that do not have a checkpoint paired
+            }
+        }
     }
+
+    // Dump a warning into the debug.log if a blockchain DB fork was found
+    if (fBlockDatabaseForkFound)
+        LogPrintf("LoadBlockIndexDB() : WARNING: Blockchain database fork found, doesn't match it's checkpoint\n");
 
     // Load block file info
     pblocktree->ReadLastBlockFile(nLastBlockFile);
@@ -4841,6 +4867,8 @@ std::string GetWarnings(std::string strFor)
         strStatusBar = strRPC = _("Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.");
     } else if (fLargeWorkInvalidChainFound) {
         strStatusBar = strRPC = _("Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.");
+    } else if (fBlockDatabaseForkFound) {
+        strStatusBar = strRPC = _("Warning: Your blockchain doesn't match the required checkpoints! You have forked, please resync ZENZO Core.");
     }
 
     if (strFor == "statusbar")

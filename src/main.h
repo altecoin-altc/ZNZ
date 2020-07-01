@@ -146,6 +146,7 @@ extern bool fVerifyingBlocks;
 
 extern bool fLargeWorkForkFound;
 extern bool fLargeWorkInvalidChainFound;
+extern bool fBlockDatabaseForkFound;
 
 extern std::map<uint256, int64_t> mapRejectedBlocks;
 
