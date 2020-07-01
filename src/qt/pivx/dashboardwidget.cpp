@@ -154,7 +154,7 @@ bool hasCharts = false;
 #endif
 
     if (hasCharts) {
-        ui->labelEmptyChart->setText(tr("You have no staking rewards"));
+        ui->labelEmptyChart->setText(tr("You have no rewards"));
     } else {
         ui->labelEmptyChart->setText(tr("No charts library"));
     }
@@ -385,7 +385,7 @@ void DashboardWidget::showHideEmptyChart(bool showEmpty, bool loading, bool forc
     ui->pushButtonMonth->setEnabled(invLoading);
     ui->pushButtonAll->setEnabled(invLoading);
     ui->pushButtonYear->setEnabled(invLoading);
-    ui->labelEmptyChart->setText(loading ? tr("Loading chart..") : tr("You have no staking rewards"));
+    ui->labelEmptyChart->setText(loading ? tr("Loading chart..") : tr("You have no rewards"));
 }
 
 void DashboardWidget::initChart() {
@@ -617,8 +617,8 @@ void DashboardWidget::onChartRefreshed() {
         axisX->clear();
     }
     // init sets
-    set0 = new QBarSet("ZNZ");
-    set1 = new QBarSet("ZNZ MN Rewards");
+    set0 = new QBarSet("Stakes");
+    set1 = new QBarSet("MN");
     set0->setColor(QColor(92,75,125));
     set1->setColor(QColor(176,136,255));
 
@@ -642,8 +642,8 @@ void DashboardWidget::onChartRefreshed() {
         setCssProperty(ui->labelAmountMNRewards, "text-stake-mnrewards-disable");
     }
     forceUpdateStyle({ui->labelAmountZNZ, ui->labelAmountMNRewards});
-    ui->labelAmountZNZ->setText(GUIUtil::formatBalance(chartData->totalPiv, nDisplayUnit));
-    ui->labelAmountMNRewards->setText(QString::number(chartData->totalMNRewards / COIN) +" ZNZ MN");
+    ui->labelAmountZNZ->setText(GUIUtil::formatBalance(chartData->totalPiv, nDisplayUnit) + " (Stakes)");
+    ui->labelAmountMNRewards->setText(GUIUtil::formatBalance(chartData->totalMNRewards, nDisplayUnit) + " (MN)");
 
     series->append(set0);
     if(hasMNRewards)
