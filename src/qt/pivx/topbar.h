@@ -79,6 +79,8 @@ private:
     QProgressBar* progressBar = nullptr;
 
     int nDisplayUnit = -1;
+    int lastBlockCount = 0;
+    std::vector<int> vBlocksPerSec;
     QTimer* timerStakingIcon = nullptr;
     QTimer* timerHDIcon = nullptr;
     bool isInitializing = true;

@@ -12,6 +12,7 @@
 
 #include "bitcoinunits.h"
 #include "clientmodel.h"
+#include "checkpoints.h"
 #include "qt/guiconstants.h"
 #include "qt/guiutil.h"
 #include "optionsmodel.h"
@@ -518,29 +519,51 @@ void TopBar::setNumBlocks(int count) {
     }
 
     if(needState) {
-        // Represent time from last generated block in human readable text
-        QDateTime lastBlockDate = clientModel->getLastBlockDate();
-        QDateTime currentDate = QDateTime::currentDateTime();
-        int secs = lastBlockDate.secsTo(currentDate);
+        // Currently using alot assumptions in this 'sync estimator'...
+        // (E.g: This assumes each calculation is at 1-sec intervals, when it slightly differs in reality)
+        int blocksPerSec = 0;
+        if (!vBlocksPerSec.empty())
+            blocksPerSec = count - lastBlockCount;
+        else
+            blocksPerSec = 50;
+        vBlocksPerSec.push_back(blocksPerSec);
+        lastBlockCount = count;
+
+        // We only store the last 10 calculations, no need for more than this
+        // The more blocks we store, the more accurate this calculation becomes
+        if (vBlocksPerSec.size() > 10) {
+            vBlocksPerSec.pop_back();
+        } else if (vBlocksPerSec.size() <= 2) {
+            // Not enough blocks to calculate an average with... Use a dummy number
+            blocksPerSec = 50;
+        }
+
+        // (If capable) Now calculate the average blocks over the stored blocks
+        if (vBlocksPerSec.size() > 2)
+            blocksPerSec = std::round(1 * std::accumulate(vBlocksPerSec.begin(), vBlocksPerSec.end(), 0) / vBlocksPerSec.size());
+
+        // Now to calculate the human-readable time-til-synced
+        long millisecsUntilSynced = (blocksPerSec * (Checkpoints::GetTotalBlocksEstimate() - count));
+        // 3600000 milliseconds in an hour
+        long hr = millisecsUntilSynced / 3600000;
+        millisecsUntilSynced = millisecsUntilSynced - 3600000 * hr;
+        // 60000 milliseconds in a minute
+        long min = millisecsUntilSynced / 60000;
+        millisecsUntilSynced = millisecsUntilSynced - 60000 * min;
+
+        // 1000 milliseconds in a second
+        long sec = millisecsUntilSynced / 1000;
+        millisecsUntilSynced = millisecsUntilSynced - 1000 * sec;
 
         QString timeBehindText;
-        const int HOUR_IN_SECONDS = 60 * 60;
-        const int DAY_IN_SECONDS = 24 * 60 * 60;
-        const int WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
-        const int YEAR_IN_SECONDS = 31556952; // Average length of year in Gregorian calendar
-        if (secs < 2 * DAY_IN_SECONDS) {
-            timeBehindText = tr("%n hour(s)", "", secs / HOUR_IN_SECONDS);
-        } else if (secs < 2 * WEEK_IN_SECONDS) {
-            timeBehindText = tr("%n day(s)", "", secs / DAY_IN_SECONDS);
-        } else if (secs < YEAR_IN_SECONDS) {
-            timeBehindText = tr("%n week(s)", "", secs / WEEK_IN_SECONDS);
+        if (vBlocksPerSec.size() <= 2) {
+            timeBehindText = tr("Starting Sync");
+        } else if (hr <= 0 && min <= 0 && sec < 10) {
+            timeBehindText = tr("Finishing Sync");
         } else {
-            int years = secs / YEAR_IN_SECONDS;
-            int remainder = secs % YEAR_IN_SECONDS;
-            timeBehindText = tr("%1 and %2").arg(tr("%n year(s)", "", years)).arg(
-                    tr("%n week(s)", "", remainder / WEEK_IN_SECONDS));
+            timeBehindText = tr("%1:%2:%3 left").arg(hr).arg(min).arg(sec);
         }
-        QString timeBehind(" behind. Scanning block ");
+        QString timeBehind(" - Scanning block ");
         QString str = timeBehindText + timeBehind + QString::number(count);
         text = str.toStdString();
 
