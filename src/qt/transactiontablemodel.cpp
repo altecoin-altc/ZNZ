@@ -80,7 +80,6 @@ public:
      * this is sorted by sha256.
      */
     QList<TransactionRecord> cachedWallet;
-    bool hasZcTxes = false;
 
     /* Query entire wallet anew from core.
      */
@@ -151,31 +150,12 @@ public:
     static QList<TransactionRecord> convertTxToRecords(TransactionTablePriv* tablePriv, const CWallet* wallet, const std::vector<CWalletTx>& walletTxes) {
         QList<TransactionRecord> cachedWallet;
 
-        bool hasZcTxes = tablePriv->hasZcTxes;
         for (const auto &tx : walletTxes) {
             QList<TransactionRecord> records = TransactionRecord::decomposeTransaction(wallet, tx);
-
-            if (!hasZcTxes) {
-                for (const TransactionRecord &record : records) {
-                    hasZcTxes = HasZcTxesIfNeeded(record);
-                    if (hasZcTxes) break;
-                }
-            }
-
             cachedWallet.append(records);
         }
 
-        if (hasZcTxes) // Only update it if it's true, multi-thread operation.
-            tablePriv->hasZcTxes = true;
-
         return cachedWallet;
-    }
-
-    static bool HasZcTxesIfNeeded(const TransactionRecord& record) {
-        return (record.type == TransactionRecord::ZerocoinMint ||
-                record.type == TransactionRecord::ZerocoinSpend ||
-                record.type == TransactionRecord::ZerocoinSpend_Change_zPiv ||
-                record.type == TransactionRecord::ZerocoinSpend_FromMe);
     }
 
     /* Update our model of the wallet incrementally, to synchronize our model of the wallet
@@ -229,7 +209,6 @@ public:
                         int insert_idx = lowerIndex;
                         for (const TransactionRecord& rec : toInsert) {
                             cachedWallet.insert(insert_idx, rec);
-                            if (!hasZcTxes) hasZcTxes = HasZcTxesIfNeeded(rec);
                             insert_idx += 1;
                             ret = rec; // Return record
                         }
@@ -257,11 +236,6 @@ public:
     int size()
     {
         return cachedWallet.size();
-    }
-
-    bool containsZcTxes()
-    {
-        return hasZcTxes;
     }
 
     TransactionRecord* index(int idx)
@@ -370,10 +344,6 @@ int TransactionTableModel::size() const{
     return priv->size();
 }
 
-bool TransactionTableModel::hasZcTxes() {
-    return priv->containsZcTxes();
-}
-
 QString TransactionTableModel::formatTxStatus(const TransactionRecord* wtx) const
 {
     QString status;
@@ -458,8 +428,6 @@ QString TransactionTableModel::formatTxType(const TransactionRecord* wtx) const
         return tr("ZNZ Stake");
     case TransactionRecord::SuperStake:
         return tr("ZNZ SuperStake");
-    case TransactionRecord::StakeZPIV:
-        return tr("zZNZ Stake");
     case TransactionRecord::StakeDelegated:
         return tr("ZNZ Cold Stake");
     case TransactionRecord::StakeHot:
@@ -483,16 +451,6 @@ QString TransactionTableModel::formatTxType(const TransactionRecord* wtx) const
         return tr("Obfuscation Create Denominations");
     case TransactionRecord::Obfuscated:
         return tr("Obfuscated");
-    case TransactionRecord::ZerocoinMint:
-        return tr("Converted ZNZ to zZNZ");
-    case TransactionRecord::ZerocoinSpend:
-        return tr("Spent zZNZ");
-    case TransactionRecord::RecvFromZerocoinSpend:
-        return tr("Received ZNZ from zZNZ");
-    case TransactionRecord::ZerocoinSpend_Change_zPiv:
-        return tr("Minted Change as zZNZ from zZNZ Spend");
-    case TransactionRecord::ZerocoinSpend_FromMe:
-        return tr("Converted zZNZ to ZNZ");
     default:
         return QString();
     }
@@ -504,17 +462,14 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord* wtx
     case TransactionRecord::Generated:
     case TransactionRecord::StakeMint:
     case TransactionRecord::SuperStake:
-    case TransactionRecord::StakeZPIV:
     case TransactionRecord::MNReward:
         return QIcon(":/icons/tx_mined");
     case TransactionRecord::RecvWithObfuscation:
     case TransactionRecord::RecvWithAddress:
     case TransactionRecord::RecvFromOther:
-    case TransactionRecord::RecvFromZerocoinSpend:
         return QIcon(":/icons/tx_input");
     case TransactionRecord::SendToAddress:
     case TransactionRecord::SendToOther:
-    case TransactionRecord::ZerocoinSpend:
         return QIcon("://ic-transaction-sent");
     default:
         return QIcon(":/icons/tx_inout");
@@ -539,18 +494,11 @@ QString TransactionTableModel::formatTxToAddress(const TransactionRecord* wtx, b
     case TransactionRecord::Generated:
     case TransactionRecord::StakeMint:
     case TransactionRecord::SuperStake:
-    case TransactionRecord::ZerocoinSpend:
-    case TransactionRecord::ZerocoinSpend_FromMe:
-    case TransactionRecord::RecvFromZerocoinSpend:
         return lookupAddress(wtx->address, tooltip);
     case TransactionRecord::Obfuscated:
         return lookupAddress(wtx->address, tooltip) + watchAddress;
     case TransactionRecord::SendToOther:
         return QString::fromStdString(wtx->address) + watchAddress;
-    case TransactionRecord::ZerocoinMint:
-    case TransactionRecord::ZerocoinSpend_Change_zPiv:
-    case TransactionRecord::StakeZPIV:
-        return tr("Anonymous");
     case TransactionRecord::P2CSDelegation:
     case TransactionRecord::P2CSDelegationSent:
     case TransactionRecord::P2CSDelegationSentOwner:
@@ -709,7 +657,7 @@ QVariant TransactionTableModel::data(const QModelIndex& index, int role) const
     case Qt::ForegroundRole:
         // Minted
         if (rec->type == TransactionRecord::Generated || rec->type == TransactionRecord::StakeMint || rec->type == TransactionRecord::SuperStake ||
-                rec->type == TransactionRecord::StakeZPIV || rec->type == TransactionRecord::MNReward) {
+                rec->type == TransactionRecord::MNReward) {
             if (rec->status.status == TransactionStatus::Conflicted || rec->status.status == TransactionStatus::NotAccepted)
                 return COLOR_ORPHAN;
             else

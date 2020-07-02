@@ -59,9 +59,6 @@ public:
     /** Set whether to hide orphan stakes. */
     void setHideOrphans(bool fHide);
 
-    /** Only zc txes **/
-    void setShowZcTxes(bool fOnlyZc);
-
     /** Only stakes and masternode reward txes **/
     void setOnlyStakesandMNTxes(bool fOnlyStakesandMN);
 
@@ -86,11 +83,9 @@ private:
     int limitRows;
     bool showInactive;
     bool fHideOrphans = true;
-    bool fOnlyZc = false;
     bool fOnlyStakesandMN = false;
     bool fOnlyColdStaking = false;
 
-    bool isZcTx(int type) const;
     bool isStakeTx(int type) const;
     bool isMasternodeRewardTx(int type) const;
     bool isColdStake(int type) const;
