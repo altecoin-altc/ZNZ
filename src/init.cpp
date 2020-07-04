@@ -75,7 +75,6 @@
 
 #ifdef ENABLE_WALLET
 CWallet* pwalletMain = NULL;
-CzPIVWallet* zwalletMain = NULL;
 int nWalletBackups = 10;
 #endif
 volatile bool fFeeEstimatesInitialized = false;
@@ -293,8 +292,6 @@ void Shutdown()
 #ifdef ENABLE_WALLET
     delete pwalletMain;
     pwalletMain = NULL;
-    delete zwalletMain;
-    zwalletMain = NULL;
 #endif
     globalVerifyHandle.reset();
     ECC_Stop();
@@ -1615,7 +1612,6 @@ bool AppInit2(const std::vector<std::string>& words)
 #ifdef ENABLE_WALLET
     if (fDisableWallet) {
         pwalletMain = NULL;
-        zwalletMain = NULL;
         LogPrintf("Wallet disabled!\n");
     } else {
         // needed to restore wallet transaction meta data after -zapwallettxes
@@ -1711,8 +1707,6 @@ bool AppInit2(const std::vector<std::string>& words)
 
         LogPrintf("Init errors: %s\n", strErrors.str());
         LogPrintf("Wallet completed loading in %15dms\n", GetTimeMillis() - nWalletStartTime);
-        zwalletMain = new CzPIVWallet(pwalletMain);
-        pwalletMain->setZWallet(zwalletMain);
 
         RegisterValidationInterface(pwalletMain);
 
@@ -1760,16 +1754,6 @@ bool AppInit2(const std::vector<std::string>& words)
             }
         }
         fVerifyingBlocks = false;
-
-        if (!zwalletMain->GetMasterSeed().IsNull()) {
-            //Inititalize zPIVWallet
-            uiInterface.InitMessage(_("Syncing zZNZ wallet..."));
-
-            //Load zerocoin mint hashes to memory
-            pwalletMain->zpivTracker->Init();
-            zwalletMain->LoadMintPoolFromDB();
-            zwalletMain->SyncWithChain();
-        }
     }  // (!fDisableWallet)
 #else  // ENABLE_WALLET
     LogPrintf("No wallet compiled in!\n");

@@ -534,7 +534,6 @@ bool CWallet::Lock()
     {
         LOCK(cs_KeyStore);
         vMasterKey.clear();
-        if (zwalletMain) zwalletMain->Lock();
     }
 
     NotifyStatusChanged(this);
@@ -594,17 +593,6 @@ bool CWallet::Unlock(const CKeyingMaterial& vMasterKeyIn)
             }
         }
         fDecryptionThoroughlyChecked = true;
-
-        if (zwalletMain) {
-            uint256 hashSeed;
-            if (CWalletDB(strWalletFile).ReadCurrentSeedHash(hashSeed)) {
-                uint256 nSeed;
-                if (!GetDeterministicSeed(hashSeed, nSeed)) {
-                    return error("Failed to read zZNZ seed from DB. Wallet is probably corrupt.");
-                }
-                zwalletMain->SetMasterSeed(nSeed, false);
-            }
-        }
     }
 
     NotifyStatusChanged(this);
@@ -1904,9 +1892,6 @@ int CWallet::ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate, b
 {
     int ret = 0;
     int64_t nNow = GetTime();
-    bool fCheckZPIV = GetBoolArg("-zapwallettxes", false);
-    if (fCheckZPIV)
-        zpivTracker->Init();
 
     CBlockIndex* pindex = pindexStart;
     {
@@ -1934,53 +1919,6 @@ int CWallet::ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate, b
             for (CTransaction& tx : block.vtx) {
                 if (AddToWalletIfInvolvingMe(tx, &block, fUpdate))
                     ret++;
-            }
-
-            // If this is a zapwallettx, need to read zZNZ
-            if (fCheckZPIV && pindex->nHeight >= Params().GetConsensus().height_start_ZC) {
-                std::list<CZerocoinMint> listMints;
-                BlockToZerocoinMintList(block, listMints, true);
-                CWalletDB walletdb(strWalletFile);
-
-                for (auto& m : listMints) {
-                    if (IsMyMint(m.GetValue())) {
-                        LogPrint("zero", "%s: found mint\n", __func__);
-                        pwalletMain->UpdateMint(m.GetValue(), pindex->nHeight, m.GetTxHash(), m.GetDenomination());
-
-                        // Add the transaction to the wallet
-                        for (auto& tx : block.vtx) {
-                            uint256 txid = tx.GetHash();
-                            if (setAddedToWallet.count(txid) || mapWallet.count(txid))
-                                continue;
-                            if (txid == m.GetTxHash()) {
-                                CWalletTx wtx(pwalletMain, tx);
-                                wtx.nTimeReceived = block.GetBlockTime();
-                                wtx.SetMerkleBranch(block);
-                                pwalletMain->AddToWallet(wtx, false, &walletdb);
-                                setAddedToWallet.insert(txid);
-                            }
-                        }
-
-                        //Check if the mint was ever spent
-                        int nHeightSpend = 0;
-                        uint256 txidSpend;
-                        CTransaction txSpend;
-                        if (IsSerialInBlockchain(GetSerialHash(m.GetSerialNumber()), nHeightSpend, txidSpend, txSpend)) {
-                            if (setAddedToWallet.count(txidSpend) || mapWallet.count(txidSpend))
-                                continue;
-
-                            CWalletTx wtx(pwalletMain, txSpend);
-                            CBlockIndex* pindexSpend = chainActive[nHeightSpend];
-                            CBlock blockSpend;
-                            if (ReadBlockFromDisk(blockSpend, pindexSpend))
-                                wtx.SetMerkleBranch(blockSpend);
-
-                            wtx.nTimeReceived = pindexSpend->nTime;
-                            pwalletMain->AddToWallet(wtx, false, &walletdb);
-                            setAddedToWallet.emplace(txidSpend);
-                        }
-                    }
-                }
             }
 
             pindex = chainActive.Next(pindex);

@@ -56,8 +56,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
             "  \"version\": xxxxx,             (numeric) the server version\n"
             "  \"protocolversion\": xxxxx,     (numeric) the protocol version\n"
             "  \"walletversion\": xxxxx,       (numeric) the wallet version\n"
-            "  \"balance\": xxxxxxx,           (numeric) the total ZENZO balance of the wallet (excluding zerocoins)\n"
-            "  \"zerocoinbalance\": xxxxxxx,   (numeric) the total zerocoin balance of the wallet\n"
+            "  \"balance\": xxxxxxx,           (numeric) the total ZENZO balance of the wallet\n"
             "  \"staking status\": true|false, (boolean) if the wallet is staking or not\n"
             "  \"blocks\": xxxxxx,             (numeric) the current number of blocks processed in the server\n"
             "  \"timeoffset\": xxxxx,          (numeric) the time offset\n"
@@ -124,7 +123,6 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     if (pwalletMain) {
         obj.push_back(Pair("walletversion", pwalletMain->GetVersion()));
         obj.push_back(Pair("balance", ValueFromAmount(pwalletMain->GetBalance())));
-        obj.push_back(Pair("zerocoinbalance", ValueFromAmount(pwalletMain->GetZerocoinBalance(true))));
         obj.push_back(Pair("staking status", (pwalletMain->pStakerStatus->IsActive() ?
                                                 "Staking Active" :
                                                 "Staking Not Active")));

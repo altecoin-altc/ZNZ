@@ -34,11 +34,7 @@ PublicCoinSpend::PublicCoinSpend(libzerocoin::ZerocoinParams* params, const uint
         this->pubkey = *pubkey;
     }
 
-    if (version < PUBSPEND_SCHNORR)
-        this->randomness = randomness;
-    else
-        this->schnorrSig = libzerocoin::CoinRandomnessSchnorrSignature(params, randomness, ptxHash);
-
+    this->randomness = randomness;
 }
 
 template <typename Stream>
@@ -62,35 +58,19 @@ PublicCoinSpend::PublicCoinSpend(libzerocoin::ZerocoinParams* params, Stream& st
 
 bool PublicCoinSpend::Verify() const {
     bool fUseV1Params = getCoinVersion() < libzerocoin::PrivateCoin::PUBKEY_VERSION;
-    if (version < PUBSPEND_SCHNORR) {
-        // spend contains the randomness of the coin
-        if (fUseV1Params) {
-            // Only v2+ coins can publish the randomness
-            std::string errMsg = strprintf("PublicCoinSpend version %d with coin version 1 not allowed. "
-                    "Minimum spend version required: %d", version, PUBSPEND_SCHNORR);
-            return error("%s: %s", __func__, errMsg);
-        }
+    // spend contains the randomness of the coin
+    if (fUseV1Params) {
+        // Only v2+ coins can publish the randomness
+        std::string errMsg = strprintf("PublicCoinSpend version %d with coin version 1 not allowed. "
+                "Minimum spend version required: %d", version, PUBSPEND_SCHNORR);
+        return error("%s: %s", __func__, errMsg);
+    }
 
-        // Check that the coin is a commitment to serial and randomness.
-        libzerocoin::ZerocoinParams* params = Params().GetConsensus().Zerocoin_Params(false);
-        libzerocoin::Commitment comm(&params->coinCommitmentGroup, getCoinSerialNumber(), randomness);
-        if (comm.getCommitmentValue() != pubCoin.getValue()) {
-            return error("%s: commitments values are not equal", __func__);
-        }
-
-    } else {
-        // for v1 coins, double check that the serialized coin serial is indeed a v1 serial
-        if (coinVersion < libzerocoin::PrivateCoin::PUBKEY_VERSION &&
-                libzerocoin::ExtractVersionFromSerial(this->coinSerialNumber) != coinVersion) {
-            return error("%s: invalid coin version", __func__);
-        }
-
-        // spend contains a shnorr signature of ptxHash with the randomness of the coin
-        libzerocoin::ZerocoinParams* params = Params().GetConsensus().Zerocoin_Params(fUseV1Params);
-        if (!schnorrSig.Verify(params, getCoinSerialNumber(), pubCoin.getValue(), getTxOutHash())) {
-            return error("%s: schnorr signature does not verify", __func__);
-        }
-
+    // Check that the coin is a commitment to serial and randomness.
+    libzerocoin::ZerocoinParams* params = Params().GetConsensus().Zerocoin_Params(false);
+    libzerocoin::Commitment comm(&params->coinCommitmentGroup, getCoinSerialNumber(), randomness);
+    if (comm.getCommitmentValue() != pubCoin.getValue()) {
+        return error("%s: commitments values are not equal", __func__);
     }
 
     // Now check that the signature validates with the serial
@@ -107,11 +87,9 @@ bool PublicCoinSpend::HasValidSignature() const
         return true;
 
     // for spend version 3 we must check that the provided pubkey and serial number match
-    if (version < PUBSPEND_SCHNORR) {
-        CBigNum extractedSerial = libzerocoin::ExtractSerialFromPubKey(this->pubkey);
-        if (extractedSerial != this->coinSerialNumber)
-            return error("%s: hashedpubkey is not equal to the serial!", __func__);
-    }
+    CBigNum extractedSerial = libzerocoin::ExtractSerialFromPubKey(this->pubkey);
+    if (extractedSerial != this->coinSerialNumber)
+        return error("%s: hashedpubkey is not equal to the serial!", __func__);
 
     return pubkey.Verify(signatureHash(), vchSig);
 }

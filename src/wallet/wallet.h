@@ -29,7 +29,6 @@
 #include "wallet/walletdb.h"
 #include "zpiv/zpivmodule.h"
 #include "zpiv/zpivwallet.h"
-#include "zpiv/zpivtracker.h"
 
 #include <algorithm>
 #include <map>
@@ -607,60 +606,6 @@ public:
 
     /** notify wallet file backed up */
     boost::signals2::signal<void (const bool& fSuccess, const std::string& filename)> NotifyWalletBacked;
-
-
-    /* Legacy ZC - implementations in wallet_zerocoin.cpp */
-
-    //- ZC Mints (Only for regtest)
-    std::string MintZerocoin(CAmount nValue, CWalletTx& wtxNew, std::vector<CDeterministicMint>& vDMints, const CCoinControl* coinControl = NULL);
-    std::string MintZerocoinFromOutPoint(CAmount nValue, CWalletTx& wtxNew, std::vector<CDeterministicMint>& vDMints, const std::vector<COutPoint> vOutpts);
-    bool CreateZPIVOutPut(libzerocoin::CoinDenomination denomination, CTxOut& outMint, CDeterministicMint& dMint);
-    bool CreateZerocoinMintTransaction(const CAmount nValue,
-            CMutableTransaction& txNew,
-            std::vector<CDeterministicMint>& vDMints,
-            CReserveKey* reservekey,
-            std::string& strFailReason,
-            const CCoinControl* coinControl = NULL);
-
-    // - ZC PublicSpends
-    bool SpendZerocoin(CAmount nAmount, CWalletTx& wtxNew, CZerocoinSpendReceipt& receipt, std::vector<CZerocoinMint>& vMintsSelected, std::list<std::pair<CBitcoinAddress*,CAmount>> addressesTo, CBitcoinAddress* changeAddress = nullptr);
-    bool MintsToInputVectorPublicSpend(std::map<CBigNum, CZerocoinMint>& mapMintsSelected, const uint256& hashTxOut, std::vector<CTxIn>& vin, CZerocoinSpendReceipt& receipt, libzerocoin::SpendType spendType, CBlockIndex* pindexCheckpoint = nullptr);
-    bool CreateZCPublicSpendTransaction(
-            CAmount nValue,
-            CWalletTx& wtxNew,
-            CReserveKey& reserveKey,
-            CZerocoinSpendReceipt& receipt,
-            std::vector<CZerocoinMint>& vSelectedMints,
-            std::vector<CDeterministicMint>& vNewMints,
-            std::list<std::pair<CBitcoinAddress*,CAmount>> addressesTo,
-            CBitcoinAddress* changeAddress = nullptr);
-
-    // - ZC Balances
-    CAmount GetZerocoinBalance(bool fMatureOnly) const;
-    CAmount GetUnconfirmedZerocoinBalance() const;
-    CAmount GetImmatureZerocoinBalance() const;
-    std::map<libzerocoin::CoinDenomination, CAmount> GetMyZerocoinDistribution() const;
-
-    // zPIV wallet
-    CzPIVWallet* zwalletMain{nullptr};
-    std::unique_ptr<CzPIVTracker> zpivTracker{nullptr};
-    void setZWallet(CzPIVWallet* zwallet);
-    CzPIVWallet* getZWallet();
-    bool IsMyZerocoinSpend(const CBigNum& bnSerial) const;
-    bool IsMyMint(const CBigNum& bnValue) const;
-    std::string ResetMintZerocoin();
-    std::string ResetSpentZerocoin();
-    void ReconsiderZerocoins(std::list<CZerocoinMint>& listMintsRestored, std::list<CDeterministicMint>& listDMintsRestored);
-    bool GetZerocoinKey(const CBigNum& bnSerial, CKey& key);
-    bool GetMint(const uint256& hashSerial, CZerocoinMint& mint);
-    bool GetMintFromStakeHash(const uint256& hashStake, CZerocoinMint& mint);
-    bool DatabaseMint(CDeterministicMint& dMint);
-    bool SetMintUnspent(const CBigNum& bnSerial);
-    bool UpdateMint(const CBigNum& bnValue, const int& nHeight, const uint256& txid, const libzerocoin::CoinDenomination& denom);
-    // Zerocoin entry changed. (called with lock cs_wallet held)
-    boost::signals2::signal<void(CWallet* wallet, const std::string& pubCoin, const std::string& isUsed, ChangeType status)> NotifyZerocoinChanged;
-    // zPIV reset
-    boost::signals2::signal<void()> NotifyzPIVReset;
 };
 
 

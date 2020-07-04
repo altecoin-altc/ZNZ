@@ -246,21 +246,10 @@ std::string ReindexZerocoinDB()
                     //Record Serials
                     if (tx.HasZerocoinSpendInputs()) {
                         for (auto& in : tx.vin) {
-                            bool isPublicSpend = in.IsZerocoinPublicSpend();
-                            if (!in.IsZerocoinSpend() && !isPublicSpend)
+                            if (!in.IsZerocoinSpend())
                                 continue;
-                            if (isPublicSpend) {
-                                libzerocoin::ZerocoinParams* params = Params().GetConsensus().Zerocoin_Params(false);
-                                PublicCoinSpend publicSpend(params);
-                                CValidationState state;
-                                if (!ZPIVModule::ParseZerocoinPublicSpend(in, tx, state, publicSpend)){
-                                    return _("Failed to parse public spend");
-                                }
-                                vSpendInfo.push_back(std::make_pair(publicSpend, txid));
-                            } else {
-                                libzerocoin::CoinSpend spend = TxInToZerocoinSpend(in);
-                                vSpendInfo.push_back(std::make_pair(spend, txid));
-                            }
+                            libzerocoin::CoinSpend spend = TxInToZerocoinSpend(in);
+                            vSpendInfo.push_back(std::make_pair(spend, txid));
                         }
                     }
 

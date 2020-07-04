@@ -20,7 +20,6 @@ class thread_group;
 } // namespace boost
 
 extern CWallet* pwalletMain;
-extern CzPIVWallet* zwalletMain;
 
 void StartShutdown();
 bool ShutdownRequested();
