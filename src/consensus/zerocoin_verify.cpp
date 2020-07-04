@@ -215,9 +215,9 @@ bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv)
         pindex->nMoneySupply = nSupplyPrev + nValueOut - nValueIn;
         nSupplyPrev = pindex->nMoneySupply;
 
-        // Rewrite zpiv supply too
+        // Rewrite zZNZ supply too
         if (!fSkipZpiv && pindex->nHeight >= consensus.height_start_ZC) {
-            UpdateZPIVSupply(block, pindex, true);
+            UpdateZPIVSupply(block, pindex);
         }
 
         assert(pblocktree->WriteBlockIndex(CDiskBlockIndex(pindex)));
@@ -234,51 +234,30 @@ bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv)
     return true;
 }
 
-bool UpdateZPIVSupply(const CBlock& block, CBlockIndex* pindex, bool fJustCheck)
+bool UpdateZPIVSupply(const CBlock& block, CBlockIndex* pindex)
 {
     const Consensus::Params& consensus = Params().GetConsensus();
     if (pindex->nHeight < consensus.height_start_ZC)
         return true;
 
-    //Reset the supply to previous block
+    // Reset the supply to previous block
     pindex->mapZerocoinSupply = pindex->pprev->mapZerocoinSupply;
 
-    //Add mints to zPIV supply (mints are forever disabled after last checkpoint)
-    if (pindex->nHeight < consensus.height_last_ZC_AccumCheckpoint) {
-        std::list<CZerocoinMint> listMints;
-        std::set<uint256> setAddedToWallet;
-        BlockToZerocoinMintList(block, listMints, true);
-        for (const auto& m : listMints) {
-            pindex->mapZerocoinSupply.at(m.GetDenomination())++;
-            //Remove any of our own mints from the mintpool
-            if (!fJustCheck && pwalletMain) {
-                if (pwalletMain->IsMyMint(m.GetValue())) {
-                    pwalletMain->UpdateMint(m.GetValue(), pindex->nHeight, m.GetTxHash(), m.GetDenomination());
-                    // Add the transaction to the wallet
-                    for (auto& tx : block.vtx) {
-                        uint256 txid = tx.GetHash();
-                        if (setAddedToWallet.count(txid))
-                            continue;
-                        if (txid == m.GetTxHash()) {
-                            CWalletTx wtx(pwalletMain, tx);
-                            wtx.nTimeReceived = block.GetBlockTime();
-                            wtx.SetMerkleBranch(block);
-                            pwalletMain->AddToWallet(wtx, false, nullptr);
-                            setAddedToWallet.insert(txid);
-                        }
-                    }
-                }
-            }
-        }
+    // If we're past the final accumulator; skip this entirely
+    if (pindex->nHeight > consensus.height_last_ZC_AccumCheckpoint)
+        return true;
+
+    // Add mints to zZNZ supply
+    std::list<CZerocoinMint> listMints;
+    BlockToZerocoinMintList(block, listMints, true);
+    for (const auto& m : listMints) {
+        pindex->mapZerocoinSupply.at(m.GetDenomination())++;
     }
 
-    //Remove spends from zPIV supply
+    // Remove spends from zZNZ supply
     std::list<libzerocoin::CoinDenomination> listDenomsSpent = ZerocoinSpendListFromBlock(block, true);
     for (const auto& denom : listDenomsSpent) {
         pindex->mapZerocoinSupply.at(denom)--;
-        // zerocoin failsafe
-        if (pindex->mapZerocoinSupply.at(denom) < 0)
-            return error("Block contains zerocoins that spend more than are in the available supply to spend");
     }
 
     for (const auto& denom : libzerocoin::zerocoinDenomList)

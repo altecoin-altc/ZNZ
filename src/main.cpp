@@ -2450,14 +2450,11 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             return state.DoS(100, error("ConnectBlock() : too many sigops"), REJECT_INVALID, "bad-blk-sigops");
 
         // Permanently reject new Zerocoin transactions (that somehow make it past mempool checks?)
-        if (!IsInitialBlockDownload() && tx.ContainsZerocoins()) {
+        if (!IsInitialBlockDownload() && tx.ContainsZerocoins())
             return state.DoS(100, error("ConnectBlock() : Zerocoin transactions have been permanently disabled"));
-        }
 
         if (tx.HasZerocoinMintOutputs()) {
-            if (pindex->nHeight >= consensus.height_start_ZC_PublicSpends)
-                return state.DoS(100, error("%s: Mints no longer accepted at height %d", __func__, pindex->nHeight));
-            // parse minted coins
+            // Parse minted coins
             for (auto& out : tx.vout) {
                 if (!out.IsZerocoinMint()) continue;
                 libzerocoin::PublicCoin coin(consensus.Zerocoin_Params(false));
@@ -2471,13 +2468,6 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             int nHeightTx = 0;
             uint256 txid = tx.GetHash();
             vSpendsInBlock.emplace_back(txid);
-            if (IsTransactionInChain(txid, nHeightTx)) {
-                //when verifying blocks on init, the blocks are scanned without being disconnected - prevent that from causing an error
-                if (!fVerifyingBlocks || (fVerifyingBlocks && pindex->nHeight > nHeightTx))
-                    return state.DoS(100, error("%s : txid %s already exists in block %d , trying to include it again in block %d", __func__,
-                                                tx.GetHash().GetHex(), nHeightTx, pindex->nHeight),
-                                     REJECT_INVALID, "bad-txns-inputs-missingorspent");
-            }
 
             // Include Zerocoin spends to properly calculate block mints / supply,
             // but don't worry about serial double-spends as the Zerocoin supply
@@ -2489,7 +2479,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
                 libzerocoin::CoinSpend spend = TxInToZerocoinSpend(txIn);
                 nValueIn += spend.getDenomination() * COIN;
-                //queue for db write after the 'justcheck' section has concluded
+                // Queue for DB write after the 'justcheck' section has concluded
                 vSpends.emplace_back(std::make_pair(spend, tx.GetHash()));
             }
 
@@ -2530,12 +2520,12 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         pos.nTxOffset += ::GetSerializeSize(tx, SER_DISK, CLIENT_VERSION);
     }
 
-    //Track zPIV money supply in the block index
-    if (!UpdateZPIVSupply(block, pindex, fJustCheck))
-        return state.DoS(100, error("%s: Failed to calculate new zPIV supply for block=%s height=%d", __func__,
+    // Track zZNZ money supply in the block index
+    if (!UpdateZPIVSupply(block, pindex))
+        return state.DoS(100, error("%s: Failed to calculate new zZNZ supply for block=%s height=%d", __func__,
                                     block.GetHash().GetHex(), pindex->nHeight), REJECT_INVALID);
 
-    // track money supply and mint amount info
+    // Track money supply and mint amount info
     CAmount nMoneySupplyPrev = pindex->pprev ? pindex->pprev->nMoneySupply : 0;
     pindex->nMoneySupply = nMoneySupplyPrev + nValueOut - nValueIn;
     const int64_t nMint = pindex->nMoneySupply - nMoneySupplyPrev + nFees;
@@ -2544,12 +2534,12 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     nTimeConnect += nTime1 - nTimeStart;
     LogPrint("bench", "      - Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin) [%.2fs]\n", (unsigned)block.vtx.size(), 0.001 * (nTime1 - nTimeStart), 0.001 * (nTime1 - nTimeStart) / block.vtx.size(), nInputs <= 1 ? 0 : 0.001 * (nTime1 - nTimeStart) / (nInputs - 1), nTimeConnect * 0.000001);
 
-    //PoW phase redistributed fees to miner. PoS stage destroys fees.
+    // PoW phase redistributed fees to miner. PoS stage destroys fees.
     CAmount nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
     if (block.IsProofOfWork())
         nExpectedMint += nFees;
 
-    //Check that the block does not overmint
+    // Check that the block does not overmint
     if (!IsBlockValueValid(block, nExpectedMint, nMint)) {
         return state.DoS(100, error("ConnectBlock() : reward pays too much (actual=%s vs limit=%s)",
                                     FormatMoney(nMint), FormatMoney(nExpectedMint)),
@@ -2562,7 +2552,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     nTimeVerify += nTime2 - nTimeStart;
     LogPrint("bench", "    - Verify %u txins: %.2fms (%.3fms/txin) [%.2fs]\n", nInputs - 1, 0.001 * (nTime2 - nTimeStart), nInputs <= 1 ? 0 : 0.001 * (nTime2 - nTimeStart) / (nInputs - 1), nTimeVerify * 0.000001);
 
-    //IMPORTANT NOTE: Nothing before this point should actually store to disk (or even memory)
+    // IMPORTANT NOTE: Nothing before this point should actually store to disk (or even memory)
     if (fJustCheck)
         return true;
 
