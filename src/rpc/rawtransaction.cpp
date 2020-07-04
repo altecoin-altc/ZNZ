@@ -12,7 +12,6 @@
 #include "main.h"
 #include "net.h"
 #include "primitives/transaction.h"
-#include "zpiv/deterministicmint.h"
 #include "rpc/server.h"
 #include "script/script.h"
 #include "script/script_error.h"
@@ -21,7 +20,6 @@
 #include "swifttx.h"
 #include "uint256.h"
 #include "utilmoneystr.h"
-#include "zpivchain.h"
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
 #endif
@@ -874,51 +872,3 @@ UniValue sendrawtransaction(const UniValue& params, bool fHelp)
 
     return hashTx.GetHex();
 }
-
-UniValue getspentzerocoinamount(const UniValue& params, bool fHelp)
-{
-    if (fHelp)
-        throw std::runtime_error(
-            "getspentzerocoinamount hexstring index\n"
-            "\nReturns value of spent zerocoin output designated by transaction hash and input index.\n"
-
-            "\nArguments:\n"
-            "1. hash          (hexstring) Transaction hash\n"
-            "2. index         (int) Input index\n"
-
-            "\nResult:\n"
-            "\"value\"        (int) Spent output value, -1 if error\n"
-
-            "\nExamples:\n" +
-            HelpExampleCli("getspentzerocoinamount", "78021ebf92a80dfccef1413067f1222e37535399797cce029bb40ad981131706 0"));
-
-    throw JSONRPCError(RPC_WALLET_ERROR, "zZNZ is permanently disabled");
-}
-
-#ifdef ENABLE_WALLET
-
-UniValue createrawzerocoinspend(const UniValue& params, bool fHelp)
-{
-    if (fHelp)
-        throw std::runtime_error(
-            "createrawzerocoinspend mint_input ( \"address\" )\n"
-            "\nCreates raw zZNZ public spend.\n" +
-            HelpRequiringPassphrase() + "\n"
-
-            "\nArguments:\n"
-            "1. mint_input      (hex string, required) serial hash of the mint used as input\n"
-            "2. \"address\"     (string, optional, default=change) Send to specified address or to a new change address.\n"
-
-
-            "\nResult:\n"
-            "{\n"
-            "   \"hex\": \"xxx\",           (hex string) raw public spend signed transaction\n"
-            "}\n"
-            "\nExamples\n" +
-            HelpExampleCli("createrawzerocoinspend", "0d8c16eee7737e3cc1e4e70dc006634182b175e039700931283b202715a0818f") +
-            HelpExampleRpc("createrawzerocoinspend", "0d8c16eee7737e3cc1e4e70dc006634182b175e039700931283b202715a0818f"));
-
-    throw JSONRPCError(RPC_WALLET_ERROR, "zZNZ is permanently disabled.");
-}
-#endif
-
