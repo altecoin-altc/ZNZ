@@ -20,15 +20,6 @@ PublicCoinSpend::PublicCoinSpend(libzerocoin::ZerocoinParams* params, const uint
     this->ptxHash = ptxHash;
     this->coinVersion = libzerocoin::ExtractVersionFromSerial(coinSerialNumber);
 
-    if (!isAllowed()) {
-        // v1 coins need at least version 4 spends
-        std::string errMsg = strprintf("Unable to create PublicCoinSpend version %d with coin version 1. "
-                "Minimum spend version required: %d", version, PUBSPEND_SCHNORR);
-        // this should be unreachable code (already checked in createInput)
-        // throw runtime error
-        throw std::runtime_error(errMsg);
-    }
-
     if (pubkey && getCoinVersion() >= libzerocoin::PrivateCoin::PUBKEY_VERSION) {
         // pubkey available only from v2 coins onwards
         this->pubkey = *pubkey;
@@ -41,31 +32,10 @@ template <typename Stream>
 PublicCoinSpend::PublicCoinSpend(libzerocoin::ZerocoinParams* params, Stream& strm): pubCoin(params) {
     strm >> *this;
     this->spendType = libzerocoin::SpendType::SPEND;
-
-    if (this->version < PUBSPEND_SCHNORR) {
-        // coinVersion is serialized only from v4 spends
-        this->coinVersion = libzerocoin::ExtractVersionFromSerial(this->coinSerialNumber);
-
-    } else {
-        // from v4 spends, serialNumber is not serialized for v2 coins anymore.
-        // in this case, we extract it from the coin public key
-        if (this->coinVersion >= libzerocoin::PrivateCoin::PUBKEY_VERSION)
-            this->coinSerialNumber = libzerocoin::ExtractSerialFromPubKey(this->pubkey);
-
-    }
-
+    this->coinVersion = libzerocoin::ExtractVersionFromSerial(this->coinSerialNumber);
 }
 
 bool PublicCoinSpend::Verify() const {
-    bool fUseV1Params = getCoinVersion() < libzerocoin::PrivateCoin::PUBKEY_VERSION;
-    // spend contains the randomness of the coin
-    if (fUseV1Params) {
-        // Only v2+ coins can publish the randomness
-        std::string errMsg = strprintf("PublicCoinSpend version %d with coin version 1 not allowed. "
-                "Minimum spend version required: %d", version, PUBSPEND_SCHNORR);
-        return error("%s: %s", __func__, errMsg);
-    }
-
     // Check that the coin is a commitment to serial and randomness.
     libzerocoin::ZerocoinParams* params = Params().GetConsensus().Zerocoin_Params(false);
     libzerocoin::Commitment comm(&params->coinCommitmentGroup, getCoinSerialNumber(), randomness);
@@ -114,51 +84,6 @@ namespace ZPIVModule {
         return CDataStream(data, SER_NETWORK, PROTOCOL_VERSION);
     }
 
-    bool createInput(CTxIn &in, CZerocoinMint &mint, uint256 hashTxOut, const int spendVersion) {
-        // check that this spend is allowed
-        const bool fUseV1Params = mint.GetVersion() < libzerocoin::PrivateCoin::PUBKEY_VERSION;
-        if (!PublicCoinSpend::isAllowed(fUseV1Params, spendVersion)) {
-            // v1 coins need at least version 4 spends
-            std::string errMsg = strprintf("Unable to create PublicCoinSpend version %d with coin version 1. "
-                    "Minimum spend version required: %d", spendVersion, PUBSPEND_SCHNORR);
-            return error("%s: %s", __func__, errMsg);
-        }
-
-        // create the PublicCoinSpend
-        libzerocoin::ZerocoinParams *params = Params().GetConsensus().Zerocoin_Params(fUseV1Params);
-        PublicCoinSpend spend(params, spendVersion, mint.GetSerialNumber(), mint.GetRandomness(), hashTxOut, nullptr);
-
-        spend.outputIndex = mint.GetOutputIndex();
-        spend.txHash = mint.GetTxHash();
-        spend.setDenom(mint.GetDenomination());
-
-        // add public key and signature
-        if (!fUseV1Params) {
-            CKey key;
-            if (!mint.GetKeyPair(key))
-                return error("%s: failed to set zPIV privkey mint.", __func__);
-            spend.setPubKey(key.GetPubKey(), true);
-
-            std::vector<unsigned char> vchSig;
-            if (!key.Sign(spend.signatureHash(), vchSig))
-                return error("%s: ZPIVModule failed to sign signatureHash.", __func__);
-            spend.setVchSig(vchSig);
-
-        }
-
-        // serialize the PublicCoinSpend and add it to the input scriptSig
-        CDataStream ser(SER_NETWORK, PROTOCOL_VERSION);
-        ser << spend;
-        std::vector<unsigned char> data(ser.begin(), ser.end());
-        CScript scriptSigIn = CScript() << OP_ZEROCOINPUBLICSPEND << data.size();
-        scriptSigIn.insert(scriptSigIn.end(), data.begin(), data.end());
-
-        // create the tx input
-        in = CTxIn(mint.GetTxHash(), mint.GetOutputIndex(), scriptSigIn, mint.GetDenomination());
-        in.nSequence = mint.GetDenomination();
-        return true;
-    }
-
     PublicCoinSpend parseCoinSpend(const CTxIn &in)
     {
         libzerocoin::ZerocoinParams *params = Params().GetConsensus().Zerocoin_Params(false);
@@ -167,7 +92,7 @@ namespace ZPIVModule {
     }
 
     bool parseCoinSpend(const CTxIn &in, const CTransaction &tx, const CTxOut &prevOut, PublicCoinSpend &publicCoinSpend) {
-        if (!in.IsZerocoinPublicSpend() || !prevOut.IsZerocoinMint())
+        if (!prevOut.IsZerocoinMint())
             return error("%s: invalid argument/s", __func__);
 
         PublicCoinSpend spend = parseCoinSpend(in);

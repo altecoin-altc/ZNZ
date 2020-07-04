@@ -33,7 +33,6 @@ int64_t ZerocoinDenominationToInt(const CoinDenomination& denomination);
 int64_t ZerocoinDenominationToAmount(const CoinDenomination& denomination);
 CoinDenomination IntToZerocoinDenomination(int64_t amount);
 CoinDenomination AmountToZerocoinDenomination(int64_t amount);
-CoinDenomination AmountToClosestDenomination(int64_t nAmount, int64_t& nRemaining);
 CoinDenomination get_denomination(std::string denomAmount);
 int64_t get_amount(std::string denomAmount);
 

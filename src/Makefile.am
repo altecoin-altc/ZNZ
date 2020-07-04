@@ -113,7 +113,6 @@ BITCOIN_CORE_H = \
   crypter.h \
   pairresult.h \
   addressbook.h \
-  denomination_functions.h \
   obfuscation.h \
   obfuscation-relay.h \
   wallet/db.h \
@@ -195,7 +194,6 @@ BITCOIN_CORE_H = \
   zpiv/deterministicmint.h \
   zpiv/mintpool.h \
   zpiv/zerocoin.h \
-  zpiv/zpivwallet.h \
   zpiv/zpivmodule.h \
   zmq/zmqabstractnotifier.h \
   zmq/zmqconfig.h \
@@ -264,7 +262,6 @@ libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_wallet_a_SOURCES = \
   activemasternode.cpp \
   bip38.cpp \
-  denomination_functions.cpp \
   obfuscation.cpp \
   obfuscation-relay.cpp \
   addressbook.cpp \
@@ -290,7 +287,6 @@ libbitcoin_wallet_a_SOURCES = \
   zpiv/deterministicmint.cpp \
   zpiv/zerocoin.cpp \
   zpiv/mintpool.cpp \
-  zpiv/zpivwallet.cpp \
   stakeinput.cpp \
   zpiv/zpivmodule.cpp \
   $(BITCOIN_CORE_H)
@@ -366,7 +362,6 @@ libzerocoin_libbitcoin_zerocoin_a_SOURCES = \
   libzerocoin/Accumulator.h \
   libzerocoin/bignum.h \
   libzerocoin/Coin.h \
-  libzerocoin/CoinRandomnessSchnorrSignature.h \
   libzerocoin/CoinSpend.h \
   libzerocoin/Commitment.h \
   libzerocoin/Denominations.h \
@@ -377,7 +372,6 @@ libzerocoin_libbitcoin_zerocoin_a_SOURCES = \
   libzerocoin/bignum.cpp \
   libzerocoin/Accumulator.cpp \
   libzerocoin/Coin.cpp \
-  libzerocoin/CoinRandomnessSchnorrSignature.cpp \
   libzerocoin/CoinSpend.cpp \
   libzerocoin/Denominations.cpp \
   libzerocoin/ParamGeneration.cpp \

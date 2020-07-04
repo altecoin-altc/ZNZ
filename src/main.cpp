@@ -795,7 +795,7 @@ bool IsStandardTx(const CTransaction& tx, std::string& reason)
     }
 
     for (const CTxIn& txin : tx.vin) {
-        if (txin.IsZerocoinSpend() || txin.IsZerocoinPublicSpend())
+        if (txin.IsZerocoinSpend())
             continue;
         // Biggest 'standard' txin is a 15-of-15 P2SH multisig with compressed
         // keys. (remember the 520 byte limit on redeemScript size) That works

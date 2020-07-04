@@ -153,7 +153,6 @@ const char* GetOpName(opcodetype opcode)
     // zerocoin
     case OP_ZEROCOINMINT           : return "OP_ZEROCOINMINT";
     case OP_ZEROCOINSPEND          : return "OP_ZEROCOINSPEND";
-    case OP_ZEROCOINPUBLICSPEND    : return "OP_ZEROCOINPUBLICSPEND";
 
     // cold staking
     case OP_CHECKCOLDSTAKEVERIFY   : return "OP_CHECKCOLDSTAKEVERIFY";
@@ -276,11 +275,6 @@ bool CScript::IsZerocoinMint() const
 bool CScript::IsZerocoinSpend() const
 {
     return StartsWithOpcode(OP_ZEROCOINSPEND);
-}
-
-bool CScript::IsZerocoinPublicSpend() const
-{
-    return StartsWithOpcode(OP_ZEROCOINPUBLICSPEND);
 }
 
 bool CScript::IsPushOnly(const_iterator pc) const

@@ -59,36 +59,6 @@ CoinDenomination AmountToZerocoinDenomination(CAmount amount)
     }
 }
 
-// return the highest denomination that is less than or equal to the amount given
-// use case: converting PIV to zPIV without user worrying about denomination math themselves
-CoinDenomination AmountToClosestDenomination(CAmount nAmount, CAmount& nRemaining)
-{
-    if (nAmount < 1 * COIN)
-        return ZQ_ERROR;
-
-    CAmount nConvert = nAmount / COIN;
-    CoinDenomination denomination = ZQ_ERROR;
-    for (unsigned int i = 0; i < zerocoinDenomList.size(); i++) {
-        denomination = zerocoinDenomList[i];
-
-        //exact match
-        if (nConvert == denomination) {
-            nRemaining = 0;
-            return denomination;
-        }
-
-        //we are beyond the value, use previous denomination
-        if (denomination > nConvert && i) {
-            CoinDenomination d = zerocoinDenomList[i - 1];
-            nRemaining = nConvert - d;
-            return d;
-        }
-    }
-    //last denomination, the highest value possible
-    nRemaining = nConvert - denomination;
-    return denomination;
-}
-
 CAmount ZerocoinDenominationToAmount(const CoinDenomination& denomination)
 {
     CAmount nValue = COIN * ZerocoinDenominationToInt(denomination);

@@ -94,7 +94,6 @@ public:
     }
 
     bool IsZerocoinSpend() const;
-    bool IsZerocoinPublicSpend() const;
 
     friend bool operator==(const CTxIn& a, const CTxIn& b)
     {
