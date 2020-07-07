@@ -36,7 +36,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget* parent, bool about) : QDialog(pare
     if (parent) this->setStyleSheet(parent->styleSheet());
     GUIUtil::restoreWindowGeometry("nHelpMessageDialogWindow", this->size(), this);
 
-    QString version = tr("ZENZO Core") + " " + tr("version") + " " + QString::fromStdString(FormatFullVersion());
+    QString version = tr("ZENZO Core") + " " + tr("version") + " " + QString::fromStdString(FormatFullVersionWithCodename());
 /* On x86 add a bit specifier to the version so that users can distinguish between
      * 32 and 64 bit builds. On other architectures, 32/64 bit may be more ambigious.
      */

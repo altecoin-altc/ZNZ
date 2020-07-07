@@ -16,6 +16,12 @@
 const std::string CLIENT_NAME("ZENZO Core");
 
 /**
+ * The Codename of the current release, often appended to CLIENT_NAME.
+ * E.g: Kiyori (The first code-named ZENZO Core release, for v2.0.0)
+ */
+const std::string CLIENT_CODENAME = "Kiyori";
+
+/**
  * Client version number
  */
 #define CLIENT_VERSION_SUFFIX ""
@@ -78,12 +84,18 @@ const std::string CLIENT_NAME("ZENZO Core");
 const std::string CLIENT_BUILD(BUILD_DESC CLIENT_VERSION_SUFFIX);
 const std::string CLIENT_DATE(BUILD_DATE);
 
-static std::string FormatVersion(int nVersion)
+static std::string FormatVersion(int nVersion, bool includeCodename)
 {
+    std::string strVer = "";
     if (nVersion % 100 == 0)
-        return strprintf("%d.%d.%d", nVersion / 1000000, (nVersion / 10000) % 100, (nVersion / 100) % 100);
+        strVer = strprintf("%d.%d.%d", nVersion / 1000000, (nVersion / 10000) % 100, (nVersion / 100) % 100);
     else
-        return strprintf("%d.%d.%d.%d", nVersion / 1000000, (nVersion / 10000) % 100, (nVersion / 100) % 100, nVersion % 100);
+        strVer = strprintf("%d.%d.%d.%d", nVersion / 1000000, (nVersion / 10000) % 100, (nVersion / 100) % 100, nVersion % 100);
+    
+    if (includeCodename)
+        strVer += " (" + CLIENT_CODENAME + ")";
+    
+    return strVer;
 }
 
 std::string FormatFullVersion()
@@ -91,9 +103,14 @@ std::string FormatFullVersion()
     return CLIENT_BUILD;
 }
 
-std::string FormatVersionFriendly()
+std::string FormatFullVersionWithCodename()
 {
-    return FormatVersion(CLIENT_VERSION);
+    return FormatVersionFriendly(true);
+}
+
+std::string FormatVersionFriendly(bool includeCodename)
+{
+    return FormatVersion(CLIENT_VERSION, includeCodename);
 }
 
 /** 
@@ -103,7 +120,7 @@ std::string FormatSubVersion(const std::string& name, int nClientVersion, const 
 {
     std::ostringstream ss;
     ss << "/";
-    ss << name << ":" << FormatVersion(nClientVersion);
+    ss << name << ":" << FormatVersion(nClientVersion, false);
     if (!comments.empty()) {
         std::vector<std::string>::const_iterator it(comments.begin());
         ss << "(" << *it;

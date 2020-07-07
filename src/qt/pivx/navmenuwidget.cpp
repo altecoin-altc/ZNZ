@@ -20,7 +20,7 @@ NavMenuWidget::NavMenuWidget(ZENZOGUI *mainWindow, QWidget *parent) :
     setCssProperty(ui->imgLogo, "img-nav-logo");
 
     // App version
-    ui->labelVersion->setText(QString(tr("v%1")).arg(QString::fromStdString(FormatVersionFriendly())));
+    ui->labelVersion->setText(QString(tr("v%1")).arg(QString::fromStdString(FormatVersionFriendly(true))));
     ui->labelVersion->setProperty("cssClass", "text-title-white");
 
     // Buttons

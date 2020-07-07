@@ -124,7 +124,7 @@ SettingsInformationWidget::SettingsInformationWidget(ZENZOGUI* _window,QWidget *
 void SettingsInformationWidget::loadClientModel(){
     if (clientModel && clientModel->getPeerTableModel() && clientModel->getBanTableModel()) {
         // Provide initial values
-        ui->labelInfoClient->setText(clientModel->formatFullVersion());
+        ui->labelInfoClient->setText(clientModel->formatFullVersionWithCodename());
         ui->labelInfoAgent->setText(clientModel->clientName());
         ui->labelInfoTime->setText(clientModel->formatClientStartupTime());
         ui->labelInfoName->setText(QString::fromStdString(Params().NetworkIDString()));

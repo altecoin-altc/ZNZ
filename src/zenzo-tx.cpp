@@ -45,7 +45,7 @@ static bool AppInitRawTx(int argc, char* argv[])
 
     if (argc < 2 || mapArgs.count("-?") || mapArgs.count("-help")) {
         // First part of help message is specific to this utility
-        std::string strUsage = _("ZENZO Core zenzo-tx utility version") + " " + FormatFullVersion() + "\n\n" +
+        std::string strUsage = _("ZENZO Core zenzo-tx utility version") + " " + FormatFullVersionWithCodename() + "\n\n" +
                                _("Usage:") + "\n" +
                                "  zenzo-tx [options] <hex-tx> [commands]  " + _("Update hex-encoded zenzo transaction") + "\n" +
                                "  zenzo-tx [options] -create [commands]   " + _("Create hex-encoded zenzo transaction") + "\n" +

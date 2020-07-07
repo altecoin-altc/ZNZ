@@ -926,7 +926,7 @@ void InitLogging()
     fLogIPs = GetBoolArg("-logips", false);
 
     LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("ZENZO version %s (%s)\n", FormatFullVersion(), CLIENT_DATE);
+    LogPrintf("ZENZO version %s (%s)\n", FormatFullVersionWithCodename(), CLIENT_DATE);
 }
 
 /** Initialize ZENZO.
@@ -1099,7 +1099,7 @@ bool AppInit2(const std::vector<std::string>& words)
     if (GetBoolArg("-shrinkdebugfile", !fDebug))
         ShrinkDebugFile();
     LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("ZENZO version %s (%s)\n", FormatFullVersion(), CLIENT_DATE);
+    LogPrintf("ZENZO version %s (%s)\n", FormatFullVersionWithCodename(), CLIENT_DATE);
 #ifdef ENABLE_WALLET
     LogPrintf("Using BerkeleyDB version %s\n", DbEnv::version(0, 0, 0));
 #endif

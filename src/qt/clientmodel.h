@@ -74,6 +74,7 @@ public:
     QString getStatusBarWarnings() const;
 
     QString formatFullVersion() const;
+    QString formatFullVersionWithCodename() const;
     QString formatBuildDate() const;
     bool isReleaseVersion() const;
     QString clientName() const;

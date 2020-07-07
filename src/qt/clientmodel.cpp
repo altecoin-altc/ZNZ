@@ -202,6 +202,11 @@ QString ClientModel::formatFullVersion() const
     return QString::fromStdString(FormatFullVersion());
 }
 
+QString ClientModel::formatFullVersionWithCodename() const
+{
+    return QString::fromStdString(FormatFullVersionWithCodename());
+}
+
 QString ClientModel::formatBuildDate() const
 {
     return QString::fromStdString(CLIENT_DATE);
