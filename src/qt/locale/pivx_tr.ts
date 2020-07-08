@@ -3600,11 +3600,11 @@ transaction history, making transactions untraceable </source>
         <translation>zPIV gönder</translation>
     </message>
     <message>
-        <source>Total remaining from the selected UTXO</source>
+        <source>Total Remaining (Selected UTXO)</source>
         <translation>Seçili UTXO'dan kalan toplam</translation>
     </message>
     <message>
-        <source>Total remaining</source>
+        <source>Total Remaining</source>
         <translation>Toplam kalan</translation>
     </message>
     <message>

@@ -3600,11 +3600,11 @@ transaction history, making transactions untraceable </source>
         <translation>Отправить zPIV</translation>
     </message>
     <message>
-        <source>Total remaining from the selected UTXO</source>
+        <source>Total Remaining (Selected UTXO)</source>
         <translation>Всего осталось от выбранного UTXO</translation>
     </message>
     <message>
-        <source>Total remaining</source>
+        <source>Total Remaining</source>
         <translation>Всего осталось</translation>
     </message>
     <message>

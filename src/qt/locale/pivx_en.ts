@@ -4538,12 +4538,12 @@ transaction history, making transactions untraceable </source>
     </message>
     <message>
         <location line="+28"/>
-        <source>Total remaining from the selected UTXO</source>
+        <source>Total Remaining (Selected UTXO)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Total remaining</source>
+        <source>Total Remaining</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

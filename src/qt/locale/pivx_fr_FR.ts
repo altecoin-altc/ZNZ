@@ -3452,11 +3452,11 @@ l'historique de transaction, rendant les transactions intraçables</translation>
         <translation>Envoyer zPIV</translation>
     </message>
     <message>
-        <source>Total remaining from the selected UTXO</source>
+        <source>Total Remaining (Selected UTXO)</source>
         <translation>Total restant dans l'UTXO sélectionné</translation>
     </message>
     <message>
-        <source>Total remaining</source>
+        <source>Total Remaining</source>
         <translation>Total restant</translation>
     </message>
     <message>

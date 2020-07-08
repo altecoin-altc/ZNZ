@@ -3595,12 +3595,12 @@ transaction history, making transactions untraceable </source>
         <translation>Enviar zPIV</translation>
     </message>
     <message>
-        <source>Total remaining from the selected UTXO</source>
-        <translation>Total restante del UTXO seleccionado</translation>
+        <source>Total Remaining (Selected UTXO)</source>
+        <translation>Total Restante (UTXO Seleccionado)</translation>
     </message>
     <message>
-        <source>Total remaining</source>
-        <translation>Total restante</translation>
+        <source>Total Remaining</source>
+        <translation>Total Restante</translation>
     </message>
     <message>
         <source>Customize Fee</source>
