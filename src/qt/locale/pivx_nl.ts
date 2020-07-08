@@ -3600,12 +3600,12 @@ transactiegeschiedenis, waardoor transacties niet meer te traceren zijn</transla
         <translation>zPIV Versturen</translation>
     </message>
     <message>
-        <source>Total remaining from the selected UTXO</source>
+        <source>Total Remaining (Selected UTXO)</source>
         <translation>Totaal resterende van de geselecteerde UTXO</translation>
     </message>
     <message>
-        <source>Total remaining</source>
-        <translation>Totaal resterende</translation>
+        <source>Total Remaining</source>
+        <translation>Totaal Resterende</translation>
     </message>
     <message>
         <source>Customize Fee</source>

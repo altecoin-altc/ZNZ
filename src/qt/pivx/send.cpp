@@ -153,11 +153,11 @@ void SendWidget::refreshAmounts() {
     if (CoinControlDialog::coinControl->HasSelected()){
         // Set remaining balance to the sum of the coinControl selected inputs
         totalAmount = walletModel->getBalance(CoinControlDialog::coinControl) - total;
-        ui->labelTitleTotalRemaining->setText(tr("Total remaining from the selected UTXO"));
+        ui->labelTitleTotalRemaining->setText(tr("Total Remaining (Selected UTXO)"));
     } else {
         // Wallet's available balance (Coins that are spendable right now, excluding locked, pending and immature)
         totalAmount = (walletModel->getBalance() - total) - walletModel->getLockedBalance();
-        ui->labelTitleTotalRemaining->setText(tr("Total remaining"));
+        ui->labelTitleTotalRemaining->setText(tr("Total Remaining"));
     }
     ui->labelAmountRemaining->setText(
             GUIUtil::formatBalance(

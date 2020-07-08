@@ -3603,11 +3603,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
         <translation>花费zPIV</translation>
     </message>
     <message>
-        <source>Total remaining from the selected UTXO</source>
+        <source>Total Remaining (Selected UTXO)</source>
         <translation>所选UTXO的剩余总数</translation>
     </message>
     <message>
-        <source>Total remaining</source>
+        <source>Total Remaining</source>
         <translation>总剩余</translation>
     </message>
     <message>

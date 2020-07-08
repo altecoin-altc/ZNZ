@@ -3602,12 +3602,12 @@ cronologia delle transazioni, rendendo le transazioni non rintracciabili</transl
         <translation>Invia zPIV</translation>
     </message>
     <message>
-        <source>Total remaining from the selected UTXO</source>
+        <source>Total Remaining (Selected UTXO)</source>
         <translation>Totale rimanente dall'UTXO selezionato</translation>
     </message>
     <message>
-        <source>Total remaining</source>
-        <translation>Totale rimanente</translation>
+        <source>Total Remaining</source>
+        <translation>Totale Rimanente</translation>
     </message>
     <message>
         <source>Customize Fee</source>
