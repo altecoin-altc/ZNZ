@@ -442,7 +442,7 @@ bool CMasternodeBroadcast::Sign(const CKey& key, const CPubKey& pubKey, const bo
         strMessage = GetSignatureHash().GetHex();
     } else {
         nMessVersion = MessageVersion::MESS_VER_STRMESS;
-        strMessage = GetStrMessage();
+        strMessage = GetOldStrMessage();
     }
 
     if (!CMessageSigner::SignMessage(strMessage, vchSig, key)) {
@@ -478,10 +478,24 @@ bool CMasternodeBroadcast::CheckSignature() const
                             GetStrMessage()
                             );
 
-    if(!CMessageSigner::VerifyMessage(pubKeyCollateralAddress, vchSig, strMessage, strError))
-        return error("%s : VerifyMessage (nMessVersion=%d) failed: %s", __func__, nMessVersion, strError);
+    if(!CMessageSigner::VerifyMessage(pubKeyCollateralAddress, vchSig, strMessage, strError)) {
+        // VerifyMessage failed... let's check if this MN is using the old signature message format
+        if(!CMessageSigner::VerifyMessage(pubKeyCollateralAddress, vchSig, GetOldStrMessage(), strError))
+            return error("%s : VerifyMessage (nMessVersion=%d) failed: %s", __func__, nMessVersion, strError);
+    }
 
     return true;
+}
+
+std::string CMasternodeBroadcast::GetOldStrMessage() const
+{
+    std::string strMessage;
+
+    std::string vchPubKey(pubKeyCollateralAddress.begin(), pubKeyCollateralAddress.end());
+    std::string vchPubKey2(pubKeyMasternode.begin(), pubKeyMasternode.end());
+    strMessage = addr.ToString() + std::to_string(sigTime) + vchPubKey + vchPubKey2 + std::to_string(protocolVersion);
+
+    return strMessage;
 }
 
 bool CMasternodeBroadcast::CheckDefaultPort(std::string strService, std::string& strErrorRet, std::string strContext)

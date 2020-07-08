@@ -209,7 +209,7 @@ public:
         consensus.height_RHF = 1250000; // TODO: Decide Hardfork block height
         consensus.height_last_ZC_AccumCheckpoint = 231570;
         consensus.height_start_BIP65 = consensus.height_RHF;             // 82629b7a9978f5c7ea3f70a12db92633a7d2e436711500db28b97efd48b1e527
-        consensus.height_start_MessSignaturesV2 = 2153200;  // TimeProtocolV2, Blocks V7 and newMessageSignatures
+        consensus.height_start_MessSignaturesV2 = consensus.height_RHF;  // TimeProtocolV2, Blocks V7 and newMessageSignatures
         consensus.height_start_StakeModifierNewSelection = 1;
         consensus.height_start_StakeModifierV2 = consensus.height_RHF;
         consensus.height_start_TimeProtoV2 = consensus.height_RHF;       // TimeProtocolV2, Blocks V7 and newMessageSignatures
