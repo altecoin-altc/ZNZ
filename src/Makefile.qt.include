@@ -86,7 +86,6 @@ QT_MOC_CPP = \
   qt/moc_startoptionsmain.cpp \
   qt/moc_bantablemodel.cpp \
   qt/moc_bitcoinaddressvalidator.cpp \
-  qt/moc_bitcoinamountfield.cpp \
   qt/pivx/moc_pivxgui.cpp \
   qt/moc_bitcoinunits.cpp \
   qt/moc_clientmodel.cpp \

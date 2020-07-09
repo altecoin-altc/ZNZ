@@ -168,7 +168,6 @@ HEADERS += src/activemasternode.h \
            src/qt/addresstablemodel.h \
            src/qt/askpassphrasedialog.h \
            src/qt/bitcoinaddressvalidator.h \
-           src/qt/bitcoinamountfield.h \
            src/qt/bitcoingui.h \
            src/qt/bitcoinunits.h \
            src/qt/clientmodel.h \
@@ -331,7 +330,6 @@ HEADERS += src/activemasternode.h \
            src/leveldb/port/win/stdint.h \
            src/secp256k1/src/java/org_bitcoin_NativeSecp256k1.h \
            src/crypto/aes_helper.c \
-           src/qt/bitcoinamountfield.moc \
            src/qt/pivx.moc \
            src/qt/intro.moc \
            src/qt/overviewpage.moc \
@@ -462,7 +460,6 @@ SOURCES += src/activemasternode.cpp \
            src/qt/addresstablemodel.cpp \
            src/qt/askpassphrasedialog.cpp \
            src/qt/bitcoinaddressvalidator.cpp \
-           src/qt/bitcoinamountfield.cpp \
            src/qt/bitcoingui.cpp \
            src/qt/bitcoinunits.cpp \
            src/qt/clientmodel.cpp \
