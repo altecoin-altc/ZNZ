@@ -543,8 +543,8 @@ void TopBar::setNumBlocks(int count) {
             blocksPerSec = std::round(1 * std::accumulate(vBlocksPerSec.begin(), vBlocksPerSec.end(), 0) / vBlocksPerSec.size());
 
         // Now to calculate the human-readable time-til-synced
-        // Reduced by 1/4 to display more 'optimistic' syncing times
-        long millisecsUntilSynced = (blocksPerSec * (Checkpoints::GetTotalBlocksEstimate() - count)) * 0.75;
+        // Reduced to 70% to display more 'optimistic' syncing times
+        long millisecsUntilSynced = (blocksPerSec * (Checkpoints::GetTotalBlocksEstimate() - count)) * 0.7;
         // 3600000 milliseconds in an hour
         long hr = millisecsUntilSynced / 3600000;
         millisecsUntilSynced = millisecsUntilSynced - 3600000 * hr;
@@ -561,7 +561,11 @@ void TopBar::setNumBlocks(int count) {
         } else if (hr <= 0 && min <= 0 && sec <= 0) {
             timeBehindText = tr("Finishing Sync");
         } else {
-            timeBehindText = tr("%1:%2:%3 left").arg(hr).arg(min).arg(sec);
+            // To prevent cutting off the "tailing zero" we stringify the results and append it to a "0" if below 10
+            QString secStr = sec < 10 ? "0" + QString::number(sec) : QString::number(sec);
+            QString minStr = min < 10 ? "0" + QString::number(min) : QString::number(min);
+            QString hrStr = hr < 10 ? "0" + QString::number(hr) : QString::number(hr);
+            timeBehindText = tr("%1:%2:%3 left").arg(hrStr).arg(minStr).arg(secStr);
         }
         QString timeBehind(" - Scanning block ");
         QString str = timeBehindText + timeBehind + QString::number(count);
