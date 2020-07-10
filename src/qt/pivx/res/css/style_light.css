@@ -449,7 +449,7 @@ QPushButton[cssClass="btn-check-mint-inactive"] {
     qproperty-iconSize: 24px 24px;
     background-color:#405c4b7d;
     color:#B3FFFFFF;
-    border-bottom:2px solid #5C4B7D;
+    border-bottom:2px solid #505c4b7d;
     border-radius:2px;
 }
 
@@ -475,7 +475,7 @@ QPushButton[cssClass="btn-check-stack-inactive"] {
     qproperty-iconSize: 24px 24px;
     color:#B3FFFFFF;
     background-color:#405c4b7d;
-    border-bottom:2px solid #5C4B7D;
+    border-bottom:2px solid #505c4b7d;
     border-radius:2px;
 }
 
@@ -501,7 +501,7 @@ QPushButton[cssClass="btn-check-hd-inactive"] {
     qproperty-iconSize: 24px 24px;
     color:#B3FFFFFF;
     background-color:#405c4b7d;
-    border-bottom:2px solid #5C4B7D;
+    border-bottom:2px solid #505c4b7d;
     border-radius:2px;
 }
 
@@ -521,7 +521,7 @@ QPushButton[cssClass="btn-check-cold-staking"] {
     qproperty-iconSize: 24px 24px;
     color:#f1f2f2;
     background-color:#505c4b7d;
-    border-bottom:2px solid #5C4B7D;
+    border-bottom:2px solid #505c4b7d;
     border-radius:2px;
 }
 
@@ -531,7 +531,7 @@ QPushButton[cssClass="btn-check-cold-staking-inactive"] {
     qproperty-iconSize: 24px 24px;
     color:#B3FFFFFF;
     background-color:#405c4b7d;
-    border-bottom:2px solid #5C4B7D;
+    border-bottom:2px solid #505c4b7d;
     border-radius:2px;
 }
 
@@ -548,7 +548,7 @@ QPushButton[cssClass="btn-check-cold-staking-unchecked"] {
     qproperty-iconSize: 24px 24px;
     color:#B3FFFFFF;
     background-color:#405c4b7d;
-    border-bottom:2px solid #5C4B7D;
+    border-bottom:2px solid #505c4b7d;
     border-radius:2px;
 }
 
@@ -579,7 +579,7 @@ QPushButton[cssClass="btn-check-connect-inactive"] {
     qproperty-iconSize: 24px 24px;
     color:#B3FFFFFF;
     background-color:#405c4b7d;
-    border-bottom:2px solid #5C4B7D;
+    border-bottom:2px solid #505c4b7d;
     border-radius:2px;
 }
 
@@ -606,7 +606,7 @@ QPushButton[cssClass="btn-check-tor-inactive"] {
     qproperty-iconSize: 24px 24px;
     color:#B3FFFFFF;
     background-color:#405c4b7d;
-    border-bottom:2px solid #5C4B7D;
+    border-bottom:2px solid #505c4b7d;
     border-radius:2px;
 }
 
@@ -630,7 +630,7 @@ QPushButton[cssClass="btn-check-status-lock"] {
 
 QPushButton[cssClass="btn-check-status-unlock"] {
     background-color:#405c4b7d;
-    border-bottom:2px solid #5C4B7D;
+    border-bottom:2px solid #505c4b7d;
     qproperty-icon: url("://ic-wallet-status-unlocked") off,
     url("://ic-wallet-status-unlocked") on ;
     qproperty-iconSize: 24px 24px;
