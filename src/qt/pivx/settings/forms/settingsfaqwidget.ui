@@ -57,6 +57,9 @@
         </property>
         <item>
          <widget class="QLabel" name="labelTitle">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);</string>
+          </property>
           <property name="text">
            <string>TextLabel</string>
           </property>
@@ -126,6 +129,9 @@
                 </property>
                 <item>
                  <widget class="QGroupBox" name="groupBox">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
                   <property name="title">
                    <string/>
                   </property>
@@ -162,6 +168,9 @@
                      <property name="focusPolicy">
                       <enum>Qt::NoFocus</enum>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(147, 149, 152);</string>
+                     </property>
                      <property name="text">
                       <string>1) What is ZENZO?</string>
                      </property>
@@ -193,8 +202,11 @@
                      <property name="focusPolicy">
                       <enum>Qt::NoFocus</enum>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(147, 149, 152);</string>
+                     </property>
                      <property name="text">
-                      <string>2) Why are my ZNZ unspendable?</string>
+                      <string>2) How do I receive ZNZ?</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -221,8 +233,11 @@
                      <property name="focusPolicy">
                       <enum>Qt::NoFocus</enum>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(147, 149, 152);</string>
+                     </property>
                      <property name="text">
-                      <string>3) ZENZO privacy? What is Zerocoin (zZNZ)?</string>
+                      <string>3) Why is my ZNZ unable to be spent?</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -249,8 +264,11 @@
                      <property name="focusPolicy">
                       <enum>Qt::NoFocus</enum>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(147, 149, 152);</string>
+                     </property>
                      <property name="text">
-                      <string>4) Why are my zZNZ unspendable?</string>
+                      <string>4) How do I stake my ZNZ?</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -271,9 +289,11 @@
                      <property name="focusPolicy">
                       <enum>Qt::NoFocus</enum>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(147, 149, 152);</string>
+                     </property>
                      <property name="text">
-                      <string>5) Why did my wallet convert the balance
-    into zZNZ automatically?</string>
+                      <string>5) How many rewards do I get for staking/masternodes?</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -294,8 +314,11 @@
                      <property name="focusPolicy">
                       <enum>Qt::NoFocus</enum>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(147, 149, 152);</string>
+                     </property>
                      <property name="text">
-                      <string>6) How do I receive ZNZ/zZNZ?</string>
+                      <string>6) What is a ZENZO Masternode and how do I run one?</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -316,8 +339,11 @@
                      <property name="focusPolicy">
                       <enum>Qt::NoFocus</enum>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(147, 149, 152);</string>
+                     </property>
                      <property name="text">
-                      <string>7) How do I stake ZNZ/zZNZ?</string>
+                      <string>7) I need support, how can I get help?</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -338,8 +364,11 @@
                      <property name="focusPolicy">
                       <enum>Qt::NoFocus</enum>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(147, 149, 152);</string>
+                     </property>
                      <property name="text">
-                      <string>8) Where I should go if I need support?</string>
+                      <string>8) How come I can’t cold stake with HD?</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -360,30 +389,11 @@
                      <property name="focusPolicy">
                       <enum>Qt::NoFocus</enum>
                      </property>
-                     <property name="text">
-                      <string>9) What is a Masternode?</string>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                     <property name="autoExclusive">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="pushButtonFaq10">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="focusPolicy">
-                      <enum>Qt::NoFocus</enum>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(147, 149, 152);</string>
                      </property>
                      <property name="text">
-                      <string>10) What is a Masternode Controller?</string>
+                      <string>9) How do I get ZNZ?</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -416,6 +426,9 @@
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
                 <widget class="QLabel" name="labelWebLink">
+                 <property name="styleSheet">
+                  <string notr="true">color: rgb(91, 80, 148);</string>
+                 </property>
                  <property name="text">
                   <string>TextLabel</string>
                  </property>
@@ -506,7 +519,7 @@
              <item>
               <widget class="QScrollArea" name="scrollAreaFaq">
                <property name="styleSheet">
-                <string notr="true">#scrollAreaFaq { background:transparent; }</string>
+                <string notr="true">#scrollAreaFaq { background:white; }</string>
                </property>
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -525,8 +538,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>628</width>
-                  <height>2344</height>
+                  <width>641</width>
+                  <height>1610</height>
                  </rect>
                 </property>
                 <property name="autoFillBackground">
@@ -595,6 +608,9 @@
                       </property>
                       <item>
                        <widget class="QLabel" name="labelSubtitle1">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(91, 80, 148);</string>
+                        </property>
                         <property name="text">
                          <string>What is ZENZO?</string>
                         </property>
@@ -621,6 +637,9 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="labelContent1">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(147, 149, 152);</string>
+                        </property>
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
@@ -697,6 +716,9 @@
                       </property>
                       <item>
                        <widget class="QLabel" name="labelSubtitle2">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(91, 80, 148);</string>
+                        </property>
                         <property name="text">
                          <string>How do I receive ZNZ?</string>
                         </property>
@@ -723,6 +745,9 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="labelContent2">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(147, 149, 152);</string>
+                        </property>
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
@@ -793,6 +818,9 @@
                       </property>
                       <item>
                        <widget class="QLabel" name="labelSubtitle3">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(91, 80, 148);</string>
+                        </property>
                         <property name="text">
                          <string>Why is my ZNZ unable to be spent?</string>
                         </property>
@@ -819,6 +847,9 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="labelContent3">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(147, 149, 152);</string>
+                        </property>
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
@@ -891,6 +922,9 @@
                       </property>
                       <item>
                        <widget class="QLabel" name="labelSubtitle4">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(91, 80, 148);</string>
+                        </property>
                         <property name="text">
                          <string>How do I stake my ZNZ?</string>
                         </property>
@@ -917,14 +951,15 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="labelContent4">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(147, 149, 152);</string>
+                        </property>
                         <property name="text">
-                         <string>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                           After minting, zZNZ will require 20 confirmations as well as 1
-                           additional mint of the same denomination on the network to
-                           become eligible for spending.
-                           &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
-                         </string>
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;You must have your ZENZO Wallet open and completely synchronized.
+Once there is a minimum of 600 confirmations, your coins are eligible for staking.
+After your balance is confirmed, you need to unlock your wallet for staking. A few moments later,  your staking status should change to enabled and you are now staking.
+Stake reward is 3.15 ZNZ 
+&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -987,6 +1022,9 @@
                       </property>
                       <item>
                        <widget class="QLabel" name="labelSubtitle5">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(91, 80, 148);</string>
+                        </property>
                         <property name="text">
                          <string>How many rewards do I get for staking/masternodes?</string>
                         </property>
@@ -1013,6 +1051,9 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="labelContent5">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(147, 149, 152);</string>
+                        </property>
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
@@ -1087,6 +1128,9 @@
                       </property>
                       <item>
                        <widget class="QLabel" name="labelSubtitle6">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(91, 80, 148);</string>
+                        </property>
                         <property name="text">
                          <string>What is a ZENZO Masternode and how do I run one?</string>
                         </property>
@@ -1113,14 +1157,13 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="labelContent6">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(147, 149, 152);</string>
+                        </property>
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                          A ZENZO masternode is an instance of the latest full node (ZENZO Core) with
-                          15,000 ZNZ locked as collateral. A masternode assists the network and in return,
-                          masternode owners are rewarded with a block reward (5.85 ZNZ). Masternode holders
-                          are also eligible to partake in decentralized governance with voting.
-                           &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+                          A ZENZO masternode is an instance of the latest full node (ZENZO Core) with 15,000 ZNZ locked as collateral. A masternode assists the network and in return, masternode owners are rewarded with a block reward (5.85 ZNZ). Masternode holders are also eligible to partake in decentralized governance with voting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
                         <property name="alignment">
@@ -1184,6 +1227,9 @@
                       </property>
                       <item>
                        <widget class="QLabel" name="labelSubtitle7">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(91, 80, 148);</string>
+                        </property>
                         <property name="text">
                          <string>I need support, how can I get help?</string>
                         </property>
@@ -1210,34 +1256,16 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="labelContent7">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(147, 149, 152);</string>
+                        </property>
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            To Stake ZENZO:
                            &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           &lt;ol&gt;&lt;li&gt;
-                           Make sure your wallet is completely synchronized and you are using the latest release.
-                           &lt;li&gt;
-                           You must have a balance of ZENZO with a minimum of 600 confirmations.
-                           &lt;li&gt;
-                           Your wallet must stay online and be unlocked for staking purposes.
-                           &lt;li&gt;
-                           Once all those steps are followed staking should be enabled.
-                           &lt;li&gt;
-                           You can see the status of staking in the wallet by mousing over the package icon in the row on the top left of the wallet interface. There package will be lit up and will state &quot;Staking Enabled&quot; to indicate it is staking.  Using the command line interface (zenzo-cli); the command &lt;i&gt;getstakingstatus&lt;/i&gt; will confirm that staking is active.
-                           &lt;/li&gt;&lt;/ol&gt;
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           To Stake zZNZ:
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           &lt;ol&gt;&lt;li&gt;
-                           Make sure your wallet is completely synchronized and you are using the latest release.
-                           &lt;li&gt;
-                           Your newly minted or existing zZNZ balance must have a minimum of 200 confirmations.
-                           &lt;li&gt;
-                           Your wallet must stay online and be unlocked for anonymization and staking purposes.
-                           Staking should now be enabled.
-                           &lt;/li&gt;&lt;/ol&gt;
-                           &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+                          The best way to get direct support is on the ZENZO Discord (https://discord.gg/fgHSAqb).
+Reddit and Telegram are also other supported channels of support.  https://www.reddit.com/r/ZENZO +  https://t.me/Zenzo_Telegram&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
                         <property name="alignment">
@@ -1301,8 +1329,11 @@
                       </property>
                       <item>
                        <widget class="QLabel" name="labelSubtitle8">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(91, 80, 148);</string>
+                        </property>
                         <property name="text">
-                         <string>How come I can’t cold stake with HD?</string>
+                         <string>How come I can’t Cold Stake with HD?</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -1327,14 +1358,13 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="labelContent8">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(147, 149, 152);</string>
+                        </property>
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                           The latest HD implementation makes use of Mnemonic Phrases and that feature's
-                           BIP implementation isn't capable of deriving Cold Staking addresses at this time.
-                           ZENZO will need a custom HD implementation to allow for Cold Staking addresses and 
-                           is currently looking into it for future releases.
-                           &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+                          The latest HD implementation makes use of Mnemonic Phrases and that feature's BIP implementation isn't capable of deriving Cold Staking addresses at this time. ZENZO will need a custom HD implementation to allow for Cold Staking addresses and is currently looking into it for future releases. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
                         <property name="alignment">
@@ -1398,8 +1428,11 @@
                       </property>
                       <item>
                        <widget class="QLabel" name="labelSubtitle9">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(91, 80, 148);</string>
+                        </property>
                         <property name="text">
-                         <string>How do I get ZNZ??</string>
+                         <string>How do I get ZNZ?</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -1424,6 +1457,9 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="labelContent9">
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(147, 149, 152);</string>
+                        </property>
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
@@ -1443,96 +1479,6 @@
                       </item>
                       <item>
                        <spacer name="verticalSpacer_91">
-                        <property name="orientation">
-                         <enum>Qt::Vertical</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>20</width>
-                          <height>20</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QWidget" name="widgetFaq10" native="true">
-                   <layout class="QHBoxLayout" name="horizontalpage_10" stretch="0,1">
-                    <item alignment="Qt::AlignTop">
-                     <widget class="QLabel" name="labelNumber10">
-                      <property name="minimumSize">
-                       <size>
-                        <width>24</width>
-                        <height>24</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>24</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>10</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <layout class="QVBoxLayout" name="verticalLayoutpage_10">
-                      <property name="leftMargin">
-                       <number>20</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>20</number>
-                      </property>
-                      <item>
-                       <widget class="QLabel" name="labelSubtitle10">
-                        <property name="text">
-                         <string>What is a Masternode Controller?</string>
-                        </property>
-                        <property name="wordWrap">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="verticalSpacer_100">
-                        <property name="orientation">
-                         <enum>Qt::Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                         <enum>QSizePolicy::Fixed</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>20</width>
-                          <height>30</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="labelContent10">
-                        <property name="text">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;A Masternode Controller wallet is where the 15,000 ZNZ collateral can reside during a Controller-Remote masternode setup. It is a wallet that can activate the remote masternode wallet(s) and allows you to keep your collateral coins offline while the remote masternode remains online. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                        </property>
-                        <property name="wordWrap">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="verticalSpacer_92">
                         <property name="orientation">
                          <enum>Qt::Vertical</enum>
                         </property>

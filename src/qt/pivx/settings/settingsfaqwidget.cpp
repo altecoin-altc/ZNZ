@@ -37,8 +37,7 @@ SettingsFaqWidget::SettingsFaqWidget(QWidget *parent) :
            ui->labelNumber6,
            ui->labelNumber7,
            ui->labelNumber8,
-           ui->labelNumber9,
-           ui->labelNumber10
+           ui->labelNumber9
         }, "container-number-faq");
 
     setCssProperty({
@@ -50,8 +49,7 @@ SettingsFaqWidget::SettingsFaqWidget(QWidget *parent) :
               ui->labelSubtitle6,
               ui->labelSubtitle7,
               ui->labelSubtitle8,
-              ui->labelSubtitle9,
-              ui->labelSubtitle10
+              ui->labelSubtitle9
             }, "text-subtitle-faq");
 
 
@@ -64,8 +62,7 @@ SettingsFaqWidget::SettingsFaqWidget(QWidget *parent) :
               ui->labelContent6,
               ui->labelContent7,
               ui->labelContent8,
-              ui->labelContent9,
-              ui->labelContent10
+              ui->labelContent9
             }, "text-content-faq");
 
 
@@ -79,7 +76,6 @@ SettingsFaqWidget::SettingsFaqWidget(QWidget *parent) :
               ui->pushButtonFaq7,
               ui->pushButtonFaq8,
               ui->pushButtonFaq9,
-              ui->pushButtonFaq10
             }, "btn-faq-options");
 
     ui->labelContent3->setOpenExternalLinks(true);
@@ -91,7 +87,7 @@ SettingsFaqWidget::SettingsFaqWidget(QWidget *parent) :
     setCssProperty(ui->pushButtonExit, "btn-faq-exit");
 
     // Web Link
-    ui->pushButtonWebLink->setText("https://PIVX.org/");
+    ui->pushButtonWebLink->setText("https://zenzo.io/");
     setCssProperty(ui->pushButtonWebLink, "btn-faq-web");
     setCssProperty(ui->containerButtons, "container-faq-buttons");
 
@@ -106,7 +102,6 @@ SettingsFaqWidget::SettingsFaqWidget(QWidget *parent) :
     connect(ui->pushButtonFaq7, SIGNAL(clicked()), this, SLOT(onFaq7Clicked()));
     connect(ui->pushButtonFaq8, SIGNAL(clicked()), this, SLOT(onFaq8Clicked()));
     connect(ui->pushButtonFaq9, SIGNAL(clicked()), this, SLOT(onFaq9Clicked()));
-    connect(ui->pushButtonFaq10, SIGNAL(clicked()), this, SLOT(onFaq10Clicked()));
 
     if (parent)
         connect(parent, SIGNAL(windowResizeEvent(QResizeEvent*)), this, SLOT(windowResizeEvent(QResizeEvent*)));
@@ -121,7 +116,7 @@ void SettingsFaqWidget::showEvent(QShowEvent *event){
 }
 
 void SettingsFaqWidget::setSection(int num){
-    if (num < 1 || num > 10)
+    if (num < 1 || num > 9)
         return;
     pos = num;
 }
@@ -162,10 +157,6 @@ void SettingsFaqWidget::onFaq9Clicked(){
     ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq9->y());
 }
 
-void SettingsFaqWidget::onFaq10Clicked(){
-    ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq10->y());
-}
-
 void SettingsFaqWidget::windowResizeEvent(QResizeEvent* event){
     QWidget* w = qobject_cast<QWidget*>(parent());
     this->resize(w->width(), w->height());
@@ -182,8 +173,7 @@ std::vector<QPushButton*> SettingsFaqWidget::getButtons(){
             ui->pushButtonFaq6,
             ui->pushButtonFaq7,
             ui->pushButtonFaq8,
-            ui->pushButtonFaq9,
-            ui->pushButtonFaq10
+            ui->pushButtonFaq9
     };
 }
 
