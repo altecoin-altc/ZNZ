@@ -624,16 +624,12 @@
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                           ZENZO is a form of digital online money using blockchain technology
-                           that can be easily transferred globally, instantly, and with near
-                           zero fees.  ZENZO incorporates market leading security &amp;
-                           privacy and is also the first PoS (Proof of Stake) Cryptocurrency
-                           to implement ZeroCoin(zZNZ) and Zerocoin staking.
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           ZENZO utilizes a Proof of Stake (PoS) consensus system algorithm,
-                           allowing all owners of ZENZO to participate in earning block rewards
-                           while securing the network with full node wallets, as well as to
-                           run Masternodes to create and vote on proposals.
+                           ZENZO is an all-encompassing ecosystem designed specifically for gamers
+                           and game developers. The foundation is the dedicated gaming blockchain that
+                           utilizes the Proof of Stake consensus algorithm. Users can partake in producing
+                           blocks and helping to validate transactions by staking, which requires running
+                           a full node wallet. Masternodes are an additional way to earn network rewards 
+                           and also participate in decentralized governance.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
@@ -702,7 +698,7 @@
                       <item>
                        <widget class="QLabel" name="labelSubtitle2">
                         <property name="text">
-                         <string>Why are my ZNZ unspendable?</string>
+                         <string>How do I receive ZNZ?</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -730,11 +726,9 @@
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                           Newly received ZENZO requires 6 confirmations on the network
-                           to become eligible for spending which can take ~6 minutes.
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           Your ZENZO wallet also needs to be completely synchronized
-                           to see and spend balances on the network.
+                           Receiving ZNZ is as simple as owning a wallet and sending your public address
+                           to the person/service wanting to send you ZNZ. You can receive it through a 
+                           public address by manually inputting the information or by scanning your QR code.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
@@ -800,7 +794,7 @@
                       <item>
                        <widget class="QLabel" name="labelSubtitle3">
                         <property name="text">
-                         <string>ZENZO privacy? What is Zerocoin (zZNZ)?</string>
+                         <string>Why is my ZNZ unable to be spent?</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -828,11 +822,11 @@
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                           zZNZ is an optional privacy-centric method of coin mixing on the
-                           ZENZO blockchain. Basically all your transactions cannot be tracked
-                           on to any block explorer. You can read more about the technicals in the
-                           &lt;a style='color: #b088ff' href='https://ZENZO.org/zpiv/'&gt;
-                           &quot;ZENZO Zerocoin (zZNZ) Technical Paper&quot;&lt;/a&gt;.
+                           There are several reasons why your ZNZ may not be spendable at this time. 
+                           It is likely that your coins are not mature yet, do not have enough confirmations,
+                           or are locked in collateral (masternodes or ZENZO Forge Items). For the first two options,
+                           you just have to wait until the coins are mature and/or confirmed. For the last option, 
+                           you will need to go into Coin Control in order to unlock your collateral.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
@@ -898,7 +892,7 @@
                       <item>
                        <widget class="QLabel" name="labelSubtitle4">
                         <property name="text">
-                         <string>Why are my zZNZ unspendable?</string>
+                         <string>How do I stake my ZNZ?</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -994,7 +988,7 @@
                       <item>
                        <widget class="QLabel" name="labelSubtitle5">
                         <property name="text">
-                         <string>Why did my wallet convert the balance into zZNZ automatically?</string>
+                         <string>How many rewards do I get for staking/masternodes?</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -1022,19 +1016,10 @@
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                           By default the ZENZO wallet will convert 10% of your entire ZNZ
-                           balance to zZNZ to assist the network. If you do not wish to
-                           stake zZNZ or take advantage of the privacy benefit it brings,
-                           you can disable the automatic minting in your ZENZO wallet by
-                           going to Settings-&gt;Options and deselecting “Enable zZNZ Automint”.
-                           If you are not making use of the ZENZO-QT or GUI you can simply open
-                           your zenzo.conf file and add &lt;i&gt;enablezeromint=0&lt;/i&gt; Without the quotation
-                           marks and restart your wallet to disable automint.&lt;/p&gt;
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           You can read more about zZNZ in the
-                           &lt;a style='color: #b088ff' href='https://ZENZO.org/zpiv/'&gt; &quot;ZENZO Zerocoin (zZNZ) Technical Paper&quot;&lt;/a&gt;.
-                           If you would like to keep and stake your zZNZ, please read the &quot;How do I stake&quot;
-                           section of the FAQ below.
+                           You can check https://rewards.zenzo.io/, a statistical rewards tracker 
+                           and calculator for ZENZO Staking and Masternodes. Please note that rewards 
+                           are random and can become more or less frequent depending on the network 
+                           difficulty and your total balance.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
@@ -1103,7 +1088,7 @@
                       <item>
                        <widget class="QLabel" name="labelSubtitle6">
                         <property name="text">
-                         <string>How do I receive ZNZ/zZNZ?</string>
+                         <string>What is a ZENZO Masternode and how do I run one?</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -1131,10 +1116,10 @@
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                           zZNZ can be spent and sent to any ZENZO address. The receiver will
-                           receive standard ZENZO but the origin of the ZENZO is anonymized by the zZNZ Protocol.
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           If you want more zZNZ you will need to mint your balance in the “Privacy” tab.
+                          A ZENZO masternode is an instance of the latest full node (ZENZO Core) with
+                          15,000 ZNZ locked as collateral. A masternode assists the network and in return,
+                          masternode owners are rewarded with a block reward (5.85 ZNZ). Masternode holders
+                          are also eligible to partake in decentralized governance with voting.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
@@ -1200,7 +1185,7 @@
                       <item>
                        <widget class="QLabel" name="labelSubtitle7">
                         <property name="text">
-                         <string>How do I stake ZNZ/zZNZ?</string>
+                         <string>I need support, how can I get help?</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -1317,7 +1302,7 @@
                       <item>
                        <widget class="QLabel" name="labelSubtitle8">
                         <property name="text">
-                         <string>Where should I go if I need support?</string>
+                         <string>How come I can’t cold stake with HD?</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -1345,12 +1330,10 @@
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                           We have support channels in most of our official chat groups, for example
-                           &lt;a style='color: #b088ff' href='https://discord.ZENZO.org'&gt;
-                           #support in our Discord&lt;/a&gt;.
-                           If you prefer to submit a ticket, One can be
-                           &lt;a style='color: #b088ff' href='https://ZENZO.freshdesk.com'&gt;
-                           our Freshdesk support site&lt;/a&gt;.
+                           The latest HD implementation makes use of Mnemonic Phrases and that feature's
+                           BIP implementation isn't capable of deriving Cold Staking addresses at this time.
+                           ZENZO will need a custom HD implementation to allow for Cold Staking addresses and 
+                           is currently looking into it for future releases.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
@@ -1416,7 +1399,7 @@
                       <item>
                        <widget class="QLabel" name="labelSubtitle9">
                         <property name="text">
-                         <string>What is a Masternode?</string>
+                         <string>How do I get ZNZ??</string>
                         </property>
                         <property name="wordWrap">
                          <bool>true</bool>
@@ -1444,44 +1427,9 @@
                         <property name="text">
                          <string>
                            &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
-                           A masternode is a computer running a full node ZENZO core wallet with a
-                           requirement of 15,000 ZNZ secured collateral to provide extra services
-                           to the network and in return, receive a portion of the block reward
-                           regularly.  These services include:
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-
-                           &lt;ul&gt;
-                           &lt;li&gt;Instant transactions (SwiftX)&lt;/li&gt;
-                           &lt;li&gt;A decentralized governance (Proposal Voting)&lt;/li&gt;
-                           &lt;li&gt;A decentralized budgeting system (Treasury)&lt;/li&gt;
-                           &lt;li&gt;Validation of transactions within each block&lt;/li&gt;
-                           &lt;li&gt;Act as an additional full node in the network&lt;/li&gt;
-                           &lt;/ul&gt;
-
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           For providing such services, masternodes are also paid a certain portion
-                           of reward for each block. This can serve as a passive income to the
-                           masternode owners minus their running cost.
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-
-                           Masternode Perks:
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           &lt;ul&gt;
-                           &lt;li&gt;Participate in ZENZO Governance&lt;/li&gt;
-                           &lt;li&gt;Earn Masternode Rewards&lt;/li&gt;
-                           &lt;li&gt;Commodity option for future sale&lt;/li&gt;
-                           &lt;li&gt;Help secure the ZENZO network&lt;/li&gt;
-                           &lt;/ul&gt;
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-
-                           Requirements:
-                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
-                           &lt;ul&gt;
-                           &lt;li&gt;15,000 ZNZ per single Masternode instance&lt;/li&gt;
-                           &lt;li&gt;Must be stored in a core wallet&lt;/li&gt;
-                           &lt;li&gt;Need dedicated IP address&lt;/li&gt;
-                           &lt;li&gt;Masternode wallet to remain online&lt;/li&gt;
-                           &lt;/ul&gt;
+                           You can obtain ZNZ by purchasing it off an exchange, peer-to-peer transactions,
+                           faucets, along with earning it through contests, events, and giveaways that ZENZO holds.
+                           Once you have ZNZ, you are able to earn more ZNZ through staking and setting up masternodes.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </string>
                         </property>
