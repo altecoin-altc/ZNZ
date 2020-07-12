@@ -136,7 +136,8 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
     (850000, uint256("10fc098b963f0f113c4f570e6a44ebacc14013acb8b673d9205f4c3947ac5502"))
     (875000, uint256("1e1583e0e3edf1d65df50334abf449f2d66e6877f52c86a17515f1ee1bc85a70"))
     (900000, uint256("1581520407087daa61390fd464883428a0c6dc00c0a8fe03d587a782b2ccfb83"))
-    (923554, uint256("53465a12847852b8be29e483dcd9f23eea59a2d75d438a5f2a65dc8137b905d2"));
+    (925000, uint256("a6c49c9e0403bfc707987fadf87e67f9380a77682f944281d684da9ace5fd20e"))
+    (927959, uint256("9cbf40c76e6ed30a68480d6b8511b12c91296cd88102dbdad80754aa4c6495ec"));
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
     1594301169, // * UNIX timestamp of last checkpoint block
@@ -206,7 +207,7 @@ public:
 
         // height-based activations
         consensus.height_last_PoW = 400;
-        consensus.height_RHF = 926444; // TODO: Decide real Hardfork block height
+        consensus.height_RHF = 935333;
         consensus.height_last_ZC_AccumCheckpoint = 231570;
         consensus.height_start_BIP65 = consensus.height_RHF;             // 82629b7a9978f5c7ea3f70a12db92633a7d2e436711500db28b97efd48b1e527
         consensus.height_start_MessSignaturesV2 = consensus.height_RHF;  // TimeProtocolV2, Blocks V7 and newMessageSignatures
