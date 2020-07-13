@@ -38,7 +38,7 @@
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>io.zenzo.Zenzo-Qt</string>
+  <string>io.zenzo.ZENZO-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>

@@ -136,11 +136,12 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
     (850000, uint256("10fc098b963f0f113c4f570e6a44ebacc14013acb8b673d9205f4c3947ac5502"))
     (875000, uint256("1e1583e0e3edf1d65df50334abf449f2d66e6877f52c86a17515f1ee1bc85a70"))
     (900000, uint256("1581520407087daa61390fd464883428a0c6dc00c0a8fe03d587a782b2ccfb83"))
-    (923554, uint256("53465a12847852b8be29e483dcd9f23eea59a2d75d438a5f2a65dc8137b905d2"));
+    (925000, uint256("24e577a18fbc0190d3c6b478560a5a606462ea1b5f00db1800b59e3d1455906c"))
+    (929390, uint256("11005b698c327fca205f83a22306161f17ce0455fe1367978f9c3d61df6d6cde"));
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    1594301169, // * UNIX timestamp of last checkpoint block
-    1884449,    // * total number of transactions between genesis and last checkpoint
+    1594655689, // * UNIX timestamp of last checkpoint block
+    1896177,    // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
     2939        // * estimated number of transactions per day after checkpoint
 };
@@ -206,7 +207,7 @@ public:
 
         // height-based activations
         consensus.height_last_PoW = 400;
-        consensus.height_RHF = 926444; // TODO: Decide real Hardfork block height
+        consensus.height_RHF = 935333;
         consensus.height_last_ZC_AccumCheckpoint = 231570;
         consensus.height_start_BIP65 = consensus.height_RHF;             // 82629b7a9978f5c7ea3f70a12db92633a7d2e436711500db28b97efd48b1e527
         consensus.height_start_MessSignaturesV2 = consensus.height_RHF;  // TimeProtocolV2, Blocks V7 and newMessageSignatures
@@ -239,11 +240,10 @@ public:
         nDefaultPort = 26210;
 
         // Note that of those with the service bits flag, most only support a subset of possible options
-        // vSeeds.push_back(CDNSSeedData("80.240.31.194", "80.240.31.194")); // Primary DNS Seeder
-        // vSeeds.push_back(CDNSSeedData("149.28.55.190", "149.28.55.190")); // Secondary DNS Seeder
-        // vSeeds.push_back(CDNSSeedData("45.77.224.165", "45.77.224.165")); // Backup DNS Seeder
-        // vSeeds.push_back(CDNSSeedData("45.76.117.67", "45.76.117.67")); // Backup Secondary DNS Seeder
-        // vSeeds.push_back(CDNSSeedData("45.76.184.133", "45.76.184.133")); // Backup DNS Seeder
+        vSeeds.push_back(CDNSSeedData("seed1.zenzo.io", "seed1.zenzo.io"));
+        vSeeds.push_back(CDNSSeedData("seed2.zenzo.io", "seed2.zenzo.io"));
+        vSeeds.push_back(CDNSSeedData("seed3.zenzo.io", "seed3.zenzo.io"));
+        vSeeds.push_back(CDNSSeedData("seed4.zenzo.io", "seed4.zenzo.io"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 81);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 53);

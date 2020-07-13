@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string></string>
+   <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="PFBorderImage" name="frame_2" native="true">
+    <widget class="PFBorderImage" name="frame_2">
      <layout class="QVBoxLayout" name="verticalLayout_1">
       <property name="spacing">
        <number>0</number>
@@ -698,7 +698,7 @@
                      <enum>Qt::NoFocus</enum>
                     </property>
                     <property name="text">
-                     <string>Privacy</string>
+                     <string>ZNZ</string>
                     </property>
                     <property name="checkable">
                      <bool>true</bool>
@@ -937,7 +937,7 @@
                      </property>
                      <property name="text">
                       <string>Welcome to
-ZENZO Core Wallet</string>
+ZENZO Core!</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignCenter</set>
@@ -962,8 +962,14 @@ ZENZO Core Wallet</string>
                    </item>
                    <item alignment="Qt::AlignHCenter">
                     <widget class="QLabel" name="labelMessage2">
+                     <property name="maximumSize">
+                      <size>
+                       <width>400</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
                      <property name="text">
-                      <string>ZENZO is the world’s most innovative Proof of Stake blockchain based technology. Developed by a team of highly experienced developers and cryptographers.</string>
+                      <string>ZENZO is a dedicated gaming blockchain that uses Proof of Stake. It was designed by gamers, for both gamers and game developers.</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -1036,7 +1042,7 @@ ZENZO Core Wallet</string>
                    </size>
                   </property>
                   <property name="text">
-                   <string>How ZENZO respects your privacy?</string>
+                   <string>ZNZ Coin</string>
                   </property>
                  </widget>
                 </item>
@@ -1053,10 +1059,22 @@ ZENZO Core Wallet</string>
                   </property>
                  </spacer>
                 </item>
-                <item>
+                <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="labelMessage3">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>400</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;As our manifesto says: Privacy is a non-negotiable basic human right; it grants users the freedom to share their data whenever and with whomever they want - ZENZO believes in self sovereignty.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The ZENZO Coin (ZNZ) is the native currency in the ZENZO Ecosystem and required for strong network stability. You can stake with ZNZ in order to earn rewards.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -1136,10 +1154,28 @@ ZENZO Core Wallet</string>
                   </property>
                  </spacer>
                 </item>
-                <item>
+                <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="labelMessage4">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>285</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>400</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
                   <property name="text">
-                   <string>The masternode network is ZENZO's second layer network on top of the blockchain that enables our DAO to provide decentralized governance and a treasury.</string>
+                   <string>This layer of the ZENZO Network allows for users to participate in decentralized governance and earn additional rewards.</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
