@@ -240,11 +240,10 @@ public:
         nDefaultPort = 26210;
 
         // Note that of those with the service bits flag, most only support a subset of possible options
-        // vSeeds.push_back(CDNSSeedData("80.240.31.194", "80.240.31.194")); // Primary DNS Seeder
-        // vSeeds.push_back(CDNSSeedData("149.28.55.190", "149.28.55.190")); // Secondary DNS Seeder
-        // vSeeds.push_back(CDNSSeedData("45.77.224.165", "45.77.224.165")); // Backup DNS Seeder
-        // vSeeds.push_back(CDNSSeedData("45.76.117.67", "45.76.117.67")); // Backup Secondary DNS Seeder
-        // vSeeds.push_back(CDNSSeedData("45.76.184.133", "45.76.184.133")); // Backup DNS Seeder
+        vSeeds.push_back(CDNSSeedData("seed1.zenzo.io", "seed1.zenzo.io"));
+        vSeeds.push_back(CDNSSeedData("seed2.zenzo.io", "seed2.zenzo.io"));
+        vSeeds.push_back(CDNSSeedData("seed3.zenzo.io", "seed3.zenzo.io"));
+        vSeeds.push_back(CDNSSeedData("seed4.zenzo.io", "seed4.zenzo.io"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 81);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 53);
