@@ -5,19 +5,19 @@
 # See "man systemd.service" for details.
 
 # Note that almost all daemon options could be specified in
-# /etc/pivx/pivx.conf
+# /etc/zenzo/zenzo.conf
 
 [Unit]
-Description=PIVX daemon
+Description=ZENZO daemon
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/pivxd -daemon -conf=/etc/pivx/pivx.conf -pid=/run/pivxd/pivxd.pid
-# Creates /run/pivxd owned by pivx
-RuntimeDirectory=pivxd
-User=pivx
+ExecStart=/usr/bin/zenzod -daemon -conf=/etc/zenzo/zenzo.conf -pid=/run/zenzod/zenzod.pid
+# Creates /run/zenzod owned by zenzo
+RuntimeDirectory=zenzod
+User=zenzo
 Type=forking
-PIDFile=/run/pivxd/pivxd.pid
+PIDFile=/run/zenzod/zenzod.pid
 Restart=on-failure
 
 # Hardening measures

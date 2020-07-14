@@ -371,9 +371,9 @@ SOURCES += src/activemasternode.cpp \
            src/crypter.cpp \
            src/obfuscation-relay.cpp \
            src/obfuscation.cpp \
-           src/pivx-cli.cpp \
-           src/pivx-tx.cpp \
-           src/pivx.cpp \
+           src/zenzo-cli.cpp \
+           src/zenzo-tx.cpp \
+           src/zenzo.cpp \
            src/db.cpp \
            src/eccryptoverify.cpp \
            src/ecwrapper.cpp \
@@ -467,7 +467,7 @@ SOURCES += src/activemasternode.cpp \
            src/qt/coincontroltreewidget.cpp \
            src/qt/csvmodelwriter.cpp \
            src/qt/obfuscationconfig.cpp \
-           src/qt/pivx.cpp \
+           src/qt/zenzo.cpp \
            src/qt/pivxstrings.cpp \
            src/qt/editaddressdialog.cpp \
            src/qt/guiutil.cpp \
