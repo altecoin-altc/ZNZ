@@ -5,7 +5,7 @@
 bin_PROGRAMS += qt/zenzo-qt
 EXTRA_LIBRARIES += qt/libbitcoinqt.a
 
-# pivx qt core #
+# zenzo qt core #
 include Makefile.qt_locale.include
 
 QT_FORMS_UI = \
@@ -719,10 +719,10 @@ CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda 
 
 CLEANFILES += $(CLEAN_QT)
 
-pivx_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_zenzo_qt_OBJECTS) qt/pivx-qt$(EXEEXT) $(LIBBITCOINQT)
+zenzo_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_zenzo_qt_OBJECTS) qt/zenzo-qt$(EXEEXT) $(LIBBITCOINQT)
 
-pivx_qt : qt/pivx-qt$(EXEEXT)
+zenzo_qt : qt/zenzo-qt$(EXEEXT)
 
 ui_%.h: %.ui
 	@test -f $(UIC)
