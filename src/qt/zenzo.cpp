@@ -29,7 +29,7 @@
 #include "masternodeconfig.h"
 #include "forgeman.h"
 
-#include <startoptionsmain.h>
+#include "qt/startoptionsmain.h"
 
 #include "init.h"
 #include "main.h"
