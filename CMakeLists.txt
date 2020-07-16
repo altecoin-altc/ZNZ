@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(PIVX)
+project(ZENZO)
 
 set(BDB_VER "4.8.30")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/contrib/cmake")
@@ -31,7 +31,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         message(STATUS "Compiling on WSL")
         set(ENV{DISPLAY} ":0")
         set(ENV{LIBGL_ALWAYS_INDIRECT} 1)
-        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY /home/$ENV{USER}/pivx-run)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY /home/$ENV{USER}/zenzo-run)
         message(WARNING "WSL Runtime support requires VcXsrv to be installed and running")
     else()
         message(STATUS "Compiling on Linux")
@@ -80,17 +80,17 @@ find_package(Boost COMPONENTS system filesystem thread program_options REQUIRED)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/configure")
 else()
     execute_process(
-        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/autogen.sh
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/autogen.sh
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 endif()
 
-# run configure if pivx_config.h doesn't exist
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/config/pivx-config.h")
+# run configure if zenzo_config.h doesn't exist
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/config/zenzo-config.h")
 else()
     execute_process(
-        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/configure ${CONFIGSITE} ${BDB_CONFIGURE_FLAGS} ${BIGNUM_CONFIGURE_FLAGS} ${SSL_CONFIGURE_FLAGS}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/configure ${CONFIGSITE} ${BDB_CONFIGURE_FLAGS} ${BIGNUM_CONFIGURE_FLAGS} ${SSL_CONFIGURE_FLAGS}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 endif()
 add_definitions(-DHAVE_CONFIG_H)
@@ -102,7 +102,7 @@ ExternalProject_Add (
         BUILD_COMMAND $(MAKE)
         BUILD_IN_SOURCE 1
         INSTALL_COMMAND ""
-        )
+)
 
 ExternalProject_Add (
         libsecp256k1
@@ -111,7 +111,7 @@ ExternalProject_Add (
         BUILD_COMMAND $(MAKE)
         BUILD_IN_SOURCE 1
         INSTALL_COMMAND ""
-        )
+)
 
 set(libleveldb_a_headers
         ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/port/atomic_pointer.h
@@ -214,8 +214,8 @@ set(libleveldb_a_sources
 
 set(libleveldb_cpp_flags)
 if($ENV{target} MATCHES "Windows")
-        set(libleveldb_cpp_flags -DOS_WINDOWS -DLEVELDB_PLATFORM_WINDOWS -DWINVER=0x0500 -D__USE_MINGW_ANSI_STDIO=1)
-        set(libleveldb_a_sources ${libleveldb_a_sources} ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/util/env_win.cc
+    set(libleveldb_cpp_flags -DOS_WINDOWS -DLEVELDB_PLATFORM_WINDOWS -DWINVER=0x0500 -D__USE_MINGW_ANSI_STDIO=1)
+    set(libleveldb_a_sources ${libleveldb_a_sources} ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/util/env_win.cc
             ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/port/port_win.cc)
 else()
     if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -312,18 +312,18 @@ if(MINIUPNP_FOUND)
     target_compile_definitions(SERVER_A PUBLIC "-DSTATICLIB -DMINIUPNP_STATICLIB")
 endif()
 target_include_directories(SERVER_A PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/univalue/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/helpers/memenv
-    ${ZMQ_INCLUDE_DIR} ${LIBEVENT_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR} ${BerkeleyDB_INCLUDE_DIRS}
-    )
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/univalue/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/helpers/memenv
+        ${ZMQ_INCLUDE_DIR} ${LIBEVENT_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR} ${BerkeleyDB_INCLUDE_DIRS}
+        )
 
 if(ZMQ_FOUND)
     set(ZMQ_SOURCES
-        ./src/zmq/zmqabstractnotifier.cpp
-        ./src/zmq/zmqnotificationinterface.cpp
-        ./src/zmq/zmqpublishnotifier.cpp
-    )
+            ./src/zmq/zmqabstractnotifier.cpp
+            ./src/zmq/zmqnotificationinterface.cpp
+            ./src/zmq/zmqpublishnotifier.cpp
+            )
     add_library(ZMQ_A STATIC ${BitcoinHeaders} ${ZMQ_SOURCES} ${ZMQ_LIB})
     target_include_directories(ZMQ_A PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${ZMQ_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR})
     target_compile_definitions(ZMQ_A PUBLIC "-DZMQ_STATIC")
@@ -332,7 +332,6 @@ endif()
 set(WALLET_SOURCES
         ./src/activemasternode.cpp
         ./src/bip38.cpp
-        ./src/denomination_functions.cpp
         ./src/obfuscation.cpp
         ./src/obfuscation-relay.cpp
         ./src/wallet/db.cpp
@@ -355,13 +354,9 @@ set(WALLET_SOURCES
         ./src/kernel.cpp
         ./src/legacy/stakemodifier.cpp
         ./src/wallet/wallet.cpp
-        ./src/wallet/wallet_zerocoin.cpp
         ./src/wallet/wallet_ismine.cpp
         ./src/wallet/walletdb.cpp
-        ./src/zpiv/zpivwallet.cpp
-        ./src/zpiv/zpivtracker.cpp
         ./src/zpiv/zpivmodule.cpp
-        ./src/zpiv/zpos.cpp
         ./src/stakeinput.cpp
         )
 add_library(WALLET_A STATIC ${BitcoinHeaders} ${WALLET_SOURCES})
@@ -442,7 +437,6 @@ set(ZEROCOIN_SOURCES
         ./src/libzerocoin/bignum.h
         ./src/libzerocoin/bignum.cpp
         ./src/libzerocoin/Coin.h
-        ./src/libzerocoin/CoinRandomnessSchnorrSignature.h
         ./src/libzerocoin/CoinSpend.h
         ./src/libzerocoin/Commitment.h
         ./src/libzerocoin/Denominations.h
@@ -452,7 +446,6 @@ set(ZEROCOIN_SOURCES
         ./src/libzerocoin/ZerocoinDefines.h
         ./src/libzerocoin/Accumulator.cpp
         ./src/libzerocoin/Coin.cpp
-        ./src/libzerocoin/CoinRandomnessSchnorrSignature.cpp
         ./src/libzerocoin/Denominations.cpp
         ./src/libzerocoin/CoinSpend.cpp
         ./src/libzerocoin/ParamGeneration.cpp
@@ -486,7 +479,6 @@ set(COMMON_SOURCES
         ./src/core_read.cpp
         ./src/core_write.cpp
         ./src/hash.cpp
-        ./src/invalid.cpp
         ./src/key.cpp
         ./src/keystore.cpp
         ./src/netbase.cpp
@@ -543,15 +535,15 @@ target_include_directories(CLI_A PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
 link_directories(
         ${CMAKE_SOURCE_DIR}/src/univalue/.libs
         ${CMAKE_SOURCE_DIR}/src/secp256k1/.libs
-        )
+)
 
-set(pivx-cli_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/pivx-cli.cpp)
+set(zenzo-cli_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/zenzo-cli.cpp)
 if($ENV{target} MATCHES "Windows")
-    list(APPEND pivx-cli_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/pivx-cli-res.rc)
+    list(APPEND zenzo-cli_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/zenzo-cli-res.rc)
 endif()
-add_executable(pivx-cli ${pivx-cli_SOURCES})
-add_dependencies(pivx-cli libunivalue)
-target_link_libraries(pivx-cli
+add_executable(zenzo-cli ${zenzo-cli_SOURCES})
+add_dependencies(zenzo-cli libunivalue)
+target_link_libraries(zenzo-cli
         CLI_A
         univalue
         UTIL_A
@@ -559,16 +551,16 @@ target_link_libraries(pivx-cli
         ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${LIBEVENT_LIB}
         )
 if($ENV{target} MATCHES "Windows")
-    target_link_libraries(pivx-cli ${WINDOWS_LDADD})
+    target_link_libraries(zenzo-cli ${WINDOWS_LDADD})
 endif()
 
-set(pivx-tx_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/pivx-tx.cpp)
+set(zenzo-tx_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/zenzo-tx.cpp)
 if($ENV{target} MATCHES "Windows")
-    list(APPEND pivx-tx_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/pivx-tx-res.rc)
+    list(APPEND zenzo-tx_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/zenzo-tx-res.rc)
 endif()
-add_executable(pivx-tx ${pivx-tx_SOURCES})
-add_dependencies(pivx-tx libunivalue libsecp256k1)
-target_link_libraries(pivx-tx
+add_executable(zenzo-tx ${zenzo-tx_SOURCES})
+add_dependencies(zenzo-tx libunivalue libsecp256k1)
+target_link_libraries(zenzo-tx
         univalue
         COMMON_A
         ZEROCOIN_A
@@ -578,26 +570,26 @@ target_link_libraries(pivx-tx
         ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES} ${LIBEVENT_LIB}
         )
 if($ENV{target} MATCHES "Windows")
-    target_link_libraries(pivx-tx ${WINDOWS_LDADD})
+    target_link_libraries(zenzo-tx ${WINDOWS_LDADD})
 endif()
 if(GMP_FOUND)
-    target_link_libraries(pivx-tx ${GMP_LIBRARY})
+    target_link_libraries(zenzo-tx ${GMP_LIBRARY})
 endif()
 
 link_directories(${CMAKE_BINARY_DIR})
 
-set(pivxd_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/pivxd.cpp)
+set(zenzod_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/zenzod.cpp)
 if($ENV{target} MATCHES "Windows")
-    list(APPEND pivxd_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/pivxd-res.rc)
+    list(APPEND zenzod_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/zenzod-res.rc)
 endif()
-add_executable(pivxd ${pivxd_SOURCES} ${BitcoinHeaders})
-add_dependencies(pivxd libunivalue libsecp256k1 leveldb leveldb_sse42 memenv)
-target_include_directories(pivxd PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
+add_executable(zenzod ${zenzod_SOURCES} ${BitcoinHeaders})
+add_dependencies(zenzod libunivalue libsecp256k1 leveldb leveldb_sse42 memenv)
+target_include_directories(zenzod PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb
         ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/include
         ${CMAKE_CURRENT_SOURCE_DIR}/src/leveldb/helpers/memenv
         ${LIBEVENT_INCLUDE_DIR})
-target_link_libraries(pivxd
+target_link_libraries(zenzod
         pthread
         SERVER_A
         WALLET_A
@@ -614,22 +606,22 @@ target_link_libraries(pivxd
         )
 if($ENV{target} MATCHES "Windows")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wstack-protector -fstack-protector-all -fPIE -pipe -O2 -pthread -Wl,--dynamicbase -Wl,--nxcompat -Wl,--high-entropy-va -pie --static")
-    target_link_libraries(pivxd ${WINDOWS_LDADD})
+    target_link_libraries(zenzod ${WINDOWS_LDADD})
 endif()
 if(GMP_FOUND)
-    target_link_libraries(pivxd ${GMP_LIBRARY})
-    target_include_directories(pivxd PUBLIC ${GMP_INCLUDE_DIR})
+    target_link_libraries(zenzod ${GMP_LIBRARY})
+    target_include_directories(zenzod PUBLIC ${GMP_INCLUDE_DIR})
 endif()
 if(ZMQ_FOUND)
-    target_link_libraries(pivxd ZMQ_A ${ZMQ_LIB})
-    target_include_directories(pivxd PUBLIC ${ZMQ_INCLUDE_DIR})
+    target_link_libraries(zenzod ZMQ_A ${ZMQ_LIB})
+    target_include_directories(zenzod PUBLIC ${ZMQ_INCLUDE_DIR})
 endif()
 if(MINIUPNP_FOUND)
-    target_compile_definitions(pivxd PUBLIC "-DSTATICLIB -DMINIUPNP_STATICLIB")
-    target_link_libraries(pivxd ${MINIUPNP_LIBRARY})
-    target_include_directories(pivxd PUBLIC ${MINIUPNP_INCLUDE_DIR})
+    target_compile_definitions(zenzod PUBLIC "-DSTATICLIB -DMINIUPNP_STATICLIB")
+    target_link_libraries(zenzod ${MINIUPNP_LIBRARY})
+    target_include_directories(zenzod PUBLIC ${MINIUPNP_INCLUDE_DIR})
 endif()
 
-target_link_libraries(pivxd -lpthread)
+target_link_libraries(zenzod -lpthread)
 
 add_subdirectory(src/qt)
