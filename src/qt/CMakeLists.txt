@@ -218,8 +218,8 @@ set_source_files_properties(${QT_TRANSLATIONS_FILES} PROPERTIES OUTPUT_LOCATION 
 QT5_ADD_TRANSLATION(QM ${QT_TRANSLATIONS_FILES})
 add_custom_target(translations_target ALL DEPENDS ${QM})
 
-QT5_ADD_RESOURCES(QRC_RESOURCE pivx.qrc)
-QT5_ADD_RESOURCES(QRC_LOCALE_RESOURCE pivx_locale.qrc)
+QT5_ADD_RESOURCES(QRC_RESOURCE zenzo.qrc)
+QT5_ADD_RESOURCES(QRC_LOCALE_RESOURCE zenzo_locale.qrc)
 
 add_executable(zenzo-qt zenzo.cpp ${QM} ${QRC_RESOURCE} ${QRC_LOCALE_RESOURCE})
 add_dependencies(zenzo-qt translations_target libunivalue libsecp256k1 leveldb leveldb_sse42 memenv)
