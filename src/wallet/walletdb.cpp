@@ -616,6 +616,12 @@ bool ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue, CW
             // originally saved as integer
             if (pwallet->nStakeSplitThreshold < COIN)
                 pwallet->nStakeSplitThreshold *= COIN;
+            // if ~1, force the value to the default to prevent thousands of accidental UTXO splits
+            if (pwallet->nStakeSplitThreshold > 0 && pwallet->nStakeSplitThreshold <= 1 * COIN) {
+                LogPrintf("WalletDB : nStakeSplitThreshold is too low (%u), setting to %u instead...\n", pwallet->nStakeSplitThreshold / COIN,
+                                                                                                         (int)CWallet::DEFAULT_STAKE_SPLIT_THRESHOLD);
+                pwallet->nStakeSplitThreshold = CWallet::DEFAULT_STAKE_SPLIT_THRESHOLD * COIN;
+            }
         } else if (strType == "multisend") //presstab HyperStake
         {
             unsigned int i;
