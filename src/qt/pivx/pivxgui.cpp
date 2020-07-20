@@ -593,6 +593,7 @@ bool ZENZOGUI::addWallet(const QString& name, WalletModel* walletModel)
     settingsWidget->setWalletModel(walletModel);
 
     // Connect actions..
+    connect(walletModel, &WalletModel::message, this, &ZENZOGUI::message);
     connect(masterNodesWidget, &MasterNodesWidget::message, this, &ZENZOGUI::message);
     connect(coldStakingWidget, &MasterNodesWidget::message, this, &ZENZOGUI::message);
     connect(topBar, &TopBar::message, this, &ZENZOGUI::message);
