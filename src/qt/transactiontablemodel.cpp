@@ -500,8 +500,9 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord* wtx
         return QIcon(":/icons/tx_input");
     case TransactionRecord::SendToAddress:
     case TransactionRecord::SendToOther:
-    case TransactionRecord::Burned: // TODO: Add custom 'flame' icon to burns, instead of using 'sent' icon
         return QIcon("://ic-transaction-sent");
+    case TransactionRecord::Burned:
+        return QIcon("://ic-transaction-burn");
     default:
         return QIcon(":/icons/tx_inout");
     }
