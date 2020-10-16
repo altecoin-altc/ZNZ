@@ -450,6 +450,8 @@ QString TransactionTableModel::formatTxType(const TransactionRecord* wtx) const
     case TransactionRecord::SendToAddress:
     case TransactionRecord::SendToOther:
         return tr("Sent to");
+    case TransactionRecord::Burned:
+        return tr("Burned");
     case TransactionRecord::SendToSelf:
         return tr("Payment to yourself");
     case TransactionRecord::StakeMint:
@@ -498,6 +500,7 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord* wtx
         return QIcon(":/icons/tx_input");
     case TransactionRecord::SendToAddress:
     case TransactionRecord::SendToOther:
+    case TransactionRecord::Burned: // TODO: Add custom 'flame' icon to burns, instead of using 'sent' icon
         return QIcon("://ic-transaction-sent");
     default:
         return QIcon(":/icons/tx_inout");
@@ -527,6 +530,8 @@ QString TransactionTableModel::formatTxToAddress(const TransactionRecord* wtx, b
         return lookupAddress(wtx->address, tooltip) + watchAddress;
     case TransactionRecord::SendToOther:
         return QString::fromStdString(wtx->address) + watchAddress;
+    case TransactionRecord::Burned:
+        return "";
     case TransactionRecord::P2CSDelegation:
     case TransactionRecord::P2CSDelegationSent:
     case TransactionRecord::P2CSDelegationSentOwner:

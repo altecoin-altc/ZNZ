@@ -78,6 +78,7 @@ public:
         SuperStake,
         SendToAddress,
         SendToOther,
+        Burned,
         RecvWithAddress,
         MNReward,
         RecvFromOther,
