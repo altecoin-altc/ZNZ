@@ -695,6 +695,9 @@ UniValue burn(const UniValue& params, bool fHelp)
         if (params[1].get_str().size() > 0) {
             // Parse plain-text string into HEX, then HEX to HEX-Vector
             data = ParseHexV(HexStr(params[1].get_str()), "data");
+            // Ensure the data is under the maximum OP_RETURN relay (Minus overhead)
+            if (data.size() > MAX_OP_RETURN_RELAY - 3)
+                throw std::runtime_error("Your custom data (worth " + std::to_string(data.size()) + " bytes) exceeds the maximum relay of " + std::to_string(MAX_OP_RETURN_RELAY - 3) + " bytes!");
         } else {
             // Empty data is valid
         }
@@ -707,7 +710,7 @@ UniValue burn(const UniValue& params, bool fHelp)
     int64_t nAmount = AmountFromValue(params[0]);
     CTxDestination address1;
     CWalletTx wtx;
-    BurnMoney(scriptPubKey, nAmount, wtx,false);
+    BurnMoney(scriptPubKey, nAmount, wtx, false);
 
     EnsureWalletIsUnlocked();
     return wtx.GetHash().GetHex();
