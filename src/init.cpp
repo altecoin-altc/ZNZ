@@ -1528,13 +1528,24 @@ bool AppInit2(const std::vector<std::string>& words)
                     }
                 }
 
-                bool reindexZerocoin = false;
-                int chainHeight = chainActive.Height();
+                // Only check supply / burned statistics if we have enough blocks
+                if (chainActive.Height() > 2) {
+                    // Load and Check burned supply, if it's missing or equal to zero; reindex the money supply to calculate it
+                    int nIntBurnedCoins = 0;
+                    bool reindexSupply = !pblocktree->ReadInt("burned", nIntBurnedCoins);
+                    if (nIntBurnedCoins > 0) {
+                        LogPrintf("Loaded nBurnedCoins: %u \n", nIntBurnedCoins);
+                        nBurnedCoins = nIntBurnedCoins * COIN;
+                    } else {
+                        LogPrintf("Failed to load nBurnedCoins, enabling -reindexmoneysupply...\n");
+                        reindexSupply = true;
+                    }
 
-                // Recalculate money supply for blocks that are impacted by accounting issue after zerocoin activation
-                if (GetBoolArg("-reindexmoneysupply", false)) {
-                    // Recalculate from the zerocoin activation or from scratch.
-                    RecalculatePIVSupply((reindexZerocoin ? consensus.height_start_ZC : 1), false);
+                    // Recalculate money supply
+                    if (GetBoolArg("-reindexmoneysupply", reindexSupply)) {
+                        // Recalculate from scratch.
+                        RecalculateZNZSupply(1, false);
+                    }
                 }
 
                 if (!fReindex) {

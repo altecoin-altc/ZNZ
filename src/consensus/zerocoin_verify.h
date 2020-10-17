@@ -11,7 +11,7 @@
 #include "zpivchain.h"
 
 // Public coin spend
-bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv = true);
-bool UpdateZPIVSupply(const CBlock& block, CBlockIndex* pindex);
+bool RecalculateZNZSupply(int nHeightStart, bool fSkipZC = true);
+bool UpdateZZNZSupply(const CBlock& block, CBlockIndex* pindex);
 
 #endif //PIVX_CONSENSUS_ZEROCOIN_VERIFY_H

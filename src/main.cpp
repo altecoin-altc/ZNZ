@@ -80,6 +80,7 @@ BlockMap mapBlockIndex;
 CChain chainActive;
 CBlockIndex* pindexBestHeader = NULL;
 int64_t nTimeBestReceived = 0;
+CAmount nBurnedCoins = 0;
 
 // Best block section
 Mutex g_best_block_mutex;
@@ -2169,6 +2170,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
     int64_t nTimeStart = GetTimeMicros();
     CAmount nFees = 0;
+    CAmount nUnspendable = 0;
     int nInputs = 0;
     unsigned int nSigOps = 0;
     CDiskTxPos pos(pindex->GetBlockPos(), GetSizeOfCompactSize(block.vtx.size()));
@@ -2263,6 +2265,14 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             if (!CheckInputs(tx, state, view, fScriptChecks, flags, false, nScriptCheckThreads ? &vChecks : NULL))
                 return false;
             control.Add(vChecks);
+
+            // Consider unspendable outputs as 'burned'
+            if (!fJustCheck) {
+                for (const CTxOut& txOut : tx.vout) {
+                    if (txOut.scriptPubKey.IsUnspendable())
+                        nUnspendable += txOut.nValue;
+                }
+            }
         }
         nValueOut += tx.GetValueOut();
 
@@ -2277,7 +2287,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     }
 
     // Track zZNZ money supply in the block index
-    if (!UpdateZPIVSupply(block, pindex))
+    if (!UpdateZZNZSupply(block, pindex))
         return state.DoS(100, error("%s: Failed to calculate new zZNZ supply for block=%s height=%d", __func__,
                                     block.GetHash().GetHex(), pindex->nHeight), REJECT_INVALID);
 
@@ -2294,6 +2304,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CAmount nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
     if (block.IsProofOfWork())
         nExpectedMint += nFees;
+    else if (!fJustCheck)
+        nUnspendable += nFees;
 
     // Check that the block does not overmint
     if (!IsBlockValueValid(block, nExpectedMint, nMint)) {
@@ -2311,6 +2323,13 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     // IMPORTANT NOTE: Nothing before this point should actually store to disk (or even memory)
     if (fJustCheck)
         return true;
+
+    // Update burned supply, and write it to disk
+    nBurnedCoins += nUnspendable;
+    if (!IsInitialBlockDownload() || pindex->nHeight % 1000 == 0) {
+        // Save to DB every 1000 blocks during IBD, and every block after IBD.
+        pblocktree->WriteInt("burned", std::round(nBurnedCoins / COIN));
+    }
 
     // Write undo information to disk
     if (pindex->GetUndoPos().IsNull() || !pindex->IsValid(BLOCK_VALID_SCRIPTS)) {

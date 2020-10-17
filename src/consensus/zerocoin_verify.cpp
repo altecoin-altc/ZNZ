@@ -11,7 +11,7 @@
 #include "main.h"
 #include "txdb.h"
 
-bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv)
+bool RecalculateZNZSupply(int nHeightStart, bool fSkipZC)
 {
     const Consensus::Params& consensus = Params().GetConsensus();
     const int chainHeight = chainActive.Height();
@@ -20,15 +20,16 @@ bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv)
 
     CBlockIndex* pindex = chainActive[nHeightStart];
     CAmount nSupplyPrev = pindex->pprev->nMoneySupply;
-    if (nHeightStart == consensus.height_start_ZC)
-        nSupplyPrev = CAmount(5449796547496199);
 
-    uiInterface.ShowProgress(_("Recalculating PIV supply..."), 0);
+    // Reset nBurnedCoins on disk
+    pblocktree->WriteInt("burned", 0);
+
+    uiInterface.ShowProgress(_("Recalculating ZNZ supply..."), 0);
     while (true) {
         if (pindex->nHeight % 1000 == 0) {
             LogPrintf("%s : block %d...\n", __func__, pindex->nHeight);
             int percent = std::max(1, std::min(99, (int)((double)((pindex->nHeight - nHeightStart) * 100) / (chainHeight - nHeightStart))));
-            uiInterface.ShowProgress(_("Recalculating PIV supply..."), percent);
+            uiInterface.ShowProgress(_("Recalculating ZNZ supply... "), percent);
         }
 
         CBlock block;
@@ -43,6 +44,7 @@ bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv)
 
                 if (tx.vin[i].IsZerocoinSpend()) {
                     nValueIn += tx.vin[i].nSequence * COIN;
+                    nBurnedCoins -= tx.vin[i].nSequence * COIN; // Zerocoin spends 're-introduce' supply to ZNZ
                     continue;
                 }
 
@@ -57,7 +59,18 @@ bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv)
                 if (i == 0 && tx.IsCoinStake())
                     continue;
 
-                nValueOut += tx.vout[i].nValue;
+                /// NOTE!
+                // We consider Zerocoin Mints 'burned' due to being permanently frozen,
+                // however, since there were zerocoin spends in the past, the burned ZC
+                // will be deducted within the above vin[i].IsZerocoinSpend() check,
+                // which ensures ONLY unspent Zerocoin is classed as burned.
+                if (tx.vout[i].IsZerocoinMint())
+                    nBurnedCoins += tx.vout[i].GetZerocoinMinted();
+
+                if (tx.vout[i].scriptPubKey.IsUnspendable())
+                    nBurnedCoins += tx.vout[i].nValue; // Burned coins (unspendable)
+                else
+                    nValueOut += tx.vout[i].nValue;    // Transacted coins
             }
         }
 
@@ -66,8 +79,8 @@ bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv)
         nSupplyPrev = pindex->nMoneySupply;
 
         // Rewrite zZNZ supply too
-        if (!fSkipZpiv && pindex->nHeight >= consensus.height_start_ZC) {
-            UpdateZPIVSupply(block, pindex);
+        if (!fSkipZC && pindex->nHeight >= consensus.height_start_ZC) {
+            UpdateZZNZSupply(block, pindex);
         }
 
         assert(pblocktree->WriteBlockIndex(CDiskBlockIndex(pindex)));
@@ -80,11 +93,15 @@ bool RecalculatePIVSupply(int nHeightStart, bool fSkipZpiv)
         else
             break;
     }
+    // Write burned supply to disk
+    pblocktree->WriteInt("burned", std::round(nBurnedCoins / COIN));
+
+    // Finished!
     uiInterface.ShowProgress("", 100);
     return true;
 }
 
-bool UpdateZPIVSupply(const CBlock& block, CBlockIndex* pindex)
+bool UpdateZZNZSupply(const CBlock& block, CBlockIndex* pindex)
 {
     const Consensus::Params& consensus = Params().GetConsensus();
     if (pindex->nHeight < consensus.height_start_ZC)

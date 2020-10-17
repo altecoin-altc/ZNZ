@@ -77,6 +77,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
             "     \"5000\" : n,         (numeric) supply of 5000 zZNZ denomination\n"
             "     \"total\" : n,        (numeric) The total supply of all zZNZ denominations\n"
             "  }\n"
+            "  \"burned\" : \"supply\"         (numeric) The total amount of ZNZ burned (In fees and unspendable outputs)\n"
             "  \"keypoololdest\": xxxxxx,      (numeric) the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool\n"
             "  \"keypoolsize\": xxxx,          (numeric) how many new keys are pre-generated\n"
             "  \"unlocked_until\": ttt,        (numeric) the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked\n"
@@ -141,6 +142,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     }
     zznzObj.push_back(Pair("total", ValueFromAmount(chainActive.Tip()->GetZerocoinSupply())));
     obj.push_back(Pair("zerocoinsupply", zznzObj));
+    obj.push_back(Pair("burned", ValueFromAmount(nBurnedCoins)));
 
 #ifdef ENABLE_WALLET
     if (pwalletMain) {
