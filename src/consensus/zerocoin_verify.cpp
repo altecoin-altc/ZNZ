@@ -22,11 +22,12 @@ bool RecalculateZNZSupply(int nHeightStart, bool fSkipZC)
     CAmount nSupplyPrev = pindex->pprev->nMoneySupply;
 
     // Reset nBurnedCoins on disk
+    nBurnedCoins = 0;
     pblocktree->WriteInt("burned", 0);
 
-    uiInterface.ShowProgress(_("Recalculating ZNZ supply..."), 0);
+    uiInterface.ShowProgress(_("Recalculating ZNZ supply... "), 0);
     while (true) {
-        if (pindex->nHeight % 1000 == 0) {
+        if (pindex->nHeight % 5000 == 0) {
             LogPrintf("%s : block %d...\n", __func__, pindex->nHeight);
             int percent = std::max(1, std::min(99, (int)((double)((pindex->nHeight - nHeightStart) * 100) / (chainHeight - nHeightStart))));
             uiInterface.ShowProgress(_("Recalculating ZNZ supply... "), percent);
@@ -37,6 +38,7 @@ bool RecalculateZNZSupply(int nHeightStart, bool fSkipZC)
 
         CAmount nValueIn = 0;
         CAmount nValueOut = 0;
+        bool fBlockHasZerocoin = false;
         for (const CTransaction& tx : block.vtx) {
             for (unsigned int i = 0; i < tx.vin.size(); i++) {
                 if (tx.IsCoinBase())
@@ -45,6 +47,7 @@ bool RecalculateZNZSupply(int nHeightStart, bool fSkipZC)
                 if (tx.vin[i].IsZerocoinSpend()) {
                     nValueIn += tx.vin[i].nSequence * COIN;
                     nBurnedCoins -= tx.vin[i].nSequence * COIN; // Zerocoin spends 're-introduce' supply to ZNZ
+                    fBlockHasZerocoin = true;
                     continue;
                 }
 
@@ -64,18 +67,26 @@ bool RecalculateZNZSupply(int nHeightStart, bool fSkipZC)
                 // however, since there were zerocoin spends in the past, the burned ZC
                 // will be deducted within the above vin[i].IsZerocoinSpend() check,
                 // which ensures ONLY unspent Zerocoin is classed as burned.
-                if (tx.vout[i].IsZerocoinMint())
+                if (tx.vout[i].IsZerocoinMint()) {
                     nBurnedCoins += tx.vout[i].GetZerocoinMinted();
+                    fBlockHasZerocoin = true;
+                }
 
-                if (tx.vout[i].scriptPubKey.IsUnspendable())
-                    nBurnedCoins += tx.vout[i].nValue; // Burned coins (unspendable)
-                else
+                if (!tx.vout[i].scriptPubKey.IsUnspendable())
                     nValueOut += tx.vout[i].nValue;    // Transacted coins
+                // Else, classed as a "burn" or fee
             }
         }
 
         // Rewrite money supply
-        pindex->nMoneySupply = nSupplyPrev + nValueOut - nValueIn;
+        CAmount nBlockValue = nValueOut - nValueIn;
+        CAmount nFees = GetBlockValue(pindex->nHeight) - nBlockValue;
+        if (nFees > 0) {
+            // We ignore fee-calcs for blocks with Zerocoin mints/spends, as this is handled in-line, above
+            if (!fBlockHasZerocoin)
+                nBurnedCoins += nFees;
+        }
+        pindex->nMoneySupply = nSupplyPrev + nBlockValue;
         nSupplyPrev = pindex->nMoneySupply;
 
         // Rewrite zZNZ supply too
