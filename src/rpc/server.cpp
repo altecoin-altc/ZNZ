@@ -364,6 +364,7 @@ static const CRPCCommand vRPCCommands[] =
         {"zenzo", "relaymasternodebroadcast", &relaymasternodebroadcast, true, true, false},
         {"zenzo", "masternodecurrent", &masternodecurrent, true, true, false},
         {"zenzo", "masternodedebug", &masternodedebug, true, true, false},
+        {"zenzo", "reloadmasternodeconfig", &reloadmasternodeconfig, true, true, false},
         {"zenzo", "startmasternode", &startmasternode, true, true, false},
         {"zenzo", "createmasternodekey", &createmasternodekey, true, true, false},
         {"zenzo", "getmasternodeoutputs", &getmasternodeoutputs, true, true, false},
