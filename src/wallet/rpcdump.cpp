@@ -186,6 +186,7 @@ UniValue dumphdinfo(const UniValue& params, bool fHelp)
     hdChainCurrent.GetMnemonic(ssMnemonic, ssMnemonicPassphrase);
 
     UniValue obj(UniValue::VOBJ);
+    obj.push_back(Pair("warning", _("This seed contains all of your private keys. DO NOT send this file to anyone!")));
     obj.push_back(Pair("hdseed", HexStr(hdChainCurrent.GetSeed())));
     obj.push_back(Pair("mnemonic", ssMnemonic.c_str()));
     obj.push_back(Pair("mnemonicpassphrase", ssMnemonicPassphrase.c_str()));
@@ -425,6 +426,11 @@ UniValue dumpwallet(const UniValue& params, bool fHelp)
             "\nExamples:\n" +
             HelpExampleCli("dumpwallet", "\"test\"") + HelpExampleRpc("dumpwallet", "\"test\""));
 
+    if (params[0].get_str().find("bug") != std::string::npos ||
+        params[0].get_str().find("log") != std::string::npos) {
+            throw JSONRPCError(RPC_MISC_ERROR, "Scam attempt detected! (DO NOT give dumpwallet or dumpprivkey information to ANYONE!)");
+    }
+
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
     EnsureWalletIsUnlocked();
@@ -518,6 +524,7 @@ UniValue dumpwallet(const UniValue& params, bool fHelp)
     file.close();
 
     UniValue reply(UniValue::VOBJ);
+    reply.push_back(Pair("warning", _("This file contains all of your private keys in plain text. DO NOT send this file to anyone!")));
     reply.push_back(Pair("filename", filepath.string()));
 
     return reply;
