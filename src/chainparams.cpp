@@ -137,11 +137,16 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
     (875000, uint256("1e1583e0e3edf1d65df50334abf449f2d66e6877f52c86a17515f1ee1bc85a70"))
     (900000, uint256("1581520407087daa61390fd464883428a0c6dc00c0a8fe03d587a782b2ccfb83"))
     (925000, uint256("24e577a18fbc0190d3c6b478560a5a606462ea1b5f00db1800b59e3d1455906c"))
-    (941847, uint256("c12a9a60ecb6fb4e61dba3ee9038fc35d690b662914be48ed261af0906298b3e"));
+    (950000, uint256("4ae7813aa500a0bb440a7f90760cc4d3d0c1c3aad94551ee52f09adec60bd371"))
+    (975000, uint256("15e7b11d04b77c7d6ce92f28b8141d06b0c91b3f1a53523c8e30b36042082c88"))
+    (1000000, uint256("08b32e80cc24c4b5afcbb2e8ad965022d5c535813a1bac42f47c9c7b9125b4c6"))
+    (1025000, uint256("6b3e8287798feffa788749e89e129bb2f3e669685c1c25671d25c039c8d0e703"))
+    (1050000, uint256("0e0ef08dd4a1e477f8138f3f1519fc254629a65b57a7849504c4385a7d7ae81b"))
+    (1065767, uint256("254439a9c8022f0ea578405bc320411194a14f7dc929a92117e2c71797f2066c"));
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    1595416650, // * UNIX timestamp of last checkpoint block
-    1923952,    // * total number of transactions between genesis and last checkpoint
+    1603038150, // * UNIX timestamp of last checkpoint block
+    2179882,    // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
     2939        // * estimated number of transactions per day after checkpoint
 };
@@ -149,11 +154,7 @@ static const Checkpoints::CCheckpointData data = {
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
     boost::assign::map_list_of
-    (0, uint256S("0x001"))
-    (1016800, uint256S("6ae7d52092fd918c8ac8d9b1334400387d3057997e6e927a88e57186dc395231"))
-    (1106100, uint256S("c54b3e7e8b710e4075da1806adf2d508ae722627d5bcc43f594cf64d5eef8b30")) //!< zc public spend activation height
-    (1112700, uint256S("2ad8d507dbe3d3841b9f8a29c3878d570228e9361c3e057362d7915777bbc849"))
-    (1347000, uint256S("30c173ffc09a13f288bf6e828216107037ce5b79536b1cebd750a014f4939882")); //!< First v7 block
+    (0, uint256S("0x001"));
 static const Checkpoints::CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
     1575145155,
