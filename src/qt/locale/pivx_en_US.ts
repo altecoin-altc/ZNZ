@@ -1019,8 +1019,8 @@ Address: %4
         <translation>medium-high</translation>
     </message>
     <message>
-        <source>Can vary +/- %1 duff(s) per input.</source>
-        <translation>Can vary +/- %1 duff(s) per input.</translation>
+        <source>Can vary +/- %1 zen(s) per input.</source>
+        <translation>Can vary +/- %1 zen(s) per input.</translation>
     </message>
     <message>
         <source>n/a</source>

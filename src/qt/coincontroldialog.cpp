@@ -735,7 +735,7 @@ void CoinControlDialog::updateLabels(WalletModel* model, QDialog* dialog)
 
     QString toolTip3 = tr("This label turns red, if any recipient receives an amount smaller than %1.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, ::minRelayTxFee.GetFee(546)));
 
-    // how many satoshis the estimated fee can vary per byte we guess wrong
+    // how many zens the estimated fee can vary per byte we guess wrong
     double dFeeVary;
     if (payTxFee.GetFeePerK() > 0)
         dFeeVary = (double)std::max(CWallet::minTxFee.GetFeePerK(), payTxFee.GetFeePerK()) / 1000;
