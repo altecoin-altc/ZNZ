@@ -685,8 +685,9 @@ UniValue burn(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw std::runtime_error(
             "burn <amount> [\"optional string\"]\n"
-            "This command is used to burn ZNZ and optionally write custom data into the burn transaction \n"
-            "<amount> is real and is rounded to the nearest zen (ex: 0.00000001)"
+            "This command is used to burn ZNZ and optionally write custom data into the burn transaction, \n"
+            "<amount> is real and is rounded to the nearest zen (ex: 0.00000001).\n"
+            "You may use 0 as the <amount> to skip a specific burn amount, for only writing data into the chain."
             + HelpRequiringPassphrase());
 
     CScript scriptPubKey;
@@ -700,15 +701,19 @@ UniValue burn(const UniValue& params, bool fHelp)
             if (data.size() > MAX_OP_RETURN_RELAY - 3)
                 throw std::runtime_error("Your custom data (worth " + std::to_string(data.size()) + " bytes) exceeds the maximum relay of " + std::to_string(MAX_OP_RETURN_RELAY - 3) + " bytes!");
         } else {
-            // Empty data is valid
+            // Empty data is valid, but cannot have a zero-value burn
+            if (params[0].get_real() == 0)
+                throw std::runtime_error("You cannot create a zero-value burn transaction without custom data!");
         }
         scriptPubKey = CScript() << OP_RETURN << data;
     } else {
+        if (params[0].get_real() == 0)
+            throw std::runtime_error("You cannot create a zero-value burn transaction without custom data!");
         scriptPubKey = CScript() << OP_RETURN;
     }
 
-    // Amount
-    int64_t nAmount = AmountFromValue(params[0]);
+    // Amount (Use <amount> parameter if it's larger than 0, else, use a single zen)
+    int64_t nAmount = AmountFromValue(params[0].get_real() > 0 ? params[0] : 0.00000001);
     CTxDestination address1;
     CWalletTx wtx;
     BurnMoney(scriptPubKey, nAmount, wtx, false);
