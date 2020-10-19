@@ -149,6 +149,8 @@ public:
     /* current staking status from the miner thread **/
     bool isStakingStatusActive() const;
 
+    bool hasWallet() { return wallet; };
+
     /* Fetch ZNZ's prices (updated periodically by spork) */
     // USD
     int getPriceUSD() const;
