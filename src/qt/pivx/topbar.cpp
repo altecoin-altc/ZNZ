@@ -583,8 +583,8 @@ void TopBar::setNumBlocks(int count) {
 }
 
 void TopBar::loadWalletModel() {
-    connect(walletModel, SIGNAL(balanceChanged(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)), this,
-                           SLOT(updateBalances(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)));
+    connect(walletModel, SIGNAL(balanceChanged(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, int)), this,
+                           SLOT(updateBalances(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, int)));
     connect(walletModel->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
     connect(walletModel, &WalletModel::encryptionStatusChanged, this, &TopBar::refreshStatus);
     // Ask for passphrase if needed
@@ -654,13 +654,13 @@ void TopBar::updateDisplayUnit() {
         if (displayUnitPrev != nDisplayUnit)
             updateBalances(walletModel->getBalance(), walletModel->getLockedBalance(), walletModel->getUnconfirmedBalance(), walletModel->getImmatureBalance(),
                            walletModel->getWatchBalance(), walletModel->getWatchUnconfirmedBalance(), walletModel->getWatchImmatureBalance(),
-                           walletModel->getDelegatedBalance(), walletModel->getColdStakedBalance());
+                           walletModel->getDelegatedBalance(), walletModel->getColdStakedBalance(), walletModel->getPriceUSD());
     }
 }
 
 void TopBar::updateBalances(const CAmount& balance, const CAmount& lockedBalance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                             const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance,
-                            const CAmount& delegatedBalance, const CAmount& coldStakedBalance) {
+                            const CAmount& delegatedBalance, const CAmount& coldStakedBalance, const int& priceUSD) {
 
     ui->labelTitle1->setText(tr("Available"));
 
@@ -668,6 +668,20 @@ void TopBar::updateBalances(const CAmount& balance, const CAmount& lockedBalance
     // ZENZO excludes "locked" ZNZ from the Available balance to improve UX
     CAmount znzAvailableBalance = balance - lockedBalance;
     QString totalZNZ = GUIUtil::formatBalance(znzAvailableBalance, nDisplayUnit);
+
+    /* Fiat display */
+    // Only display fiat when we're using the largest denomination of coin display
+    if (nDisplayUnit == BitcoinUnits::PIV) {
+        // We only display fiat if we've recieved a valid price oracle, zero means we're missing data.
+        if ((priceUSD * 0.01) >= 0.01) {
+            // We have data! Convert from integer to double, then append the display.
+            float totalUSD = (znzAvailableBalance / COIN) * (priceUSD * 0.01);
+            if (totalUSD > 0.01) {
+                // To save space; Only display fiat if we have a penny or more.
+                totalZNZ += QString::fromStdString(" ($" + strprintf("%.2f", totalUSD) + ")");
+            }
+        }
+    }
 
     /* ZNZ Available Balance */
     // Top

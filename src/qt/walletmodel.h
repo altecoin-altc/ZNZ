@@ -149,6 +149,10 @@ public:
     /* current staking status from the miner thread **/
     bool isStakingStatusActive() const;
 
+    /* Fetch ZNZ's prices (updated periodically by spork) */
+    // USD
+    int getPriceUSD() const;
+
     CAmount getBalance(const CCoinControl* coinControl = NULL) const;
     CAmount getUnconfirmedBalance() const;
     CAmount getImmatureBalance() const;
@@ -295,6 +299,7 @@ private:
     CAmount cachedWatchImmatureBalance;
     CAmount cachedDelegatedBalance;
     CAmount cachedColdStakedBalance;
+    int cachedPriceUSD;
 
     EncryptionStatus cachedEncryptionStatus;
     int cachedNumBlocks;
@@ -310,7 +315,7 @@ Q_SIGNALS:
     // Signal that balance in wallet changed
     void balanceChanged(const CAmount& balance, const CAmount& lockedBalance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                         const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance,
-                        const CAmount& delegatedBalance, const CAmount& coldStakingBalance);
+                        const CAmount& delegatedBalance, const CAmount& coldStakingBalance, const int& priceUSD);
 
     // Encryption status of wallet changed
     void encryptionStatusChanged(int status);

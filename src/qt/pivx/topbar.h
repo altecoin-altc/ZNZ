@@ -42,7 +42,7 @@ public:
 public Q_SLOTS:
     void updateBalances(const CAmount& balance, const CAmount& lockedBalance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                         const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance,
-                        const CAmount& delegatedBalance, const CAmount& coldStakedBalance);
+                        const CAmount& delegatedBalance, const CAmount& coldStakedBalance, const int& usdPrice);
     void updateDisplayUnit();
 
     void setNumConnections(int count);

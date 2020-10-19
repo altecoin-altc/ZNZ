@@ -74,6 +74,11 @@ bool WalletModel::isStakingStatusActive() const {
     return wallet && wallet->pStakerStatus && wallet->pStakerStatus->IsActive();
 }
 
+int WalletModel::getPriceUSD() const
+{
+    return sporkManager.GetSporkValue(SPORK_19_PRICE_USD);
+}
+
 CAmount WalletModel::getBalance(const CCoinControl* coinControl) const
 {
     if (coinControl) {
@@ -221,7 +226,7 @@ void WalletModel::emitBalanceChanged()
     // Force update of UI elements even when no values have changed
     Q_EMIT balanceChanged(cachedBalance, cachedLockedBalance, cachedUnconfirmedBalance, cachedImmatureBalance,
                         cachedWatchOnlyBalance, cachedWatchUnconfBalance, cachedWatchImmatureBalance,
-                        cachedDelegatedBalance, cachedColdStakedBalance);
+                        cachedDelegatedBalance, cachedColdStakedBalance, cachedPriceUSD);
 }
 
 void WalletModel::checkBalanceChanged()
@@ -236,6 +241,8 @@ void WalletModel::checkBalanceChanged()
     // Cold staking
     CAmount newColdStakedBalance =  getColdStakedBalance();
     CAmount newDelegatedBalance = getDelegatedBalance();
+    // Fiat
+    int newPriceUSD = getPriceUSD();
 
 
     if (haveWatchOnly()) {
@@ -246,7 +253,7 @@ void WalletModel::checkBalanceChanged()
 
     if (cachedBalance != newBalance || cachedLockedBalance != newLockedBalance || cachedUnconfirmedBalance != newUnconfirmedBalance || cachedImmatureBalance != newImmatureBalance ||
         cachedWatchOnlyBalance != newWatchOnlyBalance || cachedWatchUnconfBalance != newWatchUnconfBalance || cachedWatchImmatureBalance != newWatchImmatureBalance ||
-        cachedTxLocks != nCompleteTXLocks || cachedDelegatedBalance != newDelegatedBalance || cachedColdStakedBalance != newColdStakedBalance) {
+        cachedTxLocks != nCompleteTXLocks || cachedDelegatedBalance != newDelegatedBalance || cachedColdStakedBalance != newColdStakedBalance || cachedPriceUSD != newPriceUSD) {
         cachedBalance = newBalance;
         cachedLockedBalance = newLockedBalance;
         cachedUnconfirmedBalance = newUnconfirmedBalance;
@@ -257,9 +264,10 @@ void WalletModel::checkBalanceChanged()
         cachedWatchImmatureBalance = newWatchImmatureBalance;
         cachedColdStakedBalance = newColdStakedBalance;
         cachedDelegatedBalance = newDelegatedBalance;
+        cachedPriceUSD = newPriceUSD;
         Q_EMIT balanceChanged(newBalance, newLockedBalance, newUnconfirmedBalance, newImmatureBalance,
                             newWatchOnlyBalance, newWatchUnconfBalance, newWatchImmatureBalance,
-                            newDelegatedBalance, newColdStakedBalance);
+                            newDelegatedBalance, newColdStakedBalance, cachedPriceUSD);
     }
 }
 

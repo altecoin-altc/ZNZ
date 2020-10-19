@@ -147,7 +147,27 @@ void SendWidget::refreshAmounts() {
             total += amount;
     }
     nDisplayUnit = walletModel->getOptionsModel()->getDisplayUnit();
-    ui->labelAmountSend->setText(GUIUtil::formatBalance(total, nDisplayUnit));
+
+    QString strAmountSend = GUIUtil::formatBalance(total, nDisplayUnit);
+
+    /* Fiat display */
+    // Only display fiat when we're using the largest denomination of coin display
+    int nPriceUSD = walletModel->getPriceUSD();
+    bool fDisplayFiat = false;
+    if (nDisplayUnit == BitcoinUnits::PIV) {
+        // We only display fiat if we've recieved a valid price oracle, zero means we're missing data.
+        if ((nPriceUSD * 0.01) >= 0.01) {
+            // We have data! Convert from integer to double, then append the display.
+            fDisplayFiat = true;
+            float totalUSD = (total / COIN) * (nPriceUSD * 0.01);
+            if (totalUSD > 0.01) {
+                // To save space; Only display fiat if we have a penny or more.
+                strAmountSend += QString::fromStdString(" ($" + strprintf("%.2f", totalUSD) + ")");
+            }
+        }
+    }
+
+    ui->labelAmountSend->setText(strAmountSend);
 
     CAmount totalAmount = 0;
     if (CoinControlDialog::coinControl->HasSelected()){
@@ -159,12 +179,17 @@ void SendWidget::refreshAmounts() {
         totalAmount = (walletModel->getBalance() - total) - walletModel->getLockedBalance();
         ui->labelTitleTotalRemaining->setText(tr("Total Remaining"));
     }
-    ui->labelAmountRemaining->setText(
-            GUIUtil::formatBalance(
-                    totalAmount,
-                    nDisplayUnit
-                    )
-    );
+    QString strAmountRemaining = GUIUtil::formatBalance(totalAmount, nDisplayUnit);
+
+    // Remaining (Fiat)
+    if (fDisplayFiat) {
+        float totalUSD = (totalAmount / COIN) * (nPriceUSD * 0.01);
+        if (totalUSD > 0.01) {
+            strAmountRemaining += QString::fromStdString(" ($" + strprintf("%.2f", totalUSD) + ")");
+        }
+    }
+
+    ui->labelAmountRemaining->setText(strAmountRemaining);
 }
 
 void SendWidget::loadClientModel(){

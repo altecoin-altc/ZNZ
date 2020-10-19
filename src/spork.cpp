@@ -23,6 +23,7 @@ std::vector<CSporkDef> sporkDefs = {
     MAKE_SPORK_DEF(SPORK_14_NEW_PROTOCOL_ENFORCEMENT,       4070908800ULL), // OFF
     MAKE_SPORK_DEF(SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2,     4070908800ULL), // OFF
     MAKE_SPORK_DEF(SPORK_17_COLDSTAKING_ENFORCEMENT,        4070908800ULL), // OFF
+    MAKE_SPORK_DEF(SPORK_19_PRICE_USD,                      0),             // OFF
 };
 
 CSporkManager sporkManager;
@@ -72,7 +73,7 @@ void CSporkManager::LoadSporksFromDB()
 
 void CSporkManager::ProcessSpork(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
-    if (fLiteMode) return; // disable all obfuscation/masternode related functionality
+    if (fLiteMode) return; // disable all spork/masternode related functionality
 
     int nChainHeight = 0;
     {
@@ -172,11 +173,12 @@ bool CSporkManager::UpdateSpork(SporkId nSporkID, int64_t nValue)
 
     CSporkMessage spork = CSporkMessage(nSporkID, nValue, GetTime());
 
-    if(spork.Sign(strMasterPrivKey, fNewSigs)){
+    if (spork.Sign(strMasterPrivKey, fNewSigs)){
         spork.Relay();
         LOCK(cs);
         mapSporks[spork.GetHash()] = spork;
         mapSporksActive[nSporkID] = spork;
+        pSporkDB->WriteSpork(spork.nSporkID, spork);
         return true;
     }
 
