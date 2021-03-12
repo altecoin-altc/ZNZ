@@ -29,7 +29,7 @@ use cases, such as the [ZENZO Arcade](https://arcade.zenzo.io) and the [ZENZO SD
 ### Blockchain & Coin Specifications
 <table>
 <tr><td>Ticker</td><td>ZNZ</td></tr>
-<tr><td>Maximum Coin Supply</td><td>∞</td></tr>  
+<tr><td>Maximum Coin Supply</td><td>83,000,000</td></tr>  
 <tr><td>Consensus Algorithm</td><td>Proof of Stake (PoS)</td></tr>
 <tr><td>Hashing Algorithm</td><td>Xevan</td></tr>
 <tr><td>Masternode Collateral</td><td>15,000 ZNZ</td></tr>  
@@ -52,7 +52,7 @@ use cases, such as the [ZENZO Arcade](https://arcade.zenzo.io) and the [ZENZO SD
 <tr><td>Block 401 - 10,000</td><td>15</td></tr>
 <tr><td>Block 10,001 - 50,000</td><td>13</td></tr>
 <tr><td>Block 50,001 - 100,000</td><td>11</td></tr>
-<tr><td>Block 100,001 - ∞</td><td>9</td></tr>  
+<tr><td>Block 100,001 - 83,000,000</td><td>9</td></tr>  
 </table>
 
 ### ZENZO Coin (ZNZ) Denomination Table
