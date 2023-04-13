@@ -287,6 +287,7 @@ public:
     }
 
     int64_t GetLastPaid();
+    int64_t GetLastPaidBlock();
     bool IsValidNetAddr();
 
     /// Is the input associated with collateral public key? (and there is 15000 ZNZ - checking if valid masternode)
